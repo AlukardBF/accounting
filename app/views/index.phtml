@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Phalcon PHP Framework</title>
+        <? echo Phalcon\Tag::stylesheetLink("css/bootstrap-flatly.min.css"); ?>
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/>
+    </head>
+    <body>
+        <div class="container">
+            <?php echo $this->getContent(); ?>
+        </div>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <? echo Phalcon\Tag::javascriptInclude("js/jquery-3.3.1.min.js") ?>
+        <? echo Phalcon\Tag::javascriptInclude("js/popper.min.js") ?>
+        <!-- Latest compiled and minified JavaScript -->
+        <? echo Phalcon\Tag::javascriptInclude("js/bootstrap.min.js") ?>
+    </body>
+</html>
