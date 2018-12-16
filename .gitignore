@@ -1,2 +1,5 @@
+# Phalcon
 /cache/
 /config/development/
+# VSCode
+/.vscode/
