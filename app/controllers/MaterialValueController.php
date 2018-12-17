@@ -89,6 +89,9 @@ class MaterialValueController extends ControllerBase
             }
 
             $this->view->material_value_id = $material_value->getMaterialValueId();
+            $photo = $material_value->getPhoto();
+            if ($photo != null)
+                $this->view->photo = $photo;
 
             $this->tag->setDefault("material_value_id", $material_value->getMaterialValueId());
             $this->tag->setDefault("type", $material_value->getType());
@@ -102,7 +105,17 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("exit_date", $material_value->getExitDate());
             $this->tag->setDefault("photo", $material_value->getPhoto());
             $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
-            
+
+            $furniture = $material_value->Furniture;
+            if (!$furniture) {
+                $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
+            }
+            $equipment = $material_value->Equipment;
+            if (!$equipment) {
+                $this->tag->setDefault("equipment_type", $equipment->getType());
+                $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
+                $this->tag->setDefault("equipment_specifications", $equipment->getSpecifications());
+            }
         }
     }
 
@@ -282,6 +295,9 @@ class MaterialValueController extends ControllerBase
         }
 
         $this->view->material_value_id = $material_value->getMaterialValueId();
+        $photo = $material_value->getPhoto();
+        if ($photo != null)
+            $this->view->photo = $photo;
 
         $this->tag->setDefault("material_value_id", $material_value->getMaterialValueId());
         $this->tag->setDefault("type", $material_value->getType());
@@ -297,8 +313,14 @@ class MaterialValueController extends ControllerBase
         $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
 
         $furniture = $material_value->Furniture;
-        if (!$material_value) {
-            $this->tag->setDefault("furniture_specification", $furniture->getSpecification());
+        if (!$furniture) {
+            $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
+        }
+        $equipment = $material_value->Equipment;
+        if (!$equipment) {
+            $this->tag->setDefault("equipment_type", $equipment->getType());
+            $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
+            $this->tag->setDefault("equipment_specifications", $equipment->getSpecifications());
         }
     }
 

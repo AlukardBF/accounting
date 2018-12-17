@@ -77,17 +77,20 @@
             </div>
         </div>
 
-        <div class="form-group required">
-            <label for="fieldInventoryNum" class="col-12 control-label">Инвентарный номер</label>
-            <div class="col-12">
-                <?php echo $this->tag->textField(["inventory_num", "size" => 30, "class" => "form-control", "id" => "fieldInventoryNum"]) ?>
-            </div>
-        </div>
-
         <div class="form-group">
-            <label for="fieldSerialNum" class="col-12 control-label">Серийный номер</label>
-            <div class="col-12">
-                <?php echo $this->tag->textField(["serial_num", "size" => 30, "class" => "form-control", "id" => "fieldSerialNum"]) ?>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="fieldInventoryNum" class="col-12 control-label">Инвентарный номер</label>
+                    <div class="col-12">
+                        <?php echo $this->tag->textField(["inventory_num", "size" => 30, "class" => "form-control", "id" => "fieldInventoryNum"]) ?>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label for="fieldSerialNum" class="col-12 control-label">Серийный номер</label>
+                    <div class="col-12">
+                        <?php echo $this->tag->textField(["serial_num", "size" => 30, "class" => "form-control", "id" => "fieldSerialNum"]) ?>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -106,30 +109,36 @@
         </div>
 
         <div class="form-group">
-            <label for="fieldPrice" class="col-12 control-label">Цена</label>
-            <div class="col-12">
-                <?php echo $this->tag->textField(["price", "type" => "number", "class" => "form-control", "id" => "fieldPrice"]) ?>
-            </div>
-        </div>
-
-        <div class="form-group required">
-            <label for="fieldCount" class="col-12 control-label">Количество</label>
-            <div class="col-12">
-                <?php echo $this->tag->textField(["count", "type" => "number", "class" => "form-control", "id" => "fieldCount"]) ?>
-            </div>
-        </div>
-
-        <div class="form-group required">
-            <label for="fieldEnterDate" class="col-12 control-label">Дата ввода в эксплуатацию</label>
-            <div class="col-12">
-                <?php echo $this->tag->textField(["enter_date", "type" => "date", "class" => "form-control", "id" => "fieldEnterDate"]) ?>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="fieldPrice" class="col-12 control-label">Цена</label>
+                    <div class="col-12">
+                        <?php echo $this->tag->textField(["price", "type" => "number", "class" => "form-control", "id" => "fieldPrice"]) ?>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label for="fieldCount" class="col-12 control-label">Количество</label>
+                    <div class="col-12">
+                        <?php echo $this->tag->textField(["count", "type" => "number", "class" => "form-control", "id" => "fieldCount"]) ?>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="fieldExitDate" class="col-12 control-label">Дата списания</label>
-            <div class="col-12">
-                <?php echo $this->tag->textField(["exit_date", "type" => "date", "class" => "form-control", "id" => "fieldExitDate"]) ?>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label for="fieldEnterDate" class="col-12 control-label">Дата ввода в эксплуатацию</label>
+                    <div class="col-12">
+                        <?php echo $this->tag->textField(["enter_date", "type" => "date", "class" => "form-control", "id" => "fieldEnterDate"]) ?>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <label for="fieldExitDate" class="col-12 control-label">Дата списания</label>
+                    <div class="col-12">
+                        <?php echo $this->tag->textField(["exit_date", "type" => "date", "class" => "form-control", "id" => "fieldExitDate"]) ?>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -139,6 +148,9 @@
                 <input id="fieldPhoto" name="photo" type="file">
             </div>
         </div>
+
+        <? if (isset($photo)) { echo Phalcon\Tag::image(['files/photo/'.$photo, 'style' => 'max-height: 30vh;', 'class' => 'p-3']); }?>
+
     </div>
     <div class="col-5">
         <h4 id="furnitureLabel">Мебель</h4>

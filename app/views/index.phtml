@@ -62,17 +62,23 @@
                         ]);
                     ?>
                     <?  echo Phalcon\Tag::linkTo([
-                            "/location/index",
-                            '<i class="fas d-inline fa-xs fa-map-marker-alt"></i><span class="nav-label"> Местоположения</span>',
+                            "/equipment/index",
+                            '<i class="fas d-inline fa-xs fa-desktop"></i><span class="nav-label"> Оргтехника</span>',
                             "class" => "",
                         ]);
                     ?>
                     <?  echo Phalcon\Tag::linkTo([
                             "/license/index",
-                            '<i class="fas d-inline fa-xs fa-desktop"></i><span class="nav-label"> Лицензии</span>',
+                            '<i class="fas d-inline fa-xs fa-certificate"></i><span class="nav-label"> Лицензии</span>',
                             "class" => "",
                         ]);
                     ?>
+                    <?  echo Phalcon\Tag::linkTo([
+                            "/location/index",
+                            '<i class="fas d-inline fa-xs fa-map-marker-alt"></i><span class="nav-label"> Местоположения</span>',
+                            "class" => "",
+                        ]);
+                    ?>                    
                     <!-- <?  echo Phalcon\Tag::linkTo([
                             "/report/index",
                             '<i class="fas d-inline fa-xs fa-layer-group"></i><span class="nav-label"> Отчеты</span>',
