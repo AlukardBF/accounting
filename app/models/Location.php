@@ -10,21 +10,90 @@ class Location extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="location_id", type="integer", length=11, nullable=false)
      */
-    public $location_id;
+    protected $location_id;
 
     /**
      *
      * @var string
      * @Column(column="campus", type="string", length=50, nullable=false)
      */
-    public $campus;
+    protected $campus;
 
     /**
      *
      * @var string
      * @Column(column="auditory", type="string", length=50, nullable=false)
      */
-    public $auditory;
+    protected $auditory;
+
+    /**
+     * Method to set the value of field location_id
+     *
+     * @param integer $location_id
+     * @return $this
+     */
+    public function setLocationId($location_id)
+    {
+        $this->location_id = $location_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field campus
+     *
+     * @param string $campus
+     * @return $this
+     */
+    public function setCampus($campus)
+    {
+        $this->campus = $campus;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field auditory
+     *
+     * @param string $auditory
+     * @return $this
+     */
+    public function setAuditory($auditory)
+    {
+        $this->auditory = $auditory;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field location_id
+     *
+     * @return integer
+     */
+    public function getLocationId()
+    {
+        return $this->location_id;
+    }
+
+    /**
+     * Returns the value of field campus
+     *
+     * @return string
+     */
+    public function getCampus()
+    {
+        return $this->campus;
+    }
+
+    /**
+     * Returns the value of field auditory
+     *
+     * @return string
+     */
+    public function getAuditory()
+    {
+        return $this->auditory;
+    }
 
     /**
      * Initialize method for model.
@@ -34,16 +103,6 @@ class Location extends \Phalcon\Mvc\Model
         $this->setSchema("bachelor");
         $this->setSource("location");
         $this->hasMany('location_id', 'MaterialValue', 'location_location_id', ['alias' => 'MaterialValue']);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'location';
     }
 
     /**
@@ -95,6 +154,16 @@ class Location extends \Phalcon\Mvc\Model
             'columns' => ["CONCAT(campus, '-', auditory) as fullname"]
         ]);
         return $test->fullname;
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'location';
     }
 
 }

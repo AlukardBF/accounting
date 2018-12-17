@@ -10,35 +10,150 @@ class License extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="license_id", type="integer", length=11, nullable=false)
      */
-    public $license_id;
+    protected $license_id;
 
     /**
      *
      * @var string
      * @Column(column="po_name", type="string", length=255, nullable=false)
      */
-    public $po_name;
+    protected $po_name;
 
     /**
      *
      * @var string
      * @Column(column="po_version", type="string", length=255, nullable=false)
      */
-    public $po_version;
+    protected $po_version;
 
     /**
      *
      * @var string
      * @Column(column="license_number", type="string", length=255, nullable=false)
      */
-    public $license_number;
+    protected $license_number;
 
     /**
      *
      * @var string
      * @Column(column="end_date", type="string", nullable=false)
      */
-    public $end_date;
+    protected $end_date;
+
+    /**
+     * Method to set the value of field license_id
+     *
+     * @param integer $license_id
+     * @return $this
+     */
+    public function setLicenseId($license_id)
+    {
+        $this->license_id = $license_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field po_name
+     *
+     * @param string $po_name
+     * @return $this
+     */
+    public function setPoName($po_name)
+    {
+        $this->po_name = $po_name;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field po_version
+     *
+     * @param string $po_version
+     * @return $this
+     */
+    public function setPoVersion($po_version)
+    {
+        $this->po_version = $po_version;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field license_number
+     *
+     * @param string $license_number
+     * @return $this
+     */
+    public function setLicenseNumber($license_number)
+    {
+        $this->license_number = $license_number;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field end_date
+     *
+     * @param string $end_date
+     * @return $this
+     */
+    public function setEndDate($end_date)
+    {
+        $this->end_date = $end_date;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field license_id
+     *
+     * @return integer
+     */
+    public function getLicenseId()
+    {
+        return $this->license_id;
+    }
+
+    /**
+     * Returns the value of field po_name
+     *
+     * @return string
+     */
+    public function getPoName()
+    {
+        return $this->po_name;
+    }
+
+    /**
+     * Returns the value of field po_version
+     *
+     * @return string
+     */
+    public function getPoVersion()
+    {
+        return $this->po_version;
+    }
+
+    /**
+     * Returns the value of field license_number
+     *
+     * @return string
+     */
+    public function getLicenseNumber()
+    {
+        return $this->license_number;
+    }
+
+    /**
+     * Returns the value of field end_date
+     *
+     * @return string
+     */
+    public function getEndDate()
+    {
+        return $this->end_date;
+    }
 
     /**
      * Initialize method for model.
@@ -48,16 +163,6 @@ class License extends \Phalcon\Mvc\Model
         $this->setSchema("bachelor");
         $this->setSource("license");
         $this->hasMany('license_id', 'EquipmentHasLicense', 'license_license_id', ['alias' => 'EquipmentHasLicense']);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'license';
     }
 
     /**
@@ -80,6 +185,16 @@ class License extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'license';
     }
 
 }
