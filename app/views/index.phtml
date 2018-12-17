@@ -56,23 +56,29 @@
             <ul class="navbar-primary-menu">
                 <li>
                     <?  echo Phalcon\Tag::linkTo([
-                            "/",
+                            "/material_value/index",
                             '<i class="fas d-inline fa-xs fa-list"></i><span class="nav-label"> Материальные ценности</span>',
                             "class" => "",
                         ]);
                     ?>
                     <?  echo Phalcon\Tag::linkTo([
-                            "/",
-                            '<i class="fas d-inline fa-xs fa-list"></i><span class="nav-label"> Местоположения</span>',
+                            "/location/index",
+                            '<i class="fas d-inline fa-xs fa-map-marker-alt"></i><span class="nav-label"> Местоположения</span>',
                             "class" => "",
                         ]);
                     ?>
                     <?  echo Phalcon\Tag::linkTo([
-                            "/",
-                            '<i class="fas d-inline fa-xs fa-layer-group"></i><span class="nav-label"> Отчеты</span>',
+                            "/license/index",
+                            '<i class="fas d-inline fa-xs fa-desktop"></i><span class="nav-label"> Лицензии</span>',
                             "class" => "",
                         ]);
                     ?>
+                    <!-- <?  echo Phalcon\Tag::linkTo([
+                            "/report/index",
+                            '<i class="fas d-inline fa-xs fa-layer-group"></i><span class="nav-label"> Отчеты</span>',
+                            "class" => "",
+                        ]);
+                    ?> -->
                 </li>
             </ul>
         </nav>

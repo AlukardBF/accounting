@@ -51,6 +51,11 @@ class MaterialValueController extends ControllerBase
             'page' => $numberPage
         ]);
 
+        $this->dispatcher->forward([
+            "controller" => "material_value",
+            "action" => "index"
+        ]);
+
         $this->view->page = $paginator->getPaginate();
     }
 
@@ -255,6 +260,46 @@ class MaterialValueController extends ControllerBase
             'controller' => "material_value",
             'action' => "index"
         ]);
+    }
+
+    /**
+     * Show a material_value
+     *
+     * @param string $material_value_id
+     */
+    public function showAction($material_value_id)
+    {
+        $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
+        if (!$material_value) {
+            $this->flash->error("material_value was not found");
+
+            $this->dispatcher->forward([
+                'controller' => "material_value",
+                'action' => 'index'
+            ]);
+
+            return;
+        }
+
+        $this->view->material_value_id = $material_value->getMaterialValueId();
+
+        $this->tag->setDefault("material_value_id", $material_value->getMaterialValueId());
+        $this->tag->setDefault("type", $material_value->getType());
+        $this->tag->setDefault("inventory_num", $material_value->getInventoryNum());
+        $this->tag->setDefault("serial_num", $material_value->getSerialNum());
+        $this->tag->setDefault("name", $material_value->getName());
+        $this->tag->setDefault("description", $material_value->getDescription());
+        $this->tag->setDefault("price", $material_value->getPrice());
+        $this->tag->setDefault("count", $material_value->getCount());
+        $this->tag->setDefault("enter_date", $material_value->getEnterDate());
+        $this->tag->setDefault("exit_date", $material_value->getExitDate());
+        $this->tag->setDefault("photo", $material_value->getPhoto());
+        $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
+
+        $furniture = $material_value->Furniture;
+        if (!$material_value) {
+            $this->tag->setDefault("furniture_specification", $furniture->getSpecification());
+        }
     }
 
 }

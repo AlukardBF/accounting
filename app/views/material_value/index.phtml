@@ -9,11 +9,15 @@
         Материальные ценности
     </h1>
     <p>
-    <?php echo $this->tag->linkTo(["material_value/new", '<i class="fas fa-plus"></i><span class="font-weight-bold"> Добавить</span>', 'class' => 'btn btn-success']) ?>
+    <!-- <?php echo $this->tag->linkTo(["material_value/new", '<i class="fas fa-plus"></i><span class="font-weight-bold"> Добавить</span>', 'class' => 'btn btn-success']) ?> -->
     </p>
 </div>
 
 <?php echo $this->getContent() ?>
+
+<div class="d-flex justify-content-end py-3">
+    <?php echo $this->tag->linkTo(["material_value/new", '<i class="fas fa-plus"></i><span class="font-weight-bold"> Добавить</span>', 'class' => 'btn btn-sm btn-success']) ?>
+</div>
 
 <?php
     echo $this->tag->form(
@@ -25,95 +29,156 @@
     );
 ?>
 
+<div class="form-group pl-0 col-12">
+    <!-- <label for="fieldName" class="col-12 control-label">Name</label> -->
+    <div class="input-group col-12">
+        <?php echo $this->tag->textField(["name", "size" => 30, "class" => "form-control", "id" => "fieldName", "placeholder" => "Введите имя"]) ?>
+        <!-- Advanced search collapse button -->
+        <div class="input-group-append">
+            <a class="btn btn-info" href="#advancedSearch" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="comment">Расширенный поиск</a>
+        </div>
+        <?php echo $this->tag->submitButton(["Найти", "class" => "btn btn-default d-inline"]) ?>
+    </div>
+</div>
+
+
+<!-- begin advanced search -->
+<div class="collapse multi-collapse pl-3" id="advancedSearch" style="max-height: 50vh; overflow: auto;">
+
 <div class="form-group">
-    <label for="fieldMaterialValueId" class="col-sm-2 control-label">Material Of Value</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["material_value_id", "type" => "number", "class" => "form-control", "id" => "fieldMaterialValueId"]) ?>
+    <label for="fieldLocationLocationId" class="col-12 control-label">Местоположение</label>
+    <div class="">
+        <? echo Phalcon\Tag::select(
+            [
+                'location_location_id',
+                Location::getAllByFullname(),
+                'using'      => [
+                    'location_id',
+                    'fullname',
+                ],
+                'useEmpty'   => true,
+                'emptyText'  => 'Выберите один из вариантов',
+                'emptyValue' => '',
+                'class' => 'form-control',
+                'id' => 'fieldLocationLocationId',
+            ]
+        );
+        ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldType" class="col-sm-2 control-label">Type</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->selectStatic(["type", [], "class" => "form-control", "id" => "fieldType"]) ?>
+    <label for="fieldType" class="col-12 control-label">Тип ценности</label>
+    <div class="">
+        <? echo Phalcon\Tag::selectStatic(
+            [
+                'type',
+                MaterialValue::getAllTypes(),
+                'useEmpty'   => true,
+                'emptyText'  => 'Выберите один из вариантов',
+                'emptyValue' => '',
+                'class' => 'form-control',
+                'id' => 'fieldType',
+            ]
+        );
+        ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldInventoryNum" class="col-sm-2 control-label">Inventory Of Num</label>
-    <div class="col-sm-10">
+    <label for="fieldInventoryNum" class="col-12 control-label">Инвентарный номер</label>
+    <div class="">
         <?php echo $this->tag->textField(["inventory_num", "size" => 30, "class" => "form-control", "id" => "fieldInventoryNum"]) ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldSerialNum" class="col-sm-2 control-label">Serial Of Num</label>
-    <div class="col-sm-10">
+    <label for="fieldSerialNum" class="col-12 control-label">Серийный номер</label>
+    <div class="">
         <?php echo $this->tag->textField(["serial_num", "size" => 30, "class" => "form-control", "id" => "fieldSerialNum"]) ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldName" class="col-sm-2 control-label">Name</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["name", "size" => 30, "class" => "form-control", "id" => "fieldName"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldDescription" class="col-sm-2 control-label">Description</label>
-    <div class="col-sm-10">
+    <label for="fieldDescription" class="col-12 control-label">Описание</label>
+    <div class="">
         <?php echo $this->tag->textArea(["description", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldDescription"]) ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldPrice" class="col-sm-2 control-label">Price</label>
-    <div class="col-sm-10">
+    <label for="fieldPrice" class="col-12 control-label">Цена</label>
+    <div class="">
         <?php echo $this->tag->textField(["price", "type" => "number", "class" => "form-control", "id" => "fieldPrice"]) ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldCount" class="col-sm-2 control-label">Count</label>
-    <div class="col-sm-10">
+    <label for="fieldCount" class="col-12 control-label">Количество</label>
+    <div class="">
         <?php echo $this->tag->textField(["count", "type" => "number", "class" => "form-control", "id" => "fieldCount"]) ?>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldEnterDate" class="col-sm-2 control-label">Enter Of Date</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["enter_date", "type" => "date", "class" => "form-control", "id" => "fieldEnterDate"]) ?>
+    <div class="form-row">
+        <div class="form-group col-6">
+            <label for="fieldEnterDateBegin" class="col-12 control-label">Дата ввода в эксплуатацию - начало</label>
+            <div class="">
+                <?php echo $this->tag->textField(["enter_date_begin", "type" => "date", "class" => "form-control", "id" => "fieldEnterDateBegin"]) ?>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label for="fieldEnterDateEnd" class="col-12 control-label">Дата ввода в эксплуатацию - конец</label>
+            <div class="">
+                <?php echo $this->tag->textField(["enter_date_end", "type" => "date", "class" => "form-control", "id" => "fieldEnterDateEnd"]) ?>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldExitDate" class="col-sm-2 control-label">Exit Of Date</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["exit_date", "type" => "date", "class" => "form-control", "id" => "fieldExitDate"]) ?>
+    <div class="form-row">
+        <div class="form-group col-6">
+            <label for="fieldExitDateBegin" class="col-12 control-label">Дата списания - начало</label>
+            <div class="">
+                <?php echo $this->tag->textField(["exit_date_begin", "type" => "date", "class" => "form-control", "id" => "fieldExitDateBegin"]) ?>
+            </div>
+        </div>
+        <div class="form-group col-6">
+            <label for="fieldExitDateEnd" class="col-12 control-label">Дата списания - конец</label>
+            <div class="">
+                <?php echo $this->tag->textField(["exit_date_end", "type" => "date", "class" => "form-control", "id" => "fieldExitDateEnd"]) ?>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="form-group">
-    <label for="fieldPhoto" class="col-sm-2 control-label">Photo</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["photo", "size" => 30, "class" => "form-control", "id" => "fieldPhoto"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldLocationLocationId" class="col-sm-2 control-label">Location Of Location</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["location_location_id", "type" => "number", "class" => "form-control", "id" => "fieldLocationLocationId"]) ?>
-    </div>
-</div>
-
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-        <?php echo $this->tag->submitButton(["Search", "class" => "btn btn-default"]) ?>
-    </div>
-</div>
+</div> <!-- end advanced search -->
 
 <?php echo $this->tag->endForm(); ?>
+
+<?php if (isset($page)) { 
+    $this->partial("material_value/pagination", [ 'page' => $page ]);
+}?>
+
+<script>
+    $('#fieldExitDateBegin').datepicker({
+        uiLibrary: 'bootstrap4',
+        locale: 'ru-ru'
+    });
+    $('#fieldExitDateEnd').datepicker({
+        uiLibrary: 'bootstrap4',
+        locale: 'ru-ru'
+    });
+    $('#fieldEnterDateBegin').datepicker({
+        uiLibrary: 'bootstrap4',
+        locale: 'ru-ru'
+    });
+    $('#fieldEnterDateEnd').datepicker({
+        uiLibrary: 'bootstrap4',
+        locale: 'ru-ru'
+    });
+</script>
+
+<? echo Phalcon\Tag::javascriptInclude("js/pagination.js") ?>

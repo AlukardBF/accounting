@@ -4,6 +4,8 @@
  */
 ?>
 <? echo Phalcon\Tag::javascriptInclude('js/bootstrap-filestyle.min.js'); ?>
+<? echo Phalcon\Tag::javascriptInclude('js/material_type.js'); ?>
+<? echo Phalcon\Tag::stylesheetLink('css/form.css'); ?>
 
 <div class="row">
     <nav>
@@ -33,111 +35,146 @@
     );
 ?>
 
-<div class="form-group">
-    <label for="fieldLocationLocationId" class="col-sm-2 control-label">Местоположение</label>
-    <div class="col-sm-10">
-        <? echo Phalcon\Tag::select(
-            [
-                'location_location_id',
-                Location::getAllByFullname(),
-                'using'      => [
-                    'location_id',
-                    'fullname',
-                ],
-                'useEmpty'   => true,
-                'emptyText'  => 'Выберите один из вариантов',
-                'emptyValue' => '@',
-                'class' => 'form-control',
-                'id' => 'fieldLocationLocationId',
-            ]
-        );
-        ?>
+<div class="row">
+    <div class="col-7">
+
+        <div class="form-group required">
+            <label for="fieldLocationLocationId" class="col-12 control-label">Местоположение</label>
+            <div class="col-12">
+                <? echo Phalcon\Tag::select(
+                    [
+                        'location_location_id',
+                        Location::getAllByFullname(),
+                        'using'      => [
+                            'location_id',
+                            'fullname',
+                        ],
+                        'useEmpty'   => true,
+                        'emptyText'  => 'Выберите один из вариантов',
+                        'emptyValue' => '@',
+                        'class' => 'form-control',
+                        'id' => 'fieldLocationLocationId',
+                    ]
+                );
+                ?>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label for="fieldType" class="col-12 control-label">Тип ценности</label>
+            <div class="col-12">
+                <? echo Phalcon\Tag::selectStatic(
+                    [
+                        'type',
+                        MaterialValue::getAllTypes(),
+                        'useEmpty'   => true,
+                        'emptyText'  => 'Выберите один из вариантов',
+                        'emptyValue' => '@',
+                        'class' => 'form-control',
+                        'id' => 'fieldType',
+                    ]
+                );
+                ?>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label for="fieldInventoryNum" class="col-12 control-label">Инвентарный номер</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["inventory_num", "size" => 30, "class" => "form-control", "id" => "fieldInventoryNum"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldSerialNum" class="col-12 control-label">Серийный номер</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["serial_num", "size" => 30, "class" => "form-control", "id" => "fieldSerialNum"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label for="fieldName" class="col-12 control-label">Название</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["name", "size" => 30, "class" => "form-control", "id" => "fieldName"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldDescription" class="col-12 control-label">Описание</label>
+            <div class="col-12">
+                <?php echo $this->tag->textArea(["description", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldDescription"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldPrice" class="col-12 control-label">Цена</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["price", "type" => "number", "class" => "form-control", "id" => "fieldPrice"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label for="fieldCount" class="col-12 control-label">Количество</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["count", "type" => "number", "class" => "form-control", "id" => "fieldCount"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label for="fieldEnterDate" class="col-12 control-label">Дата ввода в эксплуатацию</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["enter_date", "type" => "date", "class" => "form-control", "id" => "fieldEnterDate"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldExitDate" class="col-12 control-label">Дата списания</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["exit_date", "type" => "date", "class" => "form-control", "id" => "fieldExitDate"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fieldPhoto" class="col-12 control-label">Фото</label>
+            <div class="col-12">
+                <input id="fieldPhoto" name="photo" type="file">
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <h4 id="furnitureLabel">Мебель</h4>
+        <div class="form-group required" id="fieldFurnitureBlock">
+            <label for="fieldFurnitureSpecifications" class="col-12 control-label">Характеристики</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["furniture_specifications", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldFurnitureSpecifications"]) ?>
+            </div>
+        </div>
+        <h4 id="equipmentLabel">Оргтехника</h4>
+        <div class="form-group required" id="fieldEquipmentTypeBlock">
+            <label for="fieldEquipmentType" class="col-12 control-label">Тип оргтехники</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["equipment_type", "size" => 30, "class" => "form-control", "id" => "fieldEquipmentType"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group required" id="fieldEquipmentManufacturerBlock">
+            <label for="fieldEquipmentManufacturer" class="col-12 control-label">Производитель</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["equipment_manufacturer", "size" => 30, "class" => "form-control", "id" => "fieldEquipmentManufacturer"]) ?>
+            </div>
+        </div>
+
+        <div class="form-group required" id="fieldEquipmentSpecificationsBlock">
+            <label for="fieldEquipmentSpecifications" class="col-12 control-label">Характеристики</label>
+            <div class="col-12">
+                <?php echo $this->tag->textField(["equipment_specifications", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldEquipmentSpecifications"]) ?>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="form-group">
-    <label for="fieldType" class="col-sm-2 control-label">Тип ценности</label>
-    <div class="col-sm-10">
-        <? echo Phalcon\Tag::selectStatic(
-            [
-                'type',
-                MaterialValue::getAllTypes(),
-                'useEmpty'   => true,
-                'emptyText'  => 'Выберите один из вариантов',
-                'emptyValue' => '@',
-                'class' => 'form-control',
-                'id' => 'fieldType',
-            ]
-        );
-        ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldInventoryNum" class="col-sm-2 control-label">Инвентарный номер</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["inventory_num", "size" => 30, "class" => "form-control", "id" => "fieldInventoryNum"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldSerialNum" class="col-sm-2 control-label">Серийный номер</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["serial_num", "size" => 30, "class" => "form-control", "id" => "fieldSerialNum"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldName" class="col-sm-2 control-label">Название</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["name", "size" => 30, "class" => "form-control", "id" => "fieldName"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldDescription" class="col-sm-2 control-label">Описание</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textArea(["description", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldDescription"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldPrice" class="col-sm-2 control-label">Цена</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["price", "type" => "number", "class" => "form-control", "id" => "fieldPrice"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldCount" class="col-sm-2 control-label">Количество</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["count", "type" => "number", "class" => "form-control", "id" => "fieldCount"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldEnterDate" class="col-sm-2 control-label">Дата ввода в эксплуатацию</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["enter_date", "type" => "date", "class" => "form-control", "id" => "fieldEnterDate"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldExitDate" class="col-sm-2 control-label">Дата списания</label>
-    <div class="col-sm-10">
-        <?php echo $this->tag->textField(["exit_date", "type" => "date", "class" => "form-control", "id" => "fieldExitDate"]) ?>
-    </div>
-</div>
-
-<div class="form-group">
-    <label for="fieldPhoto" class="col-sm-2 control-label">Фото</label>
-    <div class="col-sm-10">
-        <input id="fieldPhoto" name="photo" type="file">
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
+    <div class="col-12">
         <?php echo $this->tag->submitButton(["Добавить", "class" => "btn btn-success"]) ?>
     </div>
 </div>
