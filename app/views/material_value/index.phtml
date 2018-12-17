@@ -8,9 +8,6 @@
     <h1>
         Материальные ценности
     </h1>
-    <p>
-    <!-- <?php echo $this->tag->linkTo(["material_value/new", '<i class="fas fa-plus"></i><span class="font-weight-bold"> Добавить</span>', 'class' => 'btn btn-success']) ?> -->
-    </p>
 </div>
 
 <?php echo $this->getContent() ?>
@@ -43,7 +40,7 @@
 
 
 <!-- begin advanced search -->
-<div class="collapse multi-collapse pl-3" id="advancedSearch" style="max-height: 50vh; overflow: auto;">
+<div class="collapse multi-collapse pl-3" id="advancedSearch" style="max-height: 50vh; overflow-x: hidden; overflow-y: auto;">
 
 <div class="form-group">
     <label for="fieldLocationLocationId" class="col-12 control-label">Местоположение</label>
@@ -163,22 +160,22 @@
 }?>
 
 <script>
-    $('#fieldExitDateBegin').datepicker({
-        uiLibrary: 'bootstrap4',
-        locale: 'ru-ru'
-    });
-    $('#fieldExitDateEnd').datepicker({
-        uiLibrary: 'bootstrap4',
-        locale: 'ru-ru'
-    });
-    $('#fieldEnterDateBegin').datepicker({
-        uiLibrary: 'bootstrap4',
-        locale: 'ru-ru'
-    });
-    $('#fieldEnterDateEnd').datepicker({
-        uiLibrary: 'bootstrap4',
-        locale: 'ru-ru'
+    $(function() {
+        $('#fieldEnterDateBegin').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ru-ru'
+        });
+        $('#fieldEnterDateEnd').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ru-ru'
+        });
+        $('#fieldExitDateBegin').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ru-ru'
+        });
+        $('#fieldExitDateEnd').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ru-ru'
+        });
     });
 </script>
-
-<? echo Phalcon\Tag::javascriptInclude("js/pagination.js") ?>

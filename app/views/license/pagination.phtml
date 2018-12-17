@@ -1,0 +1,49 @@
+<style>
+    .hidden{
+        display:none;
+        visibility:hidden;
+    }
+</style>
+<div class="row px-3">
+    <table class="table table-bordered table-striped table-hover" id="paginationTable">
+        <thead class="thead-dark">
+            <tr>
+                <th class='hidden'></th>
+                <th>Название ПО</th>
+                <th>Версия ПО</th>
+                <th>Номер лицензии</th>
+                <th>Дата окончания</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php if (isset($page)): 
+            foreach ($page->items as $license): ?>
+            <tr>
+                <td class='hidden'><?php echo $license->getLicenseId() ?></td>
+                <td><?php echo $license->getPoName() ?></td>
+                <td><?php echo $license->getPoVersion() ?></td>
+                <td><?php echo $license->getLicenseNumber() ?></td>
+                <td><?php echo $license->getEndDate() ?></td>
+
+                <td>
+                    <?php echo $this->tag->linkTo(["license/edit/" . $license->getLicenseId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' => 'btn btn-success w-100']); ?>
+                    <?php echo $this->tag->linkTo(["license/delete/" . $license->getLicenseId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' => 'btn btn-danger w-100']); ?>
+                </td>
+            </tr>
+        <?php endforeach; endif; ?>
+        </tbody>
+    </table>
+</div>
+<?php if (isset($page)): ?>
+<div class="d-flex justify-content-center px-3">
+    <? echo CustomTags::pagination([
+        'link' => 'license/search?page=%d',
+        'current' => $page->current,
+        'next' => $page->next,
+        'before' => $page->before,
+        'count'   => $page->total_pages,
+    ]);
+    ?>
+</div>
+<?php endif; ?>

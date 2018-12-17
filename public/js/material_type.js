@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
     changeBlocks($('#fieldType option:selected').val());
 
     $('#fieldType').change(function(){

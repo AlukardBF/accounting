@@ -1,0 +1,78 @@
+<?php
+/**
+ * @var \Phalcon\Mvc\View\Engine\Php $this
+ */
+?>
+<? echo Phalcon\Tag::stylesheetLink('css/form.css'); ?>
+
+<div class="row">
+    <nav>
+        <ul class="pager">
+        <?php echo $this->tag->linkTo(["license", '<i class="fas fa-arrow-left"></i><span class="font-weight-bold"> Вернуться</span>', 'class' => 'btn btn-success']) ?>
+        </ul>
+    </nav>
+</div>
+
+<div class="page-header">
+    <h1>
+        Create license
+    </h1>
+</div>
+
+<?php echo $this->getContent(); ?>
+
+<?php
+    echo $this->tag->form(
+        [
+            "license/create",
+            "autocomplete" => "off",
+            "class" => "form-horizontal"
+        ]
+    );
+?>
+
+<div class="form-group">
+    <label for="fieldPoName" class="control-label">Название ПО</label>
+    <div class="col-12">
+        <?php echo $this->tag->textField(["po_name", "size" => 30, "class" => "form-control", "id" => "fieldPoName"]) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fieldPoVersion" class="control-label">Версия ПО</label>
+    <div class="col-12">
+        <?php echo $this->tag->textField(["po_version", "size" => 30, "class" => "form-control", "id" => "fieldPoVersion"]) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fieldLicenseNumber" class="control-label">Номер лицензии</label>
+    <div class="col-12">
+        <?php echo $this->tag->textField(["license_number", "size" => 30, "class" => "form-control", "id" => "fieldLicenseNumber"]) ?>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="fieldEndDate" class="control-label">Дата окончания лицензии</label>
+    <div class="col-12">
+        <?php echo $this->tag->textField(["end_date", "type" => "date", "class" => "form-control", "id" => "fieldEndDate"]) ?>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="col-12">
+        <?php echo $this->tag->submitButton(["Добавить", "class" => "btn btn-success"]) ?>
+    </div>
+</div>
+
+<?php echo $this->tag->endForm(); ?>
+
+<script>
+    $(function() {
+        $('#fieldEndDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ru-ru'
+        });
+    });
+</script>

@@ -1,0 +1,47 @@
+<style>
+    .hidden{
+        display:none;
+        visibility:hidden;
+    }
+</style>
+<div class="row px-3">
+    <table class="table table-bordered table-striped table-hover" id="paginationTable">
+        <thead class="thead-dark">
+            <tr>
+                <th class='hidden'></th>
+                <th scope="col"><p class="text-center m-0">Корпус</p></th>
+                <th scope="col"><p class="text-center m-0">Аудитория</p></th>
+
+                <th scope="col"><p class="text-center m-0">Действия</p></th>
+                <!-- <th scope="col"></th> -->
+            </tr>
+        </thead>
+        <tbody>
+        <?php if (isset($page)): 
+            foreach ($page->items as $location): ?>
+            <tr>
+                <td class='hidden'><?php echo $location->getLocationId() ?></td>
+                <td><?php echo $location->getCampus() ?></td>
+                <td><?php echo $location->getAuditory() ?></td>
+
+                <td>
+                    <?php echo $this->tag->linkTo(["location/edit/" . $location->getLocationId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' => 'btn btn-success w-100']); ?>
+                    <?php echo $this->tag->linkTo(["location/delete/" . $location->getLocationId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' => 'btn btn-danger w-100']); ?>
+                </td>
+            </tr>
+        <?php endforeach; endif; ?>
+        </tbody>
+    </table>
+</div>
+<?php if (isset($page)): ?>
+<div class="d-flex justify-content-center px-3">
+    <? echo CustomTags::pagination([
+        'link' => 'location/search?page=%d',
+        'current' => $page->current,
+        'next' => $page->next,
+        'before' => $page->before,
+        'count'   => $page->total_pages,
+    ]);
+    ?>
+</div>
+<?php endif; ?>

@@ -157,7 +157,7 @@
         <div class="form-group required" id="fieldFurnitureBlock">
             <label for="fieldFurnitureSpecifications" class="col-12 control-label">Характеристики</label>
             <div class="col-12">
-                <?php echo $this->tag->textField(["furniture_specifications", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldFurnitureSpecifications"]) ?>
+                <?php echo $this->tag->textArea(["furniture_specifications", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldFurnitureSpecifications"]) ?>
             </div>
         </div>
         <h4 id="equipmentLabel">Оргтехника</h4>
@@ -178,7 +178,7 @@
         <div class="form-group required" id="fieldEquipmentSpecificationsBlock">
             <label for="fieldEquipmentSpecifications" class="col-12 control-label">Характеристики</label>
             <div class="col-12">
-                <?php echo $this->tag->textField(["equipment_specifications", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldEquipmentSpecifications"]) ?>
+                <?php echo $this->tag->textArea(["equipment_specifications", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldEquipmentSpecifications"]) ?>
             </div>
         </div>
     </div>
@@ -196,19 +196,21 @@
 <?php echo $this->tag->endForm(); ?>
 
 <script>
-    $('#fieldExitDate').datepicker({
-        uiLibrary: 'bootstrap4',
-        locale: 'ru-ru'
-    });
-    $('#fieldEnterDate').datepicker({
-        uiLibrary: 'bootstrap4',
-        locale: 'ru-ru'
-    });
-    $(":file").filestyle({
-        placeholder: "Файл не выбран",
-        dragdrop: false,
-        htmlIcon: '<i class="fas fa-lg fa-file-upload"></i>',
-        text: "Выберите файл",
-        btnClass: "btn-primary",
+    $(function() {
+        $('#fieldExitDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ru-ru'
+        });
+        $('#fieldEnterDate').datepicker({
+            uiLibrary: 'bootstrap4',
+            locale: 'ru-ru'
+        });
+        $(":file").filestyle({
+            placeholder: "Файл не выбран",
+            dragdrop: false,
+            htmlIcon: '<i class="fas fa-lg fa-file-upload"></i>',
+            text: "Выберите файл",
+            btnClass: "btn-primary",
+        });
     });
 </script>

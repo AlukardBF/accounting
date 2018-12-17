@@ -107,14 +107,15 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
 
             $furniture = $material_value->Furniture;
-            if (!$furniture) {
+            if (isset($furniture[0])) {
                 $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
             }
+            
             $equipment = $material_value->Equipment;
-            if (!$equipment) {
-                $this->tag->setDefault("equipment_type", $equipment->getType());
-                $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
-                $this->tag->setDefault("equipment_specifications", $equipment->getSpecifications());
+            if (isset($equipment[0])) {
+                $this->tag->setDefault("equipment_type", $equipment[0]->getType());
+                $this->tag->setDefault("equipment_manufacturer", $equipment[0]->getManufacturer());
+                $this->tag->setDefault("equipment_specifications", $equipment[0]->getSpecifications());
             }
         }
     }
@@ -313,14 +314,15 @@ class MaterialValueController extends ControllerBase
         $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
 
         $furniture = $material_value->Furniture;
-        if (!$furniture) {
+        if (isset($furniture[0])) {
             $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
         }
+        
         $equipment = $material_value->Equipment;
-        if (!$equipment) {
-            $this->tag->setDefault("equipment_type", $equipment->getType());
-            $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
-            $this->tag->setDefault("equipment_specifications", $equipment->getSpecifications());
+        if (isset($equipment[0])) {
+            $this->tag->setDefault("equipment_type", $equipment[0]->getType());
+            $this->tag->setDefault("equipment_manufacturer", $equipment[0]->getManufacturer());
+            $this->tag->setDefault("equipment_specifications", $equipment[0]->getSpecifications());
         }
     }
 
