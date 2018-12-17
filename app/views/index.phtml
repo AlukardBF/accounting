@@ -8,7 +8,21 @@
         <title>Phalcon PHP Framework</title>
         <? echo Phalcon\Tag::stylesheetLink("css/bootstrap-flatly.min.css"); ?>
         <? echo Phalcon\Tag::stylesheetLink("css/side-nav.css"); ?>
+        <? echo Phalcon\Tag::stylesheetLink("css/gijgo.min.css") ?>
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <? echo Phalcon\Tag::javascriptInclude("js/jquery-3.3.1.min.js") ?>
+        <? echo Phalcon\Tag::javascriptInclude("js/popper.min.js") ?>
+        <!-- Latest compiled and minified Bootstrap JavaScript -->
+        <? echo Phalcon\Tag::javascriptInclude("js/bootstrap.min.js") ?>
+        <!-- Font Awesome SVG version -->
+        <? echo Phalcon\Tag::javascriptInclude("js/fontawesome-5.6.1.all.js") ?>
+        <!-- Side-Nav JS -->
+        <!-- <? echo Phalcon\Tag::javascriptInclude("js/side-nav.js") ?> -->
+        <!-- Gijgo widgets -->
+        <? echo Phalcon\Tag::javascriptInclude("js/gijgo.min.js") ?>
+        <? echo Phalcon\Tag::javascriptInclude("js/messages/messages.ru-ru.js") ?>
     </head>
     <body>
         <nav class="navbar navbar-expand-sm navbar-dark bg-primary global-nav">
@@ -64,20 +78,17 @@
         </nav>
         <div class="container pb-1 main-content">
             <div class="row justify-content-center">
-                <div class="col-auto">
+                <div class="col-12">
                     <?php echo $this->getContent(); ?>
                 </div>
             </div>
         </div>
-        
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <? echo Phalcon\Tag::javascriptInclude("js/jquery-3.3.1.min.js") ?>
-        <? echo Phalcon\Tag::javascriptInclude("js/popper.min.js") ?>
-        <!-- Latest compiled and minified Bootstrap JavaScript -->
-        <? echo Phalcon\Tag::javascriptInclude("js/bootstrap.min.js") ?>
-        <!-- Font Awesome SVG version -->
-        <? echo Phalcon\Tag::javascriptInclude("js/fontawesome-5.6.1.all.js") ?>
-        <!-- Side-Nav JS -->
-        <? echo Phalcon\Tag::javascriptInclude("js/side-nav.js") ?>
+        <script>
+            $('.btn-expand-collapse').click(function(e) {
+                $('.navbar-primary').toggleClass('collapsed');
+                $('#nav-expand-icon').toggleClass('fa-angle-left');
+                $('#nav-expand-icon').toggleClass('fa-angle-right');
+            });
+        </script>
     </body>
 </html>

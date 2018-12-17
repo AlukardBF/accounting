@@ -10,84 +10,360 @@ class MaterialValue extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="material_value_id", type="integer", length=11, nullable=false)
      */
-    public $material_value_id;
+    protected $material_value_id;
 
     /**
      *
      * @var string
      * @Column(column="type", type="string", nullable=false)
      */
-    public $type;
+    protected $type;
 
     /**
      *
      * @var string
      * @Column(column="inventory_num", type="string", length=20, nullable=false)
      */
-    public $inventory_num;
+    protected $inventory_num;
 
     /**
      *
      * @var string
      * @Column(column="serial_num", type="string", length=20, nullable=true)
      */
-    public $serial_num;
+    protected $serial_num;
 
     /**
      *
      * @var string
      * @Column(column="name", type="string", length=255, nullable=false)
      */
-    public $name;
+    protected $name;
 
     /**
      *
      * @var string
      * @Column(column="description", type="string", nullable=true)
      */
-    public $description;
+    protected $description;
 
     /**
      *
      * @var double
      * @Column(column="price", type="double", length=10, nullable=true)
      */
-    public $price;
+    protected $price;
 
     /**
      *
      * @var integer
      * @Column(column="count", type="integer", length=10, nullable=false)
      */
-    public $count;
+    protected $count;
 
     /**
      *
      * @var string
      * @Column(column="enter_date", type="string", nullable=false)
      */
-    public $enter_date;
+    protected $enter_date;
 
     /**
      *
      * @var string
      * @Column(column="exit_date", type="string", nullable=true)
      */
-    public $exit_date;
+    protected $exit_date;
 
     /**
      *
      * @var string
      * @Column(column="photo", type="string", length=255, nullable=true)
      */
-    public $photo;
+    protected $photo;
 
     /**
      *
      * @var integer
      * @Column(column="location_location_id", type="integer", length=11, nullable=false)
      */
-    public $location_location_id;
+    protected $location_location_id;
+
+    /**
+     * Method to set the value of field material_value_id
+     *
+     * @param integer $material_value_id
+     * @return $this
+     */
+    public function setMaterialValueId($material_value_id)
+    {
+        $this->material_value_id = $material_value_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field type
+     *
+     * @param string $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field inventory_num
+     *
+     * @param string $inventory_num
+     * @return $this
+     */
+    public function setInventoryNum($inventory_num)
+    {
+        $this->inventory_num = $inventory_num;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field serial_num
+     *
+     * @param string $serial_num
+     * @return $this
+     */
+    public function setSerialNum($serial_num)
+    {
+        $this->serial_num = $serial_num;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field name
+     *
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field description
+     *
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field price
+     *
+     * @param double $price
+     * @return $this
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field count
+     *
+     * @param integer $count
+     * @return $this
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field enter_date
+     *
+     * @param string $enter_date
+     * @return $this
+     */
+    public function setEnterDate($enter_date)
+    {
+        $this->enter_date = $enter_date;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field exit_date
+     *
+     * @param string $exit_date
+     * @return $this
+     */
+    public function setExitDate($exit_date)
+    {
+        $this->exit_date = $exit_date;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field photo
+     *
+     * @param string $photo
+     * @return $this
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field location_location_id
+     *
+     * @param integer $location_location_id
+     * @return $this
+     */
+    public function setLocationLocationId($location_location_id)
+    {
+        $this->location_location_id = $location_location_id;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field material_value_id
+     *
+     * @return integer
+     */
+    public function getMaterialValueId()
+    {
+        return $this->material_value_id;
+    }
+
+    /**
+     * Returns the value of field type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Returns the value of field inventory_num
+     *
+     * @return string
+     */
+    public function getInventoryNum()
+    {
+        return $this->inventory_num;
+    }
+
+    /**
+     * Returns the value of field serial_num
+     *
+     * @return string
+     */
+    public function getSerialNum()
+    {
+        return $this->serial_num;
+    }
+
+    /**
+     * Returns the value of field name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Returns the value of field description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Returns the value of field price
+     *
+     * @return double
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Returns the value of field count
+     *
+     * @return integer
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * Returns the value of field enter_date
+     *
+     * @return string
+     */
+    public function getEnterDate()
+    {
+        return $this->enter_date;
+    }
+
+    /**
+     * Returns the value of field exit_date
+     *
+     * @return string
+     */
+    public function getExitDate()
+    {
+        return $this->exit_date;
+    }
+
+    /**
+     * Returns the value of field photo
+     *
+     * @return string
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * Returns the value of field location_location_id
+     *
+     * @return integer
+     */
+    public function getLocationLocationId()
+    {
+        return $this->location_location_id;
+    }
 
     /**
      * Initialize method for model.
@@ -99,16 +375,6 @@ class MaterialValue extends \Phalcon\Mvc\Model
         $this->hasMany('material_value_id', 'Equipment', 'material_value_material_value_id', ['alias' => 'Equipment']);
         $this->hasMany('material_value_id', 'Furniture', 'material_value_material_value_id', ['alias' => 'Furniture']);
         $this->belongsTo('location_location_id', '\Location', 'location_id', ['alias' => 'Location']);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'material_value';
     }
 
     /**
@@ -131,6 +397,77 @@ class MaterialValue extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'material_value';
+    }
+
+    /**
+     * Returns all types with localized names
+     *
+     * @return string[]
+     */
+    public static function getAllTypes()
+    {
+        /*$types = MaterialValue::find([
+            'conditions' => '',
+            'columns' => ['type', 'IF(type="equipment", "Оргтехника", (IF(type="assets", "Основные средства", IF(type="furniture", "Мебель", "")))) as typename']
+        ]);
+        return $types;*/
+        return [
+            'assets' => 'Основные средства',
+            'furniture' => 'Мебель',
+            'equipment' => 'Оргтехника',
+        ];
+    }
+
+    /**
+     * Returns type localized name
+     *
+     * @return string
+     */
+    public function getTypeName()
+    {
+        switch ($this->type) {
+            case 'assets':
+                return 'Основные средства';
+            case 'furniture':
+                return 'Мебель';
+            case 'equipment':
+                return 'Оргтехника';
+            default:
+                return 'error_name';
+        }
+    }
+
+    /**
+     * Returns location localized name
+     *
+     * @return string
+     */
+    public function getLocationName()
+    {
+        return Location::getLocationFullName($this->location_location_id);
+    }
+
+    /**
+     * Called before save
+     */
+    public function beforeSave()
+    {
+        //Converting any date to sql format
+        $this->enter_date = date('Y-m-d', strtotime($this->enter_date));
+        if ($this->exit_date == '')
+            $this->exit_date = null;
+        else
+            $this->exit_date = date('Y-m-d', strtotime($this->exit_date));
     }
 
 }

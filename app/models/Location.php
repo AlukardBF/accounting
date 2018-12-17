@@ -68,4 +68,33 @@ class Location extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    /**
+     * Returns all location concatenated by name
+     *
+     * @param mixed $parameters
+     * @return Location[]|Location|\Phalcon\Mvc\Model\ResultInterface
+     */
+    public static function getAllByFullname($parameters = null)
+    {
+        return Location::find([
+            'conditions' => '',
+            'columns' => ['location_id', "CONCAT(campus, '-', auditory) as fullname"]
+        ]);
+    }
+
+    /**
+     * Returns location full name
+     *
+     * @param location_id $location_id
+     * @return string
+     */
+    public static function getLocationFullName($location_id = null)
+    {
+        $test = Location::findFirst([
+            $location_id,
+            'columns' => ["CONCAT(campus, '-', auditory) as fullname"]
+        ]);
+        return $test->fullname;
+    }
+
 }
