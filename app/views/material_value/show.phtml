@@ -2,7 +2,8 @@
 <div class="row">
     <nav>
         <ul class="pager">
-        <?php echo $this->tag->linkTo(["material_value", '<i class="fas fa-arrow-left"></i><span class="font-weight-bold"> Вернуться</span>', 'class' => 'btn btn-success']) ?>
+            <?php echo $this->tag->linkTo(["material_value", '<i class="fas fa-arrow-left"></i><span class="font-weight-bold"> Вернуться</span>', 'class' => 'btn btn-success']) ?>
+            <?php echo $this->tag->linkTo(["material_value/qr/" . $material_value_id, 'Сгенерировать QR-код', 'class' => 'btn btn-info']) ?>
         </ul>
     </nav>
 </div>

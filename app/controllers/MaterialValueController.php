@@ -2,7 +2,8 @@
  
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
-
+use Endroid\QrCode\QrCode;
+use Phalcon\Mvc\Url;
 
 class MaterialValueController extends ControllerBase
 {
@@ -323,6 +324,40 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("equipment_type", $equipment[0]->getType());
             $this->tag->setDefault("equipment_manufacturer", $equipment[0]->getManufacturer());
             $this->tag->setDefault("equipment_specifications", $equipment[0]->getSpecifications());
+        }
+    }
+
+    /**
+     * Generate and return QR code by requested uri
+     *
+     * @param string $material_value_id
+     * @return Image|null
+     */
+    public function qrAction($material_value_id = null)
+    {
+        if ($material_value_id != null)
+        {
+            $this->dispatcher->forward([
+                'controller' => "material_value",
+                'action' => 'show',
+                'params' => $material_value_id,
+            ]);
+            // Формируем ссылку
+            $url = "";
+            if (isset($_SERVER['HTTPS']))
+                $url .= 'https://';
+            else
+                $url .= 'http://';
+            $url .= $_SERVER['SERVER_NAME'] . $this->url->getStatic() . 'material_value/show/' . $material_value_id;
+            // Генерируем QR code
+            $qrCode = new QrCode($material_value_id);
+            header('Content-Type: '.$qrCode->getContentType());
+            echo $qrCode->writeString();
+            return $qrCode->writeString();
+        }
+        else
+        {
+            return null;
         }
     }
 

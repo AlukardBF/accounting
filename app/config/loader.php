@@ -12,4 +12,18 @@ $loader->registerDirs(
         $config->application->pluginsDir,
         $config->application->customhelpersDir
     ]
-)->register();
+);
+
+/**
+ * Register composer autoloader
+ */
+$loader->registerFiles(
+    [
+        BASE_PATH . '/vendor/autoload.php'
+    ]
+);
+
+/**
+ * Register loader
+ */
+$loader->register();

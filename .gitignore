@@ -3,3 +3,6 @@
 /config/development/
 # VSCode
 /.vscode/
+# composer plugins
+composer.phar
+/vendor/
