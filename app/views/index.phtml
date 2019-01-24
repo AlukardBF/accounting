@@ -7,9 +7,8 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>Phalcon PHP Framework</title>
         <? echo Phalcon\Tag::stylesheetLink("css/bootstrap-flatly.min.css"); ?>
-        <? echo Phalcon\Tag::stylesheetLink("css/side-nav.css"); ?>
         <? echo Phalcon\Tag::stylesheetLink("css/gijgo.min.css") ?>
-        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.ico')?>"/>
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.png')?>"/>
 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <? echo Phalcon\Tag::javascriptInclude("js/jquery-3.3.1.min.js") ?>
@@ -18,86 +17,70 @@
         <? echo Phalcon\Tag::javascriptInclude("js/bootstrap.min.js") ?>
         <!-- Font Awesome SVG version -->
         <? echo Phalcon\Tag::javascriptInclude("js/fontawesome-5.6.1.all.js") ?>
-        <!-- Side-Nav JS -->
-        <!-- <? echo Phalcon\Tag::javascriptInclude("js/side-nav.js") ?> -->
         <!-- Gijgo widgets -->
         <? echo Phalcon\Tag::javascriptInclude("js/gijgo.min.js") ?>
         <? echo Phalcon\Tag::javascriptInclude("js/messages/messages.ru-ru.js") ?>
     </head>
-    <body>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-primary global-nav">
-            <?  echo Phalcon\Tag::linkTo([
-                        "/",
-                        '<i class="fas d-inline fas-lg fa-home"></i><b> ВПИ/ВИТ</b>',
-                        "class" => "navbar-brand",
-                    ]);
-            ?>
-            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-                aria-expanded="false" aria-label="Toggle navigation"></button>
-            <div class="collapse navbar-collapse" id="collapsibleNavId">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                </ul>
-                <ul class="navbar-nav">
-                    <?
-                        echo Phalcon\Tag::linkTo([
-                                '/',
-                                '<i class="fas fa-sign-out-alt"></i><b>Выход</b>',
-                                'class' => 'btn btn-primary my-2 my-sm-0',
-                            ]);
-                    ?>
-                </ul>
-            </div>
-        </nav>
-        <nav class="navbar-primary">
-            <a href="#" class="btn-expand-collapse"><i class="fas d-inline fa-lg fa-angle-left" id="nav-expand-icon"></i></a>
-            <ul class="navbar-primary-menu">
-                <li>
-                    <?  echo Phalcon\Tag::linkTo([
-                            "/material_value/index",
-                            '<i class="fas d-inline fa-xs fa-list"></i><span class="nav-label"> Материальные ценности</span>',
-                            "class" => "",
+    <body style="background-image:url(<?php echo $this->url->get('img/background.png')?>); background-attachment: fixed;">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-nav">
+                <?  echo Phalcon\Tag::linkTo([
+                            "/",
+                            '<i class="fas d-inline fas-lg fa-home"></i><b> ВПИ/ВИТ</b>',
+                            "class" => "navbar-brand",
                         ]);
-                    ?>
-                    <?  echo Phalcon\Tag::linkTo([
-                            "/equipment/index",
-                            '<i class="fas d-inline fa-xs fa-desktop"></i><span class="nav-label"> Оргтехника</span>',
-                            "class" => "",
-                        ]);
-                    ?>
-                    <?  echo Phalcon\Tag::linkTo([
-                            "/license/index",
-                            '<i class="fas d-inline fa-xs fa-certificate"></i><span class="nav-label"> Лицензии</span>',
-                            "class" => "",
-                        ]);
-                    ?>
-                    <?  echo Phalcon\Tag::linkTo([
-                            "/location/index",
-                            '<i class="fas d-inline fa-xs fa-map-marker-alt"></i><span class="nav-label"> Местоположения</span>',
-                            "class" => "",
-                        ]);
-                    ?>                    
-                    <!-- <?  echo Phalcon\Tag::linkTo([
-                            "/report/index",
-                            '<i class="fas d-inline fa-xs fa-layer-group"></i><span class="nav-label"> Отчеты</span>',
-                            "class" => "",
-                        ]);
-                    ?> -->
-                </li>
-            </ul>
-        </nav>
-        <div class="container pb-1 main-content">
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <?php echo $this->getContent(); ?>
+                ?>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                    aria-expanded="false" aria-label="Toggle navigation"></button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                        <li>
+                            <?  echo Phalcon\Tag::linkTo([
+                                    "/material_value/index",
+                                    '<i class="fas d-inline fa-xs fa-list"></i><span class="nav-label"> Материальные ценности</span>',
+                                    "class" => "px-3 btn btn-primary",
+                                ]);
+                            ?>
+                        </li>
+                        <li>
+                            <?  echo Phalcon\Tag::linkTo([
+                                    "/equipment/index",
+                                    '<i class="fas d-inline fa-xs fa-desktop"></i><span class="nav-label"> Оргтехника</span>',
+                                    "class" => "px-3 btn btn-primary",
+                                ]);
+                            ?>
+                        </li>
+                        <li>
+                            <?  echo Phalcon\Tag::linkTo([
+                                    "/license/index",
+                                    '<i class="fas d-inline fa-xs fa-certificate"></i><span class="nav-label"> Лицензии</span>',
+                                    "class" => "px-3 btn btn-primary",
+                                ]);
+                            ?>
+                        </li>
+                        <li>
+                            <?  echo Phalcon\Tag::linkTo([
+                                    "/location/index",
+                                    '<i class="fas d-inline fa-xs fa-map-marker-alt"></i><span class="nav-label"> Местоположения</span>',
+                                    "class" => "px-3 btn btn-primary",
+                                ]);
+                            ?>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <?
+                            echo Phalcon\Tag::linkTo([
+                                    '/',
+                                    '<i class="fas fa-sign-out-alt"></i><b>Выход</b>',
+                                    'class' => 'btn btn-primary my-2 my-sm-0',
+                                ]);
+                        ?>
+                    </ul>
                 </div>
+            </nav>
+            <div class="mx-auto col-lg-10 col-md-12 py-3" style="background: #fff;">
+                <?php echo $this->getContent(); ?>
             </div>
         </div>
-        <script>
-            $('.btn-expand-collapse').click(function(e) {
-                $('.navbar-primary').toggleClass('collapsed');
-                $('#nav-expand-icon').toggleClass('fa-angle-left');
-                $('#nav-expand-icon').toggleClass('fa-angle-right');
-            });
-        </script>
     </body>
 </html>
