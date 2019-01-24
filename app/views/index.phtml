@@ -1,86 +1,148 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Phalcon PHP Framework</title>
-        <? echo Phalcon\Tag::stylesheetLink("css/bootstrap-flatly.min.css"); ?>
-        <? echo Phalcon\Tag::stylesheetLink("css/gijgo.min.css") ?>
-        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.png')?>"/>
 
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <? echo Phalcon\Tag::javascriptInclude("js/jquery-3.3.1.min.js") ?>
-        <? echo Phalcon\Tag::javascriptInclude("js/popper.min.js") ?>
-        <!-- Latest compiled and minified Bootstrap JavaScript -->
-        <? echo Phalcon\Tag::javascriptInclude("js/bootstrap.min.js") ?>
-        <!-- Font Awesome SVG version -->
-        <? echo Phalcon\Tag::javascriptInclude("js/fontawesome-5.6.1.all.js") ?>
-        <!-- Gijgo widgets -->
-        <? echo Phalcon\Tag::javascriptInclude("js/gijgo.min.js") ?>
-        <? echo Phalcon\Tag::javascriptInclude("js/messages/messages.ru-ru.js") ?>
-    </head>
-    <body style="background-image:url(<?php echo $this->url->get('img/background.png')?>); background-attachment: fixed;">
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-nav">
-                <?  echo Phalcon\Tag::linkTo([
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Phalcon PHP Framework</title>
+    <? echo Phalcon\Tag::stylesheetLink("css/bootstrap-flatly.min.css"); ?>
+    <? echo Phalcon\Tag::stylesheetLink("css/gijgo.min.css") ?>
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->url->get('img/favicon.png')?>" />
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <? echo Phalcon\Tag::javascriptInclude("js/jquery-3.3.1.min.js") ?>
+    <? echo Phalcon\Tag::javascriptInclude("js/popper.min.js") ?>
+    <!-- Latest compiled and minified Bootstrap JavaScript -->
+    <? echo Phalcon\Tag::javascriptInclude("js/bootstrap.min.js") ?>
+    <!-- Font Awesome SVG version -->
+    <? echo Phalcon\Tag::javascriptInclude("js/fontawesome-5.6.1.all.js") ?>
+    <!-- Gijgo widgets -->
+    <? echo Phalcon\Tag::javascriptInclude("js/gijgo.min.js") ?>
+    <? echo Phalcon\Tag::javascriptInclude("js/messages/messages.ru-ru.js") ?>
+</head>
+
+<body style="background-image:url(<?php echo $this->url->get('img/background.png')?>); background-attachment: fixed;">
+    <div class="modal fade" id="signIn">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вход</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?echo Phalcon\Tag::form(
+                        [
+                            "session",
+                            "method" => "post",
+                            "class"=>"form-horizontal",
+                        ]
+                    );?>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Почта</label>
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Пароль</label>
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="form-group">
+                        <div class="main-checkbox">
+                            <input value="None" id="checkbox1" name="check" А type="checkbox">
+                            <label for="checkbox1">Запомнить меня</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" style="width:100%" class="btn btn-outline-primary">Войти</button>
+                    </div>
+                    </form>
+                    <? if($error != null) {
+                            echo CustomTags::card(
+                                [
+                                    'class' => 'bg-danger',
+                                    'body'   => $error,
+                                ]
+                            );
+                        }?>
+                </div>
+            </div><!-- /.модальное окно-Содержание -->
+        </div><!-- /.модальное окно-диалог -->
+    </div>
+    <!-- /.модальное окно -->
+
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-nav">
+            <?  echo Phalcon\Tag::linkTo([
                             "/",
                             '<i class="fas d-inline fas-lg fa-home"></i><b> ВПИ/ВИТ</b>',
                             "class" => "navbar-brand",
                         ]);
                 ?>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-                    aria-expanded="false" aria-label="Toggle navigation"></button>
-                <div class="collapse navbar-collapse" id="collapsibleNavId">
-                    <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
-                        <li>
-                            <?  echo Phalcon\Tag::linkTo([
-                                    "/material_value/index",
-                                    '<i class="fas d-inline fa-xs fa-list"></i><span class="nav-label"> Материальные ценности</span>',
-                                    "class" => "px-3 btn btn-primary",
-                                ]);
-                            ?>
-                        </li>
-                        <li>
-                            <?  echo Phalcon\Tag::linkTo([
-                                    "/equipment/index",
-                                    '<i class="fas d-inline fa-xs fa-desktop"></i><span class="nav-label"> Оргтехника</span>',
-                                    "class" => "px-3 btn btn-primary",
-                                ]);
-                            ?>
-                        </li>
-                        <li>
-                            <?  echo Phalcon\Tag::linkTo([
-                                    "/license/index",
-                                    '<i class="fas d-inline fa-xs fa-certificate"></i><span class="nav-label"> Лицензии</span>',
-                                    "class" => "px-3 btn btn-primary",
-                                ]);
-                            ?>
-                        </li>
-                        <li>
-                            <?  echo Phalcon\Tag::linkTo([
-                                    "/location/index",
-                                    '<i class="fas d-inline fa-xs fa-map-marker-alt"></i><span class="nav-label"> Местоположения</span>',
-                                    "class" => "px-3 btn btn-primary",
-                                ]);
-                            ?>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <?
-                            echo Phalcon\Tag::linkTo([
-                                    '/',
-                                    '<i class="fas fa-sign-out-alt"></i><b>Выход</b>',
-                                    'class' => 'btn btn-primary my-2 my-sm-0',
-                                ]);
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+                aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                    <li>
+                        <?  echo Phalcon\Tag::linkTo([
+                                "/material_value/index",
+                                '<i class="fas d-inline fa-xs fa-list"></i><span class="nav-label"> Материальные ценности</span>',
+                                "class" => "px-3 btn btn-primary",
+                            ]);
                         ?>
-                    </ul>
-                </div>
-            </nav>
-            <div class="mx-auto col-lg-10 col-md-12 py-3" style="background: #fff;">
-                <?php echo $this->getContent(); ?>
+                    </li>
+                    <li>
+                        <?  echo Phalcon\Tag::linkTo([
+                                "/equipment/index",
+                                '<i class="fas d-inline fa-xs fa-desktop"></i><span class="nav-label"> Оргтехника</span>',
+                                "class" => "px-3 btn btn-primary",
+                            ]);
+                        ?>
+                    </li>
+                    <li>
+                        <?  echo Phalcon\Tag::linkTo([
+                                "/license/index",
+                                '<i class="fas d-inline fa-xs fa-certificate"></i><span class="nav-label"> Лицензии</span>',
+                                "class" => "px-3 btn btn-primary",
+                            ]);
+                        ?>
+                    </li>
+                    <li>
+                        <?  echo Phalcon\Tag::linkTo([
+                                "/location/index",
+                                '<i class="fas d-inline fa-xs fa-map-marker-alt"></i><span class="nav-label"> Местоположения</span>',
+                                "class" => "px-3 btn btn-primary",
+                            ]);
+                        ?>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <? $role=$this->session->auth['role'];
+                        if($role != 'guest' && $role != null) {
+                            echo Phalcon\Tag::linkTo([
+                                '/session/logout',
+                                '<i class="fas fa-sign-out-alt"></i><b>Выход</b>',
+                                'class' => 'btn btn-primary my-2 my-sm-0',
+                            ]);
+                        } else {
+                            echo Phalcon\Tag::linkTo([
+                                '/session',
+                                '<i class="fas fa-sign-out-alt"></i><b>Вход</b>',
+                                'class' => 'btn btn-primary my-2 my-sm-0',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#signIn'
+                            ]);
+                        }
+                    ?>
+                </ul>
             </div>
+        </nav>
+        <div class="mx-auto col-lg-10 col-md-12 py-3" style="background: #fff;">
+            <?php echo $this->getContent(); ?>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

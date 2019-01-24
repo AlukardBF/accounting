@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
 class User extends \Phalcon\Mvc\Model
@@ -31,13 +32,6 @@ class User extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(column="create_time", type="string", nullable=true)
-     */
-    protected $create_time;
-
-    /**
-     *
-     * @var string
      * @Column(column="first_name", type="string", length=45, nullable=false)
      */
     protected $first_name;
@@ -62,6 +56,13 @@ class User extends \Phalcon\Mvc\Model
      * @Column(column="title", type="string", length=45, nullable=true)
      */
     protected $title;
+
+    /**
+     *
+     * @var string
+     * @Column(column="role", type="string", nullable=false)
+     */
+    protected $role;
 
     /**
      * Method to set the value of field user_id
@@ -98,19 +99,6 @@ class User extends \Phalcon\Mvc\Model
     public function setPassword($password)
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Method to set the value of field create_time
-     *
-     * @param string $create_time
-     * @return $this
-     */
-    public function setCreateTime($create_time)
-    {
-        $this->create_time = $create_time;
 
         return $this;
     }
@@ -168,6 +156,19 @@ class User extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field role
+     *
+     * @param string $role
+     * @return $this
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field user_id
      *
      * @return integer
@@ -195,16 +196,6 @@ class User extends \Phalcon\Mvc\Model
     public function getPassword()
     {
         return $this->password;
-    }
-
-    /**
-     * Returns the value of field create_time
-     *
-     * @return string
-     */
-    public function getCreateTime()
-    {
-        return $this->create_time;
     }
 
     /**
@@ -248,6 +239,16 @@ class User extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
      * Validations and business logic
      *
      * @return boolean
@@ -261,7 +262,7 @@ class User extends \Phalcon\Mvc\Model
             new EmailValidator(
                 [
                     'model'   => $this,
-                    'message' => 'Please enter a correct email address',
+                    'message' => 'Пожалуйста, введите корректный адрес электронной почты',
                 ]
             )
         );
@@ -276,6 +277,16 @@ class User extends \Phalcon\Mvc\Model
     {
         $this->setSchema("bachelor");
         $this->setSource("user");
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'user';
     }
 
     /**
@@ -298,16 +309,6 @@ class User extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'user';
     }
 
 }

@@ -11,8 +11,7 @@ use Phalcon\Acl\Resource;
 class SecurityPlugin extends Plugin
 {
 	public const ADMIN = 'admin';
-	public const TEACH = 'teach';
-	public const STUDENT = 'student';
+	public const READONLY = 'readonly';
 	public const GUEST = 'guest';
 
     public function beforeExecuteRoute(Event $event, Dispatcher $dispatcher)
@@ -23,7 +22,7 @@ class SecurityPlugin extends Plugin
         if (!$auth) {
             $role = self::GUEST;
         } else {
-        	//ENUM('admin', 'teach', 'student')
+        	//ENUM('admin', 'readonly')
             $role = $auth['role'];
         }
 
@@ -44,29 +43,31 @@ class SecurityPlugin extends Plugin
             // );
             switch ($role) {
             	case self::GUEST:
-        			$dispatcher->forward(
-		                [
-		                    'controller' => 'index',
-		                    'action'     => 'index',
-		                ]
-		            );
+        			// $dispatcher->forward(
+		            //     [
+		            //         'controller' => 'index',
+		            //         'action'     => 'index',
+		            //     ]
+					// );
+					$this->response->redirect('index');
             		break;
             	case self::ADMIN:
-        			$dispatcher->forward(
-		                [
-		                    'controller' => 'user',
-		                    'action'     => 'index',
-		                ]
-		            );
+        			// $dispatcher->forward(
+		            //     [
+		            //         'controller' => 'material_value',
+		            //         'action'     => 'index',
+		            //     ]
+					// );
+					$this->response->redirect('material_value/index');
             		break;
-            	case self::STUDENT:		
-            	case self::TEACH:
-        			$dispatcher->forward(
-		                [
-		                    'controller' => 'course',
-		                    'action'     => 'list',
-		                ]
-		            );
+            	case self::READONLY:
+        			// $dispatcher->forward(
+		            //     [
+		            //         'controller' => 'index',
+		            //         'action'     => 'index',
+		            //     ]
+					// );
+					$this->response->redirect('index');
             		break;
             	
             	default:
@@ -92,8 +93,7 @@ class SecurityPlugin extends Plugin
 		// and guests are users without a defined identity
 		$roles = [
 		    self::ADMIN  => new Role(self::ADMIN),
-		    self::TEACH  => new Role(self::TEACH),
-		    self::STUDENT  => new Role(self::STUDENT),
+		    self::READONLY  => new Role(self::READONLY),
 		    self::GUEST => new Role(self::GUEST),
 		];
 
@@ -102,38 +102,27 @@ class SecurityPlugin extends Plugin
 		}
 		// Private area resources (backend)
 		$allPrivateResources = [
-		    'session'		=> ['index', 'logout'],
-		    'user'			=> ['index','edit','create','search','new','save','delete'],
-		    'course'		=> ['index','edit','create','list','save','show','delete'],
-		    'student'		=> ['index','search','subscribe','subscribeall','unsubscribe'],
-		    'subsection'	=> ['index','create','save','delete','grade'],
-			'group'			=> ['index','edit','create','search','new','save','delete'],
-			'comment' 		=> ['index','create'],
+		    'material_value'	=> ['index','search','new','edit','create','delete','save','show','qr'],
+		    'furniture'		=> ['index','search','new','edit','create','delete','save'],
+		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
+		    'license'		=> ['index','search','new','edit','create','delete','save'],
+		    'location'		=> ['index','search','new','edit','create','delete','save'],
+			'session'		=> ['logout','index'],
 			'index'			=> ['index'],
-			'file'    		=> ['upload','download'],
 		];
 		$adminResources = [
-		    'session'	=> ['logout'],
-		    'user'		=> ['index','edit','create','search','new','save','delete'],
-		    'group'		=> ['index','edit','create','search','new','save','delete'],
+		    'material_value'	=> ['index','search','new','edit','create','delete','save','show','qr'],
+		    'furniture'		=> ['index','search','new','edit','create','delete','save'],
+		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
+		    'license'		=> ['index','search','new','edit','create','delete','save'],
+		    'location'		=> ['index','search','new','edit','create','delete','save'],
+			'session'		=> ['logout'],
+			'index'			=> ['index'],
 		];
-		$teachResources = [
-		    'session'    	=> ['logout'],
-		    'course'  		=> ['index','edit','create','list','save','show','delete'],
-		    'user'    		=> ['edit','save'],
-		    'student' 		=> ['index','search','subscribe','subscribeall','unsubscribe'],
-			'subsection' 	=> ['index','create','save','delete','grade'],
-			'comment' 		=> ['index','create'],
-			'file'    		=> ['download'],
-		];
-		$studentResources = [
-		    'session'    	=> ['logout'],
-		    'user'    		=> ['edit','save'],
-			'course'  		=> ['list','show'],
-			'comment' 		=> ['index','create'],
-		    'subsection' 	=> ['index'],
-		    'file'    		=> ['upload','download'],
-
+		$readonlyResources = [
+			'session'	=> ['logout'],
+		    'index'		=> ['index'],
+			'material_value'	=> ['show','qr'],
 		];
 		$guestResources = [
 		    'index'		=> ['index'],
@@ -181,19 +170,10 @@ class SecurityPlugin extends Plugin
 		        );
 		    }
 		}
-		foreach ($teachResources as $resource => $actions) {
+		foreach ($readonlyResources as $resource => $actions) {
 		    foreach ($actions as $action) {
 		        $acl->allow(
-		            self::TEACH,
-		            $resource,
-		            $action
-		        );
-		    }
-		}
-		foreach ($studentResources as $resource => $actions) {
-		    foreach ($actions as $action) {
-		        $acl->allow(
-		            self::STUDENT,
+		            self::READONLY,
 		            $resource,
 		            $action
 		        );
