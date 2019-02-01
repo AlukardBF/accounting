@@ -21,10 +21,10 @@
             foreach ($page->items as $license): ?>
             <tr>
                 <td class='hidden'><?php echo $license->getLicenseId() ?></td>
-                <td><?php echo $license->getPoName() ?></td>
-                <td><?php echo $license->getPoVersion() ?></td>
-                <td><?php echo $license->getLicenseNumber() ?></td>
-                <td><?php echo $license->getEndDate() ?></td>
+                <td><?php echo nl2br($license->getPoName()) ?></td>
+                <td><?php echo nl2br($license->getPoVersion()) ?></td>
+                <td><?php echo nl2br($license->getLicenseNumber()) ?></td>
+                <td><?php echo nl2br($license->getEndDate()) ?></td>
 
                 <td>
                     <?php echo $this->tag->linkTo(["license/edit/" . $license->getLicenseId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' => 'btn btn-success w-100']); ?>

@@ -106,17 +106,19 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("exit_date", $material_value->getExitDate());
             $this->tag->setDefault("photo", $material_value->getPhoto());
             $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
+            // $this->tag->setDefault("furniture_furniture_id", $material_value->getFurnitureFurnitureId());
+            // $this->tag->setDefault("equipment_equipment_id", $material_value->getEquipmentEquipmentId());
 
             $furniture = $material_value->Furniture;
-            if (isset($furniture[0])) {
-                $this->tag->setDefault("furniture_specification", $furniture[0]->getSpecifications());
+            if ($furniture) {
+                $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
             }
             
             $equipment = $material_value->Equipment;
-            if (isset($equipment[0])) {
-                $this->tag->setDefault("equipment_type", $equipment[0]->getType());
-                $this->tag->setDefault("equipment_manufacturer", $equipment[0]->getManufacturer());
-                $this->tag->setDefault("equipment_specifications", $equipment[0]->getSpecifications());
+            if ($equipment) {
+                $this->tag->setDefault("equipment_type", $equipment->getType());
+                $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
+                $this->tag->setDefault("equipment_specifications", $equipment->getSpecifications());
             }
         }
     }
@@ -148,6 +150,39 @@ class MaterialValueController extends ControllerBase
         $material_value->setPhoto($this->request->getPost("photo"));
         $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
 
+        //Сохраняем мебель или оргтехнику
+        if ($material_value->getType() == "furniture") {
+            $furniture = new Furniture();
+            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
+            if (!$furniture->save()) {
+                foreach ($furniture->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'new'
+                ]);
+                return;
+            }
+            $material_value->Furniture = $furniture;
+        } else if ($material_value->getType() == "equipment") {
+            $equipment = new Equipment();
+            $equipment->setType($this->request->getPost("equipment_type"));
+            $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
+            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
+            if (!$equipment->save()) {
+                foreach ($equipment->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'new'
+                ]);
+                return;
+            }
+            $material_value->Equipment = $equipment;
+        }
+
         if (!$material_value->save()) {
             foreach ($material_value->getMessages() as $message) {
                 $this->flash->error($message);
@@ -159,41 +194,6 @@ class MaterialValueController extends ControllerBase
             ]);
 
             return;
-        }
-
-        //Сохраняем мебель или оргтехнику
-        if ($material_value->getType() == "furniture") {
-            $furniture = new Furniture();
-            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
-            $furniture->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
-            //Сохраняем
-            if (!$furniture->save()) {
-                foreach ($furniture->getMessages() as $message) {
-                    $this->flash->error($message);
-                }
-                $this->dispatcher->forward([
-                    'controller' => "material_value",
-                    'action' => 'new'
-                ]);
-                return;
-            }
-        } else if ($material_value->getType() == "equipment") {
-            $equipment = new Equipment();
-            $equipment->setType($this->request->getPost("equipment_type"));
-            $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
-            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
-            $equipment->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
-            //Сохраняем
-            if (!$equipment->save()) {
-                foreach ($equipment->getMessages() as $message) {
-                    $this->flash->error($message);
-                }
-                $this->dispatcher->forward([
-                    'controller' => "material_value",
-                    'action' => 'new'
-                ]);
-                return;
-            }
         }
 
         $this->flash->success("Материальная ценность успешно добавлена");
@@ -210,7 +210,6 @@ class MaterialValueController extends ControllerBase
      */
     public function saveAction()
     {
-
         if (!$this->request->isPost()) {
             $this->dispatcher->forward([
                 'controller' => "material_value",
@@ -246,6 +245,37 @@ class MaterialValueController extends ControllerBase
         $material_value->setPhoto($this->request->getPost("photo"));
         $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
 
+        //Сохраняем мебель или оргтехнику
+        if ($material_value->getType() == "furniture") {
+            $furniture = $material_value->Furniture;
+            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
+            if (!$furniture->save()) {
+                foreach ($furniture->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'edit'
+                ]);
+                return;
+            }
+        } else if ($material_value->getType() == "equipment") {
+            $equipment = $material_value->Equipment;
+            $equipment->setType($this->request->getPost("equipment_type"));
+            $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
+            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
+            if (!$equipment->save()) {
+                foreach ($equipment->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'edit'
+                ]);
+                return;
+            }
+        }
+
         if (!$material_value->save()) {
 
             foreach ($material_value->getMessages() as $message) {
@@ -259,40 +289,6 @@ class MaterialValueController extends ControllerBase
             ]);
 
             return;
-        }
-
-        if ($material_value->getType() == "furniture") {
-            //Добавить
-            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
-            $furniture->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
-            //Сохраняем
-            if (!$furniture->save()) {
-                foreach ($furniture->getMessages() as $message) {
-                    $this->flash->error($message);
-                }
-                $this->dispatcher->forward([
-                    'controller' => "material_value",
-                    'action' => 'new'
-                ]);
-                return;
-            }
-        } else if ($material_value->getType() == "equipment") {
-            $equipment = new Equipment();
-            $equipment->setType($this->request->getPost("equipment_type"));
-            $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
-            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
-            $equipment->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
-            //Сохраняем
-            if (!$equipment->save()) {
-                foreach ($equipment->getMessages() as $message) {
-                    $this->flash->error($message);
-                }
-                $this->dispatcher->forward([
-                    'controller' => "material_value",
-                    'action' => 'new'
-                ]);
-                return;
-            }
         }
 
         $this->flash->success("Материальная ценность обновлена");
@@ -409,6 +405,7 @@ class MaterialValueController extends ControllerBase
             $url = $this->request->getScheme() . "://" . $this->request->getHttpHost() . $this->url->getStatic() . 'material_value/show/' . $material_value_id;
             // Генерируем QR code
             $qrCode = new QrCode($url);
+            $this->view->disable();
             $this->response->setFileToSend($qrCode->writeDataUri(), 'qr-'.$material_value_id.'.png')->send();
         }
     }

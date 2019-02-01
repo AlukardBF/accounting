@@ -90,6 +90,22 @@ class MaterialValue extends \Phalcon\Mvc\Model
     protected $location_location_id;
 
     /**
+     *
+     * @var integer
+     * @Primary
+     * @Column(column="equipment_equipment_id", type="integer", length=11, nullable=true)
+     */
+    protected $equipment_equipment_id;
+
+    /**
+     *
+     * @var integer
+     * @Primary
+     * @Column(column="furniture_furniture_id", type="integer", length=11, nullable=true)
+     */
+    protected $furniture_furniture_id;
+
+    /**
      * Method to set the value of field material_value_id
      *
      * @param integer $material_value_id
@@ -246,6 +262,32 @@ class MaterialValue extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field equipment_equipment_id
+     *
+     * @param integer $equipment_equipment_id
+     * @return $this
+     */
+    public function setEquipmentEquipmentId($equipment_equipment_id)
+    {
+        $this->equipment_equipment_id = $equipment_equipment_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field furniture_furniture_id
+     *
+     * @param integer $furniture_furniture_id
+     * @return $this
+     */
+    public function setFurnitureFurnitureId($furniture_furniture_id)
+    {
+        $this->furniture_furniture_id = $furniture_furniture_id;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field material_value_id
      *
      * @return integer
@@ -366,14 +408,34 @@ class MaterialValue extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field equipment_equipment_id
+     *
+     * @return integer
+     */
+    public function getEquipmentEquipmentId()
+    {
+        return $this->equipment_equipment_id;
+    }
+
+    /**
+     * Returns the value of field furniture_furniture_id
+     *
+     * @return integer
+     */
+    public function getFurnitureFurnitureId()
+    {
+        return $this->furniture_furniture_id;
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("bachelor");
         $this->setSource("material_value");
-        $this->hasMany('material_value_id', 'Equipment', 'material_value_material_value_id', ['alias' => 'Equipment']);
-        $this->hasMany('material_value_id', 'Furniture', 'material_value_material_value_id', ['alias' => 'Furniture']);
+        $this->belongsTo('equipment_equipment_id', '\Equipment', 'equipment_id', ['alias' => 'Equipment']);
+        $this->belongsTo('furniture_furniture_id', '\Furniture', 'furniture_id', ['alias' => 'Furniture']);
         $this->belongsTo('location_location_id', '\Location', 'location_id', ['alias' => 'Location']);
     }
 
@@ -400,27 +462,12 @@ class MaterialValue extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'material_value';
-    }
-
-    /**
      * Returns all types with localized names
      *
      * @return string[]
      */
     public static function getAllTypes()
     {
-        /*$types = MaterialValue::find([
-            'conditions' => '',
-            'columns' => ['type', 'IF(type="equipment", "Оргтехника", (IF(type="assets", "Основные средства", IF(type="furniture", "Мебель", "")))) as typename']
-        ]);
-        return $types;*/
         return [
             'assets' => 'Основные средства',
             'furniture' => 'Мебель',
@@ -468,6 +515,16 @@ class MaterialValue extends \Phalcon\Mvc\Model
             $this->exit_date = null;
         else
             $this->exit_date = date('Y-m-d', strtotime($this->exit_date));
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'material_value';
     }
 
 }

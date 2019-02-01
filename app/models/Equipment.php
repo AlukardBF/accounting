@@ -34,14 +34,6 @@ class Equipment extends \Phalcon\Mvc\Model
     protected $specifications;
 
     /**
-     *
-     * @var integer
-     * @Primary
-     * @Column(column="material_value_material_value_id", type="integer", length=11, nullable=false)
-     */
-    protected $material_value_material_value_id;
-
-    /**
      * Method to set the value of field equipment_id
      *
      * @param integer $equipment_id
@@ -94,19 +86,6 @@ class Equipment extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field material_value_material_value_id
-     *
-     * @param integer $material_value_material_value_id
-     * @return $this
-     */
-    public function setMaterialValueMaterialValueId($material_value_material_value_id)
-    {
-        $this->material_value_material_value_id = $material_value_material_value_id;
-
-        return $this;
-    }
-
-    /**
      * Returns the value of field equipment_id
      *
      * @return integer
@@ -144,6 +123,19 @@ class Equipment extends \Phalcon\Mvc\Model
     public function getSpecifications()
     {
         return $this->specifications;
+    }
+
+    /**
+     * Method to set the value of field material_value_material_value_id
+     *
+     * @param integer $material_value_material_value_id
+     * @return $this
+     */
+    public function setMaterialValueMaterialValueId($material_value_material_value_id)
+    {
+        $this->material_value_material_value_id = $material_value_material_value_id;
+
+        return $this;
     }
 
     /**

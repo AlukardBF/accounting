@@ -30,16 +30,16 @@
             foreach ($page->items as $material_value): ?>
             <tr class="clickable" data-href="show/<? echo $material_value->getMaterialValueId() ?>">
                 <td class='hidden'><?php echo $material_value->getMaterialValueId() ?></td>
-                <td><?php echo $material_value->getLocationName() ?></td>
-                <td><?php echo $material_value->getTypeName() ?></td>
-                <td><?php echo $material_value->getInventoryNum() ?></td>
-                <td><?php echo $material_value->getSerialNum() ?></td>
-                <td><?php echo $material_value->getName() ?></td>
-                <td><?php echo $material_value->getDescription() ?></td>
-                <td><?php echo $material_value->getPrice() ?></td>
-                <td><?php echo $material_value->getCount() ?></td>
-                <td><?php echo $material_value->getEnterDate() ?></td>
-                <td><?php echo $material_value->getExitDate() ?></td>
+                <td><?php echo nl2br($material_value->getLocationName()) ?></td>
+                <td><?php echo nl2br($material_value->getTypeName()) ?></td>
+                <td><?php echo nl2br($material_value->getInventoryNum()) ?></td>
+                <td><?php echo nl2br($material_value->getSerialNum()) ?></td>
+                <td><?php echo nl2br($material_value->getName()) ?></td>
+                <td><?php echo nl2br($material_value->getDescription()) ?></td>
+                <td><?php echo nl2br($material_value->getPrice()) ?></td>
+                <td><?php echo nl2br($material_value->getCount()) ?></td>
+                <td><?php echo nl2br($material_value->getEnterDate()) ?></td>
+                <td><?php echo nl2br($material_value->getExitDate()) ?></td>
                 <!-- <td><?php echo $material_value->getPhoto() ?></td> -->
                 <td>
                     <? if ($material_value->getPhoto() != null) { echo Phalcon\Tag::image(['files/photo/'.$material_value->getPhoto(), 'style' => 'max-width: 5vw; max-height: 5vw;']); }?>

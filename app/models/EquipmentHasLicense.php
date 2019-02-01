@@ -15,14 +15,6 @@ class EquipmentHasLicense extends \Phalcon\Mvc\Model
      *
      * @var integer
      * @Primary
-     * @Column(column="equipment_material_value_material_value_id", type="integer", length=11, nullable=false)
-     */
-    protected $equipment_material_value_material_value_id;
-
-    /**
-     *
-     * @var integer
-     * @Primary
      * @Column(column="license_license_id", type="integer", length=11, nullable=false)
      */
     protected $license_license_id;
@@ -36,19 +28,6 @@ class EquipmentHasLicense extends \Phalcon\Mvc\Model
     public function setEquipmentEquipmentId($equipment_equipment_id)
     {
         $this->equipment_equipment_id = $equipment_equipment_id;
-
-        return $this;
-    }
-
-    /**
-     * Method to set the value of field equipment_material_value_material_value_id
-     *
-     * @param integer $equipment_material_value_material_value_id
-     * @return $this
-     */
-    public function setEquipmentMaterialValueMaterialValueId($equipment_material_value_material_value_id)
-    {
-        $this->equipment_material_value_material_value_id = $equipment_material_value_material_value_id;
 
         return $this;
     }
@@ -77,16 +56,6 @@ class EquipmentHasLicense extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field equipment_material_value_material_value_id
-     *
-     * @return integer
-     */
-    public function getEquipmentMaterialValueMaterialValueId()
-    {
-        return $this->equipment_material_value_material_value_id;
-    }
-
-    /**
      * Returns the value of field license_license_id
      *
      * @return integer
@@ -94,6 +63,29 @@ class EquipmentHasLicense extends \Phalcon\Mvc\Model
     public function getLicenseLicenseId()
     {
         return $this->license_license_id;
+    }
+
+    /**
+     * Method to set the value of field equipment_material_value_material_value_id
+     *
+     * @param integer $equipment_material_value_material_value_id
+     * @return $this
+     */
+    public function setEquipmentMaterialValueMaterialValueId($equipment_material_value_material_value_id)
+    {
+        $this->equipment_material_value_material_value_id = $equipment_material_value_material_value_id;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field equipment_material_value_material_value_id
+     *
+     * @return integer
+     */
+    public function getEquipmentMaterialValueMaterialValueId()
+    {
+        return $this->equipment_material_value_material_value_id;
     }
 
     /**
