@@ -36,7 +36,7 @@ class MaterialValueController extends ControllerBase
 
         $material_value = MaterialValue::find($parameters);
         if (count($material_value) == 0) {
-            $this->flash->notice("The search did not find any material_value");
+            $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
                 "controller" => "material_value",
@@ -79,7 +79,7 @@ class MaterialValueController extends ControllerBase
 
             $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
             if (!$material_value) {
-                $this->flash->error("material_value was not found");
+                $this->flash->error("Материальная ценность не найдена");
 
                 $this->dispatcher->forward([
                     'controller' => "material_value",
@@ -109,7 +109,7 @@ class MaterialValueController extends ControllerBase
 
             $furniture = $material_value->Furniture;
             if (isset($furniture[0])) {
-                $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
+                $this->tag->setDefault("furniture_specification", $furniture[0]->getSpecifications());
             }
             
             $equipment = $material_value->Equipment;
@@ -147,7 +147,6 @@ class MaterialValueController extends ControllerBase
         $material_value->setExitDate($this->request->getPost("exit_date"));
         $material_value->setPhoto($this->request->getPost("photo"));
         $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
-        
 
         if (!$material_value->save()) {
             foreach ($material_value->getMessages() as $message) {
@@ -162,7 +161,42 @@ class MaterialValueController extends ControllerBase
             return;
         }
 
-        $this->flash->success("material_value was created successfully");
+        //Сохраняем мебель или оргтехнику
+        if ($material_value->getType() == "furniture") {
+            $furniture = new Furniture();
+            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
+            $furniture->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
+            //Сохраняем
+            if (!$furniture->save()) {
+                foreach ($furniture->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'new'
+                ]);
+                return;
+            }
+        } else if ($material_value->getType() == "equipment") {
+            $equipment = new Equipment();
+            $equipment->setType($this->request->getPost("equipment_type"));
+            $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
+            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
+            $equipment->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
+            //Сохраняем
+            if (!$equipment->save()) {
+                foreach ($equipment->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'new'
+                ]);
+                return;
+            }
+        }
+
+        $this->flash->success("Материальная ценность успешно добавлена");
 
         $this->dispatcher->forward([
             'controller' => "material_value",
@@ -190,7 +224,7 @@ class MaterialValueController extends ControllerBase
         $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
 
         if (!$material_value) {
-            $this->flash->error("material_value does not exist " . $material_value_id);
+            $this->flash->error("Материальная ценность с таким id не найдена: " . $material_value_id);
 
             $this->dispatcher->forward([
                 'controller' => "material_value",
@@ -211,7 +245,6 @@ class MaterialValueController extends ControllerBase
         $material_value->setExitDate($this->request->getPost("exit_date"));
         $material_value->setPhoto($this->request->getPost("photo"));
         $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
-        
 
         if (!$material_value->save()) {
 
@@ -228,7 +261,41 @@ class MaterialValueController extends ControllerBase
             return;
         }
 
-        $this->flash->success("material_value was updated successfully");
+        if ($material_value->getType() == "furniture") {
+            //Добавить
+            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
+            $furniture->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
+            //Сохраняем
+            if (!$furniture->save()) {
+                foreach ($furniture->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'new'
+                ]);
+                return;
+            }
+        } else if ($material_value->getType() == "equipment") {
+            $equipment = new Equipment();
+            $equipment->setType($this->request->getPost("equipment_type"));
+            $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
+            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
+            $equipment->setMaterialValueMaterialValueId($material_value->getMaterialValueId());
+            //Сохраняем
+            if (!$equipment->save()) {
+                foreach ($equipment->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $this->dispatcher->forward([
+                    'controller' => "material_value",
+                    'action' => 'new'
+                ]);
+                return;
+            }
+        }
+
+        $this->flash->success("Материальная ценность обновлена");
 
         $this->dispatcher->forward([
             'controller' => "material_value",
@@ -245,7 +312,7 @@ class MaterialValueController extends ControllerBase
     {
         $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
         if (!$material_value) {
-            $this->flash->error("material_value was not found");
+            $this->flash->error("Материальная ценность не найдена");
 
             $this->dispatcher->forward([
                 'controller' => "material_value",
@@ -269,7 +336,7 @@ class MaterialValueController extends ControllerBase
             return;
         }
 
-        $this->flash->success("material_value was deleted successfully");
+        $this->flash->success("Материальная ценность удалена");
 
         $this->dispatcher->forward([
             'controller' => "material_value",
@@ -284,7 +351,9 @@ class MaterialValueController extends ControllerBase
      */
     public function showAction($material_value_id)
     {
-        $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
+        $this->editAction($material_value_id);
+    }
+        /*$material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
         if (!$material_value) {
             $this->flash->error("material_value was not found");
 
@@ -325,7 +394,7 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("equipment_manufacturer", $equipment[0]->getManufacturer());
             $this->tag->setDefault("equipment_specifications", $equipment[0]->getSpecifications());
         }
-    }
+    }*/
 
     /**
      * Generate and return QR code by requested uri
@@ -333,32 +402,14 @@ class MaterialValueController extends ControllerBase
      * @param string $material_value_id
      * @return Image|null
      */
-    public function qrAction($material_value_id = null)
+    public function qrAction($material_value_id)
     {
-        if ($material_value_id != null)
-        {
-            $this->dispatcher->forward([
-                'controller' => "material_value",
-                'action' => 'show',
-                'params' => $material_value_id,
-            ]);
+        if ($material_value_id != null) {
             // Формируем ссылку
-            $url = "";
-            if (isset($_SERVER['HTTPS']))
-                $url .= 'https://';
-            else
-                $url .= 'http://';
-            $url .= $_SERVER['SERVER_NAME'] . $this->url->getStatic() . 'material_value/show/' . $material_value_id;
+            $url = $this->request->getScheme() . "://" . $this->request->getHttpHost() . $this->url->getStatic() . 'material_value/show/' . $material_value_id;
             // Генерируем QR code
-            $qrCode = new QrCode($material_value_id);
-            header('Content-Type: '.$qrCode->getContentType());
-            echo $qrCode->writeString();
-            return $qrCode->writeString();
-        }
-        else
-        {
-            return null;
+            $qrCode = new QrCode($url);
+            $this->response->setFileToSend($qrCode->writeDataUri(), 'qr-'.$material_value_id.'.png')->send();
         }
     }
-
 }

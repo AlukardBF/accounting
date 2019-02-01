@@ -28,7 +28,7 @@
         <tbody>
         <?php if (isset($page)): 
             foreach ($page->items as $material_value): ?>
-            <tr>
+            <tr class="clickable" data-href="show/<? echo $material_value->getMaterialValueId() ?>">
                 <td class='hidden'><?php echo $material_value->getMaterialValueId() ?></td>
                 <td><?php echo $material_value->getLocationName() ?></td>
                 <td><?php echo $material_value->getTypeName() ?></td>
@@ -45,9 +45,10 @@
                     <? if ($material_value->getPhoto() != null) { echo Phalcon\Tag::image(['files/photo/'.$material_value->getPhoto(), 'style' => 'max-width: 5vw; max-height: 5vw;']); }?>
                 </td>
 
-                <td>
-                    <?php echo $this->tag->linkTo(["material_value/edit/" . $material_value->getMaterialValueId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' => 'btn btn-success w-100']); ?>
-                    <?php echo $this->tag->linkTo(["material_value/delete/" . $material_value->getMaterialValueId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' => 'btn btn-danger w-100']); ?>
+                <td class="d-flex flex-column">
+                    <?php echo $this->tag->linkTo(["material_value/edit/" . $material_value->getMaterialValueId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' => 'btn btn-success w-100 my-1']); ?>
+                    <?php echo $this->tag->linkTo(["material_value/qr/" . $material_value->getMaterialValueId(), '<i class="fas fa-trash d-inline"></i> QR-код', 'class' => 'btn btn-success w-100 my-1']); ?>
+                    <?php echo $this->tag->linkTo(["material_value/delete/" . $material_value->getMaterialValueId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' => 'btn btn-danger w-100 my-1']); ?>
                 </td>
             </tr>
         <?php endforeach; endif; ?>
@@ -67,11 +68,4 @@
 </div>
 <?php endif; ?>
 
-<script>
-    $(function() {
-        $('.table > tbody > tr').dblclick(function() {
-            material_value_id = this.firstElementChild.innerText;
-            $(location).attr('pathname', 'accounting/material_value/show/' + material_value_id);
-        });
-    });    
-</script>
+<? echo Phalcon\Tag::javascriptInclude("js/pagination.js") ?>
