@@ -108,6 +108,7 @@ class SecurityPlugin extends Plugin
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
 		    'location'		=> ['index','search','new','edit','create','delete','save'],
 			'session'		=> ['logout','index'],
+			'specifications'=> ['index','search','new','edit','create','delete','save'],
 			'index'			=> ['index'],
 		];
 		$adminResources = [
@@ -115,7 +116,8 @@ class SecurityPlugin extends Plugin
 		    'furniture'		=> ['index','search','new','edit','create','delete','save'],
 		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
-		    'location'		=> ['index','search','new','edit','create','delete','save'],
+			'location'		=> ['index','search','new','edit','create','delete','save'],
+			'specifications'=> ['index','search','new','edit','create','delete','save'],
 			'session'		=> ['logout'],
 			'index'			=> ['index'],
 		];

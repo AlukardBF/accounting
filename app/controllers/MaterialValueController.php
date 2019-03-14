@@ -147,7 +147,7 @@ class MaterialValueController extends ControllerBase
         $material_value->setCount($this->request->getPost("count"));
         $material_value->setEnterDate($this->request->getPost("enter_date"));
         $material_value->setExitDate($this->request->getPost("exit_date"));
-        $material_value->setPhoto($this->request->getPost("photo"));
+        // $material_value->setPhoto($this->request->getPost("photo"));
         $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
 
         //Сохраняем мебель или оргтехнику
@@ -183,6 +183,13 @@ class MaterialValueController extends ControllerBase
             $material_value->Equipment = $equipment;
         }
 
+        //Проверяем картинку
+        $picture = $this->request->getUploadedFiles()[0];
+        $picname = photoValidate($picture);
+        if (!empty($picture->getName()))
+            $material_value->setPhoto($picname);
+
+        // Сохраняем мат. ценность
         if (!$material_value->save()) {
             foreach ($material_value->getMessages() as $message) {
                 $this->flash->error($message);
@@ -195,6 +202,9 @@ class MaterialValueController extends ControllerBase
 
             return;
         }
+
+        if (!empty($picture->getName()))
+            $picture->moveTo('files/photo/' . $picname);
 
         $this->flash->success("Материальная ценность успешно добавлена");
 
@@ -242,7 +252,7 @@ class MaterialValueController extends ControllerBase
         $material_value->setCount($this->request->getPost("count"));
         $material_value->setEnterDate($this->request->getPost("enter_date"));
         $material_value->setExitDate($this->request->getPost("exit_date"));
-        $material_value->setPhoto($this->request->getPost("photo"));
+        // $material_value->setPhoto($this->request->getPost("photo"));
         $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
 
         //Сохраняем мебель или оргтехнику
@@ -276,6 +286,15 @@ class MaterialValueController extends ControllerBase
             }
         }
 
+        //Проверяем картинку
+        $picture = $this->request->getUploadedFiles()[0];
+        $picname = $this->photoValidate($picture);
+        if (!empty($picture->getName()))
+        {
+            $old_picname = $material_value->getPhoto();
+            $material_value->setPhoto($picname);
+        }
+
         if (!$material_value->save()) {
 
             foreach ($material_value->getMessages() as $message) {
@@ -289,6 +308,13 @@ class MaterialValueController extends ControllerBase
             ]);
 
             return;
+        }
+
+        if (!empty($picture->getName()))
+        {
+            $picture->moveTo('files/photo/' . $picname);
+            if (!empty($old_picname))
+                unlink('files/photo/' . $old_picname);
         }
 
         $this->flash->success("Материальная ценность обновлена");
@@ -318,6 +344,8 @@ class MaterialValueController extends ControllerBase
             return;
         }
 
+        $old_picname = $material_value->getPhoto();
+
         if (!$material_value->delete()) {
 
             foreach ($material_value->getMessages() as $message) {
@@ -331,6 +359,9 @@ class MaterialValueController extends ControllerBase
 
             return;
         }
+
+        if (!empty($old_picname))
+            unlink('files/photo/' . $old_picname);
 
         $this->flash->success("Материальная ценность удалена");
 
@@ -408,5 +439,39 @@ class MaterialValueController extends ControllerBase
             $this->view->disable();
             $this->response->setFileToSend($qrCode->writeDataUri(), 'qr-'.$material_value_id.'.png')->send();
         }
+    }
+
+    private function photoValidate($picture)
+    {
+        /* Сохранение картинки */
+        /* Проверяем загруженный файл */
+        $validation = new \Phalcon\Validation();
+        $file = new \Phalcon\Validation\Validator\File([
+            'maxSize' => '2M',
+            'messageSize' => 'Загруженная картинка превышает максимально допустимый размер файла (:max)',
+            'allowedTypes' => ['image/jpeg', 'image/png'],
+            'messageType' => 'Ваша картинка должна быть в формате JPEG или PNG',
+            'allowEmpty' => true
+        ]);
+        $validation->add('photo',$file);
+        $messages = $validation->validate($picture);
+        if (count($messages)) {
+            foreach ($messages as $message) {
+                $this->flash->error($message);
+            }
+            $this->dispatcher->forward([
+                'controller' => "material_value",
+                'action' => 'index'
+            ]);
+            return;
+        }
+        /* Если нет ошибки в загруженном файле - продолжаем выполнение */
+        //Если файл не загрузили
+        if (!empty($picture->getName()))
+        {
+            $random = new \Phalcon\Security\Random();
+            return $random->hex(10) . '.' . $picture->getExtension();
+        }
+        return null;
     }
 }

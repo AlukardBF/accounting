@@ -51,6 +51,15 @@ $di->setShared('view', function () {
                 'compiledSeparator' => '_'
             ]);
 
+            $compiler = $volt->getCompiler();
+            //Add custom functions to Volt engine
+            $compiler->addFunction(
+                'pagination',
+                function ($resolvedArgs, $exprArgs) {
+                    return 'CustomTags::pagination([' . $resolvedArgs . '])';
+                }
+            );
+
             return $volt;
         },
         '.phtml' => PhpEngine::class

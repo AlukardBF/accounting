@@ -32,13 +32,13 @@
 ?>
 <div class="form-group">
     <div class="form-row">
-        <div class="form-group col-6">
+        <div class="form-group col-6 required">
             <label for="fieldCampus" class="control-label">Корпус</label>
             <div class="col-12">
                 <?php echo $this->tag->textField(["campus", "size" => 30, "class" => "form-control", "id" => "fieldCampus", "placeholder" => "Введите корпус"]) ?>
             </div>            
         </div>
-        <div class="form-group col-6">
+        <div class="form-group col-6 required">
             <label for="fieldAuditory" class="control-label">Аудитория</label>
             <div class="col-12">
                 <?php echo $this->tag->textField(["auditory", "size" => 30, "class" => "form-control", "id" => "fieldAuditory", "placeholder" => "Введите аудиторию"]) ?>

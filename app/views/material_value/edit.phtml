@@ -72,7 +72,7 @@
                         'emptyValue' => '@',
                         'class' => 'form-control',
                         'id' => 'fieldType',
-                        'disabled' => 'disabled'
+                        'disabled' => 'true'
                     ]
                 );
                 ?>
@@ -184,9 +184,17 @@
             </div>
         </div>
     </div>
+
+    <div class="list-group" id="myList">
+        <a href="#" class="list-group-item list-group-item-action active">Cras justo odio</a>
+        <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+        <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+    </div>
 </div>
 
 <?php echo $this->tag->hiddenField("material_value_id") ?>
+<?php echo $this->tag->hiddenField("type") ?>
 
 <div class="form-group">
     <div class="col-12">
@@ -213,6 +221,10 @@
             htmlIcon: '<i class="fas fa-lg fa-file-upload"></i>',
             text: "Выберите файл",
             btnClass: "btn-primary",
+        });
+        $('#myList > a').on('click', function () {
+            $("#myList > a").removeClass("active");
+            $(this).addClass("active");
         });
     });
 </script>

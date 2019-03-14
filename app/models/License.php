@@ -188,6 +188,15 @@ class License extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Called before save
+     */
+    public function beforeSave()
+    {
+        //Converting any date to sql format
+        $this->end_date = date('Y-m-d', strtotime($this->end_date));
+    }
+
+    /**
      * Returns table name mapped in the model.
      *
      * @return string

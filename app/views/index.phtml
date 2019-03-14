@@ -117,6 +117,14 @@
                             ]);
                         ?>
                     </li>
+                    <li>
+                        <?  echo Phalcon\Tag::linkTo([
+                                "/specifications/index",
+                                '<i class="fab d-inline fa-xs fa-squarespace"></i><span class="nav-label"> Характеристики</span>',
+                                "class" => "px-3 btn btn-primary",
+                            ]);
+                        ?>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     <? $role=$this->session->auth['role'];
