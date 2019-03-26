@@ -18,12 +18,12 @@
         {% if page.items is defined %}
         {% for specification in page.items %}
             <tr>
-                <td class="hidden">{{ specification.getSpecificationsId() }}</td>
+                <td class="hidden">{{ specification.getSpecificationId() }}</td>
                 <td>{{ specification.getName() }}</td>
                 <td>{{ specification.getExpectedMaxValue() }}</td>
                 <td>
-                    {{ link_to("specifications/edit/" ~ specification.getSpecificationsId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' : 'btn btn-success w-100') }}
-                    {{ link_to("specifications/delete/" ~ specification.getSpecificationsId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' : 'btn btn-danger w-100') }}
+                    {{ link_to("specification/edit/" ~ specification.getSpecificationId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' : 'btn btn-success w-100') }}
+                    {{ link_to("specification/delete/" ~ specification.getSpecificationId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' : 'btn btn-danger w-100') }}
                 </td>
             </tr>
         {% endfor %}

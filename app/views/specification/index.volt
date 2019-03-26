@@ -7,10 +7,10 @@
 {{ content() }}
 
 <div class="d-flex justify-content-end py-3">
-    {{ link_to('specifications/new', '<i class="fas fa-plus"></i><span class="font-weight-bold"> Добавить</span>', 'class' : 'btn btn-sm btn-success') }}
+    {{ link_to('specification/new', '<i class="fas fa-plus"></i><span class="font-weight-bold"> Добавить</span>', 'class' : 'btn btn-sm btn-success') }}
 </div>
 
-{{ form("specifications/search", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
+{{ form("specification/search", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
 
 <div class="form-group pl-0 col-12">
     <div class="input-group col-12">
@@ -22,5 +22,5 @@
 {{ end_form() }}
 
 {% if page is defined %}
-    {{ partial('specifications/pagination', [ 'page': page ]) }}
+    {{ partial('specification/pagination', [ 'page': page ]) }}
 {% endif %}

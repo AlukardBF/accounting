@@ -22,10 +22,10 @@
                 <td class="hidden">{{ equipment.getEquipmentId() }}</td>
                 <td>{{ equipment.getType() }}</td>
                 <td>{{ equipment.getManufacturer() }}</td>
-                <td>{{ equipment.getSpecifications() }}</td>
+                <td>{{ equipment.getSpecification() }}</td>
                 <td>
                     {{ link_to("equipment/edit/" ~ equipment.getEquipmentId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' : 'btn btn-success w-100') }}
-                    {# link_to("specifications/delete/" ~ equipment.getEquipmentId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' : 'btn btn-danger w-100') #}
+                    {# link_to("specification/delete/" ~ equipment.getEquipmentId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' : 'btn btn-danger w-100') #}
                 </td>
             </tr>
         {% endfor %}

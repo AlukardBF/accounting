@@ -104,24 +104,24 @@ class SecurityPlugin extends Plugin
 		$allPrivateResources = [
 			'material_value'=> ['index','search','new','edit','create','delete','save','show','qr',
 								'licenses','search_licenses','add_license','rem_license',
-								'specifications','search_specifications','add_specification','rem_specification'],
+								'specification','search_specification','add_specification','rem_specification'],
 		    'furniture'		=> ['index','search','new','edit','create','delete','save'],
 		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
 		    'location'		=> ['index','search','new','edit','create','delete','save'],
 			'session'		=> ['logout','index'],
-			'specifications'=> ['index','search','new','edit','create','delete','save'],
+			'specification'=> ['index','search','new','edit','create','delete','save'],
 			'index'			=> ['index'],
 		];
 		$adminResources = [
 			'material_value'=> ['index','search','new','edit','create','delete','save','show','qr',
 								'licenses','search_licenses','add_license','rem_license',
-								'specifications','search_specifications','add_specification','rem_specification'],
+								'specification','search_specification','add_specification','rem_specification'],
 		    'furniture'		=> ['index','search','new','edit','create','delete','save'],
 		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
 			'location'		=> ['index','search','new','edit','create','delete','save'],
-			'specifications'=> ['index','search','new','edit','create','delete','save'],
+			'specification'=> ['index','search','new','edit','create','delete','save'],
 			'session'		=> ['logout'],
 			'index'			=> ['index'],
 		];

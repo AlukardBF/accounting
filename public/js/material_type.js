@@ -13,7 +13,7 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                $('#fieldEquipmentSpecificationsBlock').hide();
+                $('#fieldEquipmentSpecificationBlock').hide();
                 $('#btnLicenseSetup').hide();
             }break;
             case 'furniture':{
@@ -22,7 +22,7 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                $('#fieldEquipmentSpecificationsBlock').hide();
+                $('#fieldEquipmentSpecificationBlock').hide();
                 $('#btnLicenseSetup').hide();
             }break;
             case 'equipment':{
@@ -31,7 +31,7 @@ $(function() {
                 $('#equipmentLabel').show();
                 $('#fieldEquipmentTypeBlock').show();
                 $('#fieldEquipmentManufacturerBlock').show();
-                $('#fieldEquipmentSpecificationsBlock').show();
+                $('#fieldEquipmentSpecificationBlock').show();
                 $('#btnLicenseSetup').show();
             }break;
             default: {
@@ -40,7 +40,7 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                $('#fieldEquipmentSpecificationsBlock').hide();
+                $('#fieldEquipmentSpecificationBlock').hide();
                 $('#btnLicenseSetup').hide();
             }
         }

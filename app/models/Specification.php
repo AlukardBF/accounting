@@ -1,6 +1,6 @@
 <?php
 
-class Specifications extends \Phalcon\Mvc\Model
+class Specification extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -8,9 +8,9 @@ class Specifications extends \Phalcon\Mvc\Model
      * @var integer
      * @Primary
      * @Identity
-     * @Column(column="specifications_id", type="integer", length=11, nullable=false)
+     * @Column(column="specification_id", type="integer", length=11, nullable=false)
      */
-    protected $specifications_id;
+    protected $specification_id;
 
     /**
      *
@@ -27,14 +27,14 @@ class Specifications extends \Phalcon\Mvc\Model
     protected $expected_max_value;
 
     /**
-     * Method to set the value of field specifications_id
+     * Method to set the value of field specification_id
      *
-     * @param integer $specifications_id
+     * @param integer $specification_id
      * @return $this
      */
-    public function setSpecificationsId($specifications_id)
+    public function setSpecificationId($specification_id)
     {
-        $this->specifications_id = $specifications_id;
+        $this->specification_id = $specification_id;
 
         return $this;
     }
@@ -66,13 +66,13 @@ class Specifications extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field specifications_id
+     * Returns the value of field specification_id
      *
      * @return integer
      */
-    public function getSpecificationsId()
+    public function getSpecificationId()
     {
-        return $this->specifications_id;
+        return $this->specification_id;
     }
 
     /**
@@ -101,8 +101,8 @@ class Specifications extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("bachelor");
-        $this->setSource("specifications");
-        $this->hasMany('specifications_id', 'EquipmentHasSpecifications', 'specifications_specifications_id', ['alias' => 'EquipmentHasSpecifications']);
+        $this->setSource("specification");
+        $this->hasMany('specification_id', 'EquipmentHasSpecification', 'specification_specification_id', ['alias' => 'EquipmentHasSpecification']);
     }
 
     /**
@@ -112,14 +112,14 @@ class Specifications extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'specifications';
+        return 'specification';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Specifications[]|Specifications|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Specification[]|Specification|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -130,7 +130,7 @@ class Specifications extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Specifications|\Phalcon\Mvc\Model\ResultInterface
+     * @return Specification|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

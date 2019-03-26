@@ -93,7 +93,7 @@ class EquipmentController extends ControllerBase
             $this->tag->setDefault("equipment_id", $equipment->getEquipmentId());
             $this->tag->setDefault("type", $equipment->getType());
             $this->tag->setDefault("manufacturer", $equipment->getManufacturer());
-            $this->tag->setDefault("specifications", $equipment->getSpecifications());            
+            $this->tag->setDefault("specification", $equipment->getSpecification());            
         }
     }
 
@@ -114,7 +114,7 @@ class EquipmentController extends ControllerBase
         $equipment = new Equipment();
         $equipment->setType($this->request->getPost("type"));
         $equipment->setManufacturer($this->request->getPost("manufacturer"));
-        $equipment->setSpecifications($this->request->getPost("specifications"));        
+        $equipment->setSpecification($this->request->getPost("specification"));        
 
         if (!$equipment->save()) {
             foreach ($equipment->getMessages() as $message) {
@@ -169,7 +169,7 @@ class EquipmentController extends ControllerBase
 
         $equipment->setType($this->request->getPost("type"));
         $equipment->setManufacturer($this->request->getPost("manufacturer"));
-        $equipment->setSpecifications($this->request->getPost("specifications"));        
+        $equipment->setSpecification($this->request->getPost("specification"));        
 
         if (!$equipment->save()) {
 

@@ -4,7 +4,7 @@ use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
 
-class SpecificationsController extends ControllerBase
+class SpecificationController extends ControllerBase
 {
     /**
      * Index action
@@ -15,13 +15,13 @@ class SpecificationsController extends ControllerBase
     }
 
     /**
-     * Searches for specifications
+     * Searches for specification
      */
     public function searchAction()
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'Specifications', $_POST);
+            $query = Criteria::fromInput($this->di, 'Specification', $_POST);
             $this->persistent->parameters = $query->getParams();
         } else {
             $numberPage = $this->request->getQuery("page", "int");
@@ -31,14 +31,14 @@ class SpecificationsController extends ControllerBase
         if (!is_array($parameters)) {
             $parameters = [];
         }
-        $parameters["order"] = "specifications_id";
+        $parameters["order"] = "specification_id";
 
-        $specifications = Specifications::find($parameters);
-        if (count($specifications) == 0) {
+        $specification = Specification::find($parameters);
+        if (count($specification) == 0) {
             $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
-                "controller" => "specifications",
+                "controller" => "specification",
                 "action" => "index"
             ]);
 
@@ -46,13 +46,13 @@ class SpecificationsController extends ControllerBase
         }
 
         $paginator = new Paginator([
-            'data' => $specifications,
+            'data' => $specification,
             'limit'=> 10,
             'page' => $numberPage
         ]);
 
         $this->dispatcher->forward([
-            "controller" => "specifications",
+            "controller" => "specification",
             "action" => "index"
         ]);
 
@@ -70,27 +70,27 @@ class SpecificationsController extends ControllerBase
     /**
      * Edits a specification
      *
-     * @param string $specifications_id
+     * @param string $specification_id
      */
-    public function editAction($specifications_id)
+    public function editAction($specification_id)
     {
         if (!$this->request->isPost()) {
 
-            $specification = Specifications::findFirstByspecifications_id($specifications_id);
+            $specification = Specification::findFirstByspecification_id($specification_id);
             if (!$specification) {
                 $this->flash->error("specification was not found");
 
                 $this->dispatcher->forward([
-                    'controller' => "specifications",
+                    'controller' => "specification",
                     'action' => 'index'
                 ]);
 
                 return;
             }
 
-            $this->view->specifications_id = $specification->getSpecificationsId();
+            $this->view->specification_id = $specification->getSpecificationId();
 
-            $this->tag->setDefault("specifications_id", $specification->getSpecificationsId());
+            $this->tag->setDefault("specification_id", $specification->getSpecificationId());
             $this->tag->setDefault("name", $specification->getName());
             $this->tag->setDefault("expected_max_value", $specification->getExpectedMaxValue());
             
@@ -104,14 +104,14 @@ class SpecificationsController extends ControllerBase
     {
         if (!$this->request->isPost()) {
             $this->dispatcher->forward([
-                'controller' => "specifications",
+                'controller' => "specification",
                 'action' => 'index'
             ]);
 
             return;
         }
 
-        $specification = new Specifications();
+        $specification = new Specification();
         $specification->setName($this->request->getPost("name"));
         $specification->setExpectedMaxValue($this->request->getPost("expected_max_value"));
         
@@ -122,7 +122,7 @@ class SpecificationsController extends ControllerBase
             }
 
             $this->dispatcher->forward([
-                'controller' => "specifications",
+                'controller' => "specification",
                 'action' => 'new'
             ]);
 
@@ -132,7 +132,7 @@ class SpecificationsController extends ControllerBase
         $this->flash->success("specification was created successfully");
 
         $this->dispatcher->forward([
-            'controller' => "specifications",
+            'controller' => "specification",
             'action' => 'index'
         ]);
     }
@@ -146,21 +146,21 @@ class SpecificationsController extends ControllerBase
 
         if (!$this->request->isPost()) {
             $this->dispatcher->forward([
-                'controller' => "specifications",
+                'controller' => "specification",
                 'action' => 'index'
             ]);
 
             return;
         }
 
-        $specifications_id = $this->request->getPost("specifications_id");
-        $specification = Specifications::findFirstByspecifications_id($specifications_id);
+        $specification_id = $this->request->getPost("specification_id");
+        $specification = Specification::findFirstByspecification_id($specification_id);
 
         if (!$specification) {
-            $this->flash->error("specification does not exist " . $specifications_id);
+            $this->flash->error("specification does not exist " . $specification_id);
 
             $this->dispatcher->forward([
-                'controller' => "specifications",
+                'controller' => "specification",
                 'action' => 'index'
             ]);
 
@@ -178,9 +178,9 @@ class SpecificationsController extends ControllerBase
             }
 
             $this->dispatcher->forward([
-                'controller' => "specifications",
+                'controller' => "specification",
                 'action' => 'edit',
-                'params' => [$specification->getSpecificationsId()]
+                'params' => [$specification->getSpecificationId()]
             ]);
 
             return;
@@ -189,7 +189,7 @@ class SpecificationsController extends ControllerBase
         $this->flash->success("specification was updated successfully");
 
         $this->dispatcher->forward([
-            'controller' => "specifications",
+            'controller' => "specification",
             'action' => 'index'
         ]);
     }
@@ -197,16 +197,16 @@ class SpecificationsController extends ControllerBase
     /**
      * Deletes a specification
      *
-     * @param string $specifications_id
+     * @param string $specification_id
      */
-    public function deleteAction($specifications_id)
+    public function deleteAction($specification_id)
     {
-        $specification = Specifications::findFirstByspecifications_id($specifications_id);
+        $specification = Specification::findFirstByspecification_id($specification_id);
         if (!$specification) {
             $this->flash->error("specification was not found");
 
             $this->dispatcher->forward([
-                'controller' => "specifications",
+                'controller' => "specification",
                 'action' => 'index'
             ]);
 
@@ -220,7 +220,7 @@ class SpecificationsController extends ControllerBase
             }
 
             $this->dispatcher->forward([
-                'controller' => "specifications",
+                'controller' => "specification",
                 'action' => 'search'
             ]);
 
@@ -230,7 +230,7 @@ class SpecificationsController extends ControllerBase
         $this->flash->success("specification was deleted successfully");
 
         $this->dispatcher->forward([
-            'controller' => "specifications",
+            'controller' => "specification",
             'action' => "index"
         ]);
     }

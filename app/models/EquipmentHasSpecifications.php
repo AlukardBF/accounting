@@ -1,6 +1,6 @@
 <?php
 
-class EquipmentHasSpecifications extends \Phalcon\Mvc\Model
+class EquipmentHasSpecification extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -15,9 +15,9 @@ class EquipmentHasSpecifications extends \Phalcon\Mvc\Model
      *
      * @var integer
      * @Primary
-     * @Column(column="specifications_specifications_id", type="integer", length=11, nullable=false)
+     * @Column(column="specification_specification_id", type="integer", length=11, nullable=false)
      */
-    protected $specifications_specifications_id;
+    protected $specification_specification_id;
 
     /**
      *
@@ -40,14 +40,14 @@ class EquipmentHasSpecifications extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field specifications_specifications_id
+     * Method to set the value of field specification_specification_id
      *
-     * @param integer $specifications_specifications_id
+     * @param integer $specification_specification_id
      * @return $this
      */
-    public function setSpecificationsSpecificationsId($specifications_specifications_id)
+    public function setSpecificationSpecificationId($specification_specification_id)
     {
-        $this->specifications_specifications_id = $specifications_specifications_id;
+        $this->specification_specification_id = $specification_specification_id;
 
         return $this;
     }
@@ -76,13 +76,13 @@ class EquipmentHasSpecifications extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field specifications_specifications_id
+     * Returns the value of field specification_specification_id
      *
      * @return integer
      */
-    public function getSpecificationsSpecificationsId()
+    public function getSpecificationSpecificationId()
     {
-        return $this->specifications_specifications_id;
+        return $this->specification_specification_id;
     }
 
     /**
@@ -101,9 +101,9 @@ class EquipmentHasSpecifications extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("bachelor");
-        $this->setSource("equipment_has_specifications");
+        $this->setSource("equipment_has_specification");
         $this->belongsTo('equipment_equipment_id', '\Equipment', 'equipment_id', ['alias' => 'Equipment']);
-        $this->belongsTo('specifications_specifications_id', '\Specifications', 'specifications_id', ['alias' => 'Specifications']);
+        $this->belongsTo('specification_specification_id', '\Specification', 'specification_id', ['alias' => 'Specification']);
     }
 
     /**
@@ -113,14 +113,14 @@ class EquipmentHasSpecifications extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'equipment_has_specifications';
+        return 'equipment_has_specification';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return EquipmentHasSpecifications[]|EquipmentHasSpecifications|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return EquipmentHasSpecification[]|EquipmentHasSpecification|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -131,7 +131,7 @@ class EquipmentHasSpecifications extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return EquipmentHasSpecifications|\Phalcon\Mvc\Model\ResultInterface
+     * @return EquipmentHasSpecification|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

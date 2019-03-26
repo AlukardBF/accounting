@@ -111,14 +111,14 @@ class MaterialValueController extends ControllerBase
 
             $furniture = $material_value->Furniture;
             if ($furniture) {
-                $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
+                $this->tag->setDefault("furniture_specification", $furniture->getSpecification());
             }
             
             $equipment = $material_value->Equipment;
             if ($equipment) {
                 $this->tag->setDefault("equipment_type", $equipment->getType());
                 $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
-                $this->tag->setDefault("equipment_specifications", $equipment->getSpecifications());
+                $this->tag->setDefault("equipment_specification", $equipment->getSpecification());
             }
         }
     }
@@ -153,7 +153,7 @@ class MaterialValueController extends ControllerBase
         //Сохраняем мебель или оргтехнику
         if ($material_value->getType() == "furniture") {
             $furniture = new Furniture();
-            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
+            $furniture->setSpecification($this->request->getPost("furniture_specification"));
             if (!$furniture->save()) {
                 foreach ($furniture->getMessages() as $message) {
                     $this->flash->error($message);
@@ -169,7 +169,7 @@ class MaterialValueController extends ControllerBase
             $equipment = new Equipment();
             $equipment->setType($this->request->getPost("equipment_type"));
             $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
-            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
+            $equipment->setSpecification($this->request->getPost("equipment_specification"));
             if (!$equipment->save()) {
                 foreach ($equipment->getMessages() as $message) {
                     $this->flash->error($message);
@@ -258,7 +258,7 @@ class MaterialValueController extends ControllerBase
         //Сохраняем мебель или оргтехнику
         if ($material_value->getType() == "furniture") {
             $furniture = $material_value->Furniture;
-            $furniture->setSpecifications($this->request->getPost("furniture_specifications"));
+            $furniture->setSpecification($this->request->getPost("furniture_specification"));
             if (!$furniture->save()) {
                 foreach ($furniture->getMessages() as $message) {
                     $this->flash->error($message);
@@ -273,7 +273,7 @@ class MaterialValueController extends ControllerBase
             $equipment = $material_value->Equipment;
             $equipment->setType($this->request->getPost("equipment_type"));
             $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
-            $equipment->setSpecifications($this->request->getPost("equipment_specifications"));
+            $equipment->setSpecification($this->request->getPost("equipment_specification"));
             if (!$equipment->save()) {
                 foreach ($equipment->getMessages() as $message) {
                     $this->flash->error($message);
@@ -518,24 +518,24 @@ class MaterialValueController extends ControllerBase
     }
 
     /**
-     * Specifications setup
+     * Specification setup
      * 
      * @param string $material_value_id
      */
-    public function specificationsAction($material_value_id)
+    public function specificationAction($material_value_id)
     {
         $this->view->material_value_id = $material_value_id;
     }
     /**
-     * Search specifications
+     * Search specification
      */
-    public function search_specificationsAction()
+    public function search_specificationAction()
     {
         $id = $this->request->getPost("material_value_id");
 
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'Specifications', $_POST);
+            $query = Criteria::fromInput($this->di, 'Specification', $_POST);
             $this->persistent->parameters = $query->getParams();
         } else {
             $numberPage = $this->request->getQuery("page", "int");
@@ -545,14 +545,14 @@ class MaterialValueController extends ControllerBase
         if (!is_array($parameters)) {
             $parameters = [];
         }
-        $parameters["order"] = "specifications_id";
+        $parameters["order"] = "specification_id";
 
-        $specifications = Specifications::find($parameters);
-        if (count($specifications) == 0) {
+        $specification = Specification::find($parameters);
+        if (count($specification) == 0) {
             $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
-                "controller" => "specifications",
+                "controller" => "specification",
                 "action" => "index",
                 "params" => [ $id ],
             ]);
@@ -561,13 +561,13 @@ class MaterialValueController extends ControllerBase
         }
 
         $paginator = new Paginator([
-            'data' => $specifications,
+            'data' => $specification,
             'limit'=> 10,
             'page' => $numberPage
         ]);
 
         $this->dispatcher->forward([
-            "controller" => "specifications",
+            "controller" => "specification",
             "action" => "index",
             "params" => [ $id ],
         ]);
@@ -575,7 +575,7 @@ class MaterialValueController extends ControllerBase
         $this->view->page = $paginator->getPaginate();
     }
     /**
-     * Add EquipmentHasSpecifications from ajax
+     * Add EquipmentHasSpecification from ajax
      */
     public function add_specificationAction($material_value_id, $license_id, $spec_value)
     {
@@ -599,7 +599,7 @@ class MaterialValueController extends ControllerBase
         }        
     }
     /**
-     * Remove EquipmentHasSpecifications from ajax
+     * Remove EquipmentHasSpecification from ajax
      */
     public function rem_specificationAction($material_value_id, $license_id, $spec_value)
     {

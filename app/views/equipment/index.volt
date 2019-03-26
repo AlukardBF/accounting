@@ -29,9 +29,9 @@
 </div>
 
 <div class="form-group">
-    <label for="fieldSpecifications" class="col-sm-2 control-label">Характеристики</label>
+    <label for="fieldSpecification" class="col-sm-2 control-label">Характеристики</label>
     <div class="col-12">
-        {{ text_area("specifications", "cols" : 30, "rows" : 4, "class" : "form-control", "id" : "fieldSpecifications") }}
+        {{ text_area("specification", "cols" : 30, "rows" : 4, "class" : "form-control", "id" : "fieldSpecification") }}
     </div>
 </div>
 

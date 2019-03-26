@@ -3,18 +3,18 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            {{ link_to('specifications', '<i class="fas fa-arrow-left"></i><span class="font-weight-bold"> Вернуться</span>', 'class' : 'btn btn-success') }}</li>
+            {{ link_to('specification', '<i class="fas fa-arrow-left"></i><span class="font-weight-bold"> Вернуться</span>', 'class' : 'btn btn-success') }}
         </ul>
     </nav>
 </div>
 
 <div class="page-header">
-    <h1>Изменить</h1>
+    <h1>Добавить характеристику</h1>
 </div>
 
 {{ content() }}
 
-{{ form("specifications/save", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
+{{ form("specification/create", "method":"post", "autocomplete" : "off", "class" : "form-horizontal") }}
 
 <div class="form-group required">
     <label for="fieldName" class="control-label">Название</label>
@@ -23,7 +23,6 @@
     </div>
 </div>
 
-
 <div class="form-group required">
     <label for="fieldExpectedMaxValue" class="control-label">Ожидаемое максимальное значение характеристики</label>
     <div class="col-12">
@@ -31,13 +30,11 @@
     </div>
 </div>
 
-
-{{ hidden_field("specifications_id") }}
+{{ hidden_field("specification_id") }}
 
 <div class="form-group">
     <div class="col-12">
-        {{ submit_button('Обновить', 'class': 'btn btn-success') }}
-        {{ link_to('specifications/delete' ~ specifications_id, '<i class="fas fa-trash d-inline"></i> Удалить', 'class': 'btn btn-danger') }}
+        {{ submit_button('Добавить', 'class': 'btn btn-success') }}
     </div>
 </div>
 

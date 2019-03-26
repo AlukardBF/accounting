@@ -29,9 +29,9 @@ class Equipment extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(column="specifications", type="string", nullable=false)
+     * @Column(column="specification", type="string", nullable=false)
      */
-    protected $specifications;
+    protected $specification;
 
     /**
      * Method to set the value of field equipment_id
@@ -73,14 +73,14 @@ class Equipment extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field specifications
+     * Method to set the value of field specification
      *
-     * @param string $specifications
+     * @param string $specification
      * @return $this
      */
-    public function setSpecifications($specifications)
+    public function setSpecification($specification)
     {
-        $this->specifications = $specifications;
+        $this->specification = $specification;
 
         return $this;
     }
@@ -116,13 +116,13 @@ class Equipment extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field specifications
+     * Returns the value of field specification
      *
      * @return string
      */
-    public function getSpecifications()
+    public function getSpecification()
     {
-        return $this->specifications;
+        return $this->specification;
     }
 
     /**
