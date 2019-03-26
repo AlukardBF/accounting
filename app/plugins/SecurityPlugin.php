@@ -102,7 +102,7 @@ class SecurityPlugin extends Plugin
 		}
 		// Private area resources (backend)
 		$allPrivateResources = [
-		    'material_value'	=> ['index','search','new','edit','create','delete','save','show','qr'],
+		    'material_value'=> ['index','search','new','edit','create','delete','save','show','qr','licenses','search_licenses','add_license','rem_license'],
 		    'furniture'		=> ['index','search','new','edit','create','delete','save'],
 		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
@@ -112,7 +112,7 @@ class SecurityPlugin extends Plugin
 			'index'			=> ['index'],
 		];
 		$adminResources = [
-		    'material_value'	=> ['index','search','new','edit','create','delete','save','show','qr'],
+		    'material_value'=> ['index','search','new','edit','create','delete','save','show','qr','licenses','search_licenses','add_license','rem_license'],
 		    'furniture'		=> ['index','search','new','edit','create','delete','save'],
 		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
@@ -122,13 +122,13 @@ class SecurityPlugin extends Plugin
 			'index'			=> ['index'],
 		];
 		$readonlyResources = [
-			'session'	=> ['logout'],
-		    'index'		=> ['index'],
-			'material_value'	=> ['show','qr'],
+			'session'		=> ['logout'],
+		    'index'			=> ['index'],
+			'material_value'=> ['show','qr'],
 		];
 		$guestResources = [
-		    'index'		=> ['index'],
-		    'session'	=> ['index'],
+		    'index'			=> ['index'],
+		    'session'		=> ['index'],
 		];
 
 		foreach ($allPrivateResources as $resourceName => $actions) {

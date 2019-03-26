@@ -14,6 +14,7 @@ $(function() {
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
                 $('#fieldEquipmentSpecificationsBlock').hide();
+                $('#btnLicenseSetup').hide();
             }break;
             case 'furniture':{
                 $('#furnitureLabel').show();
@@ -22,6 +23,7 @@ $(function() {
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
                 $('#fieldEquipmentSpecificationsBlock').hide();
+                $('#btnLicenseSetup').hide();
             }break;
             case 'equipment':{
                 $('#furnitureLabel').hide();
@@ -30,6 +32,7 @@ $(function() {
                 $('#fieldEquipmentTypeBlock').show();
                 $('#fieldEquipmentManufacturerBlock').show();
                 $('#fieldEquipmentSpecificationsBlock').show();
+                $('#btnLicenseSetup').show();
             }break;
             default: {
                 $('#furnitureLabel').hide();
@@ -38,6 +41,7 @@ $(function() {
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
                 $('#fieldEquipmentSpecificationsBlock').hide();
+                $('#btnLicenseSetup').hide();
             }
         }
     }

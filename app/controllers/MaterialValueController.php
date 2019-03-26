@@ -380,48 +380,6 @@ class MaterialValueController extends ControllerBase
     {
         $this->editAction($material_value_id);
     }
-        /*$material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
-        if (!$material_value) {
-            $this->flash->error("material_value was not found");
-
-            $this->dispatcher->forward([
-                'controller' => "material_value",
-                'action' => 'index'
-            ]);
-
-            return;
-        }
-
-        $this->view->material_value_id = $material_value->getMaterialValueId();
-        $photo = $material_value->getPhoto();
-        if ($photo != null)
-            $this->view->photo = $photo;
-
-        $this->tag->setDefault("material_value_id", $material_value->getMaterialValueId());
-        $this->tag->setDefault("type", $material_value->getType());
-        $this->tag->setDefault("inventory_num", $material_value->getInventoryNum());
-        $this->tag->setDefault("serial_num", $material_value->getSerialNum());
-        $this->tag->setDefault("name", $material_value->getName());
-        $this->tag->setDefault("description", $material_value->getDescription());
-        $this->tag->setDefault("price", $material_value->getPrice());
-        $this->tag->setDefault("count", $material_value->getCount());
-        $this->tag->setDefault("enter_date", $material_value->getEnterDate());
-        $this->tag->setDefault("exit_date", $material_value->getExitDate());
-        $this->tag->setDefault("photo", $material_value->getPhoto());
-        $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
-
-        $furniture = $material_value->Furniture;
-        if (isset($furniture[0])) {
-            $this->tag->setDefault("furniture_specification", $furniture->getSpecifications());
-        }
-        
-        $equipment = $material_value->Equipment;
-        if (isset($equipment[0])) {
-            $this->tag->setDefault("equipment_type", $equipment[0]->getType());
-            $this->tag->setDefault("equipment_manufacturer", $equipment[0]->getManufacturer());
-            $this->tag->setDefault("equipment_specifications", $equipment[0]->getSpecifications());
-        }
-    }*/
 
     /**
      * Generate and return QR code by requested uri
@@ -439,6 +397,126 @@ class MaterialValueController extends ControllerBase
             $this->view->disable();
             $this->response->setFileToSend($qrCode->writeDataUri(), 'qr-'.$material_value_id.'.png')->send();
         }
+    }
+    /**
+     * Licenses setup
+     * 
+     * @param string $material_value_id
+     */
+    public function licensesAction($material_value_id)
+    {
+        $this->view->material_value_id = $material_value_id;
+    }
+
+    /**
+     * Search licenses
+     */
+    public function search_licensesAction()
+    {
+        $numberPage = 1;
+        if ($this->request->isPost()) {
+            $query = Criteria::fromInput($this->di, 'License', $_POST);
+            $this->persistent->parameters = $query->getParams();
+        } else {
+            $numberPage = $this->request->getQuery("page", "int");
+        }
+
+        $parameters = $this->persistent->parameters;
+        if (!is_array($parameters)) {
+            $parameters = [];
+        }
+        $parameters["order"] = "license_id";
+
+        $license = License::find($parameters);
+
+        $id = $this->request->getPost("material_value_id");
+        
+        if (count($license) == 0) {
+            $this->flash->notice("The search did not find any license");
+
+            $this->dispatcher->forward([
+                "controller" => "material_value",
+                "action" => "licenses",
+                "params" => [ $id ],
+            ]);
+
+            return;
+        }
+
+        $paginator = new Paginator([
+            'data' => $license,
+            'limit'=> 10,
+            'page' => $numberPage
+        ]);
+
+        
+        $this->dispatcher->forward([
+            "controller" => "material_value",
+            "action" => "licenses",
+            "params" => [ $id ],
+        ]);
+
+        $this->view->page = $paginator->getPaginate();
+    }
+
+    /**
+     * Add EquipmentHasLicense from ajax
+     */
+    public function add_licenseAction($material_value_id, $license_id)
+    {
+        if ($this->request->isAjax()) {
+            $equipment = MaterialValue::findFirstBymaterial_value_id($material_value_id)->Equipment;
+            if (isset($equipment)) {
+                $equipmentHasLicense = new EquipmentHasLicense();
+                $equipmentHasLicense->Equipment = $equipment;
+                $equipmentHasLicense->License = License::findFirstBylicense_id($license_id);
+                if ($equipmentHasLicense->save()) {
+                    $message = "Связь добавлена успешно";
+                } else {
+                    $message = "Ошибка при сохранении связи лицензии и оргтехники";
+                }
+            } else {
+                $message = "Не найдена оргтехника";
+            }
+            $this->view->disable();
+            echo $message;
+            return false;
+        }        
+    }
+
+    /**
+     * Remove EquipmentHasLicense from ajax
+     */
+    public function rem_licenseAction($material_value_id, $license_id)
+    {
+        if ($this->request->isAjax()) {
+            $equipment_id = MaterialValue::findFirstBymaterial_value_id($material_value_id)->getEquipmentEquipmentId();
+            if (isset($equipment_id)) {
+                $equipmentHasLicense = EquipmentHasLicense::findFirst(
+                    [
+                        'equipment_equipment_id = ?1 AND license_license_id = ?2',
+                        'bind' => [
+                            1 => $equipment_id,
+                            2 => $license_id,
+                        ],
+                    ]
+                );
+                if (isset($equipmentHasLicense)) {
+                    if ($equipmentHasLicense->delete()) {
+                        $message = "Связь успешно удалена";
+                    } else {
+                        $message = "Ошибка при удалении связи лицензии и оргтехники";
+                    }
+                } else {
+                    $message = "Не найдена связь лицензии и оргтехники";
+                }
+            } else {
+                $message = "Не найдена оргтехника";
+            }
+            $this->view->disable();
+            echo $message;
+            return false;
+        }        
     }
 
     private function photoValidate($picture)
@@ -459,10 +537,11 @@ class MaterialValueController extends ControllerBase
             foreach ($messages as $message) {
                 $this->flash->error($message);
             }
-            $this->dispatcher->forward([
-                'controller' => "material_value",
-                'action' => 'index'
-            ]);
+            // $this->dispatcher->forward([
+            //     'controller' => "material_value",
+            //     'action' => 'index'
+            // ]);
+            $this->_forwardBack();
             return;
         }
         /* Если нет ошибки в загруженном файле - продолжаем выполнение */
