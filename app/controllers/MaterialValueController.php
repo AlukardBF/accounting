@@ -522,14 +522,14 @@ class MaterialValueController extends ControllerBase
      * 
      * @param string $material_value_id
      */
-    public function specificationAction($material_value_id)
+    public function specificationsAction($material_value_id)
     {
         $this->view->material_value_id = $material_value_id;
     }
     /**
      * Search specification
      */
-    public function search_specificationAction()
+    public function search_specificationsAction()
     {
         $id = $this->request->getPost("material_value_id");
 
@@ -552,8 +552,8 @@ class MaterialValueController extends ControllerBase
             $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
-                "controller" => "specification",
-                "action" => "index",
+                "controller" => "material_value",
+                "action" => "specifications",
                 "params" => [ $id ],
             ]);
 
@@ -567,8 +567,8 @@ class MaterialValueController extends ControllerBase
         ]);
 
         $this->dispatcher->forward([
-            "controller" => "specification",
-            "action" => "index",
+            "controller" => "material_value",
+            "action" => "specifications",
             "params" => [ $id ],
         ]);
 
@@ -577,18 +577,21 @@ class MaterialValueController extends ControllerBase
     /**
      * Add EquipmentHasSpecification from ajax
      */
-    public function add_specificationAction($material_value_id, $license_id, $spec_value)
+    public function add_specificationAction($material_value_id, $specification_id, $spec_value)
     {
         if ($this->request->isAjax()) {
+            if (empty($spec_value))
+                return false;
             $equipment = MaterialValue::findFirstBymaterial_value_id($material_value_id)->Equipment;
             if (isset($equipment)) {
-                $equipmentHasSpecification = new EquipmentHasLicense();
-                $equipmentHasLicense->Equipment = $equipment;
-                $equipmentHasLicense->License = License::findFirstBylicense_id($license_id);
-                if ($equipmentHasLicense->save()) {
+                $equipmentHasSpecification = new EquipmentHasSpecification();
+                $equipmentHasSpecification->Equipment = $equipment;
+                $equipmentHasSpecification->Specification = Specification::findFirstByspecification_id($specification_id);
+                $equipmentHasSpecification->setCurrentValue($spec_value);
+                if ($equipmentHasSpecification->save()) {
                     $message = "Связь добавлена успешно";
                 } else {
-                    $message = "Ошибка при сохранении связи лицензии и оргтехники";
+                    $message = "Ошибка при сохранении связи характеристики и оргтехники";
                 }
             } else {
                 $message = "Не найдена оргтехника";
@@ -601,25 +604,25 @@ class MaterialValueController extends ControllerBase
     /**
      * Remove EquipmentHasSpecification from ajax
      */
-    public function rem_specificationAction($material_value_id, $license_id, $spec_value)
+    public function rem_specificationAction($material_value_id, $specification_id)
     {
         if ($this->request->isAjax()) {
             $equipment_id = MaterialValue::findFirstBymaterial_value_id($material_value_id)->getEquipmentEquipmentId();
             if (isset($equipment_id)) {
-                $equipmentHasLicense = EquipmentHasLicense::findFirst(
+                $equipmentHasSpecification = EquipmentHasSpecification::findFirst(
                     [
-                        'equipment_equipment_id = ?1 AND license_license_id = ?2',
+                        'equipment_equipment_id = ?1 AND specification_specification_id = ?2',
                         'bind' => [
                             1 => $equipment_id,
-                            2 => $license_id,
+                            2 => $specification_id,
                         ],
                     ]
                 );
-                if (isset($equipmentHasLicense)) {
-                    if ($equipmentHasLicense->delete()) {
+                if (isset($equipmentHasSpecification)) {
+                    if ($equipmentHasSpecification->delete()) {
                         $message = "Связь успешно удалена";
                     } else {
-                        $message = "Ошибка при удалении связи лицензии и оргтехники";
+                        $message = "Ошибка при удалении связи характеристики и оргтехники";
                     }
                 } else {
                     $message = "Не найдена связь лицензии и оргтехники";

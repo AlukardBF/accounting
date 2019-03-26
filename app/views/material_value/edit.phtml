@@ -183,8 +183,12 @@
                 <?php echo $this->tag->textArea(["equipment_specification", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldEquipmentSpecification"]) ?>
             </div>
         </div>
-
-        <?php echo $this->tag->linkTo(["material_value/licenses/" . $material_value_id, '<span class="font-weight-bold">Управление лицензиями</span>', 'class' => 'btn btn-success', 'id' => 'btnLicenseSetup']) ?>
+        <div class="col-12 my-3">
+            <?php echo $this->tag->linkTo(["material_value/licenses/" . $material_value_id, '<span class="font-weight-bold">Управление лицензиями</span>', 'class' => 'btn btn-success', 'id' => 'btnLicenseSetup']) ?>
+        </div>
+        <div class="col-12 my-3">
+            <?php echo $this->tag->linkTo(["material_value/specifications/" . $material_value_id, '<span class="font-weight-bold">Управление характеристиками</span>', 'class' => 'btn btn-success', 'id' => 'btnSpecificationSetup']) ?>
+        </div>
     </div>
 </div>
 
