@@ -103,6 +103,14 @@ class Specification extends \Phalcon\Mvc\Model
         $this->setSchema("bachelor");
         $this->setSource("specification");
         $this->hasMany('specification_id', 'EquipmentHasSpecification', 'specification_specification_id', ['alias' => 'EquipmentHasSpecification']);
+        $this->hasManyToMany(
+            'specification_id',
+            'EquipmentHasSpecification',
+            'specification_specification_id', 'equipment_equipment_id',
+            'Equipment',
+            'equipment_id',
+            ['alias' => 'Equipment']
+        );
     }
 
     /**

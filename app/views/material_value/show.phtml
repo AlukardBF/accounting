@@ -141,12 +141,65 @@
             </div>
         </div>
 
-        <div class="form-group required" id="fieldEquipmentSpecificationBlock">
+        <!-- <div class="form-group required" id="fieldEquipmentSpecificationBlock">
             <label for="fieldEquipmentSpecification" class="col-12 control-label">Характеристики</label>
             <div class="col-12">
                 <?php echo $this->tag->textArea(["equipment_specification", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldEquipmentSpecification"]) ?>
             </div>
+        </div> -->
+    </div>
+
+    <div class="col-12" id="tables">
+        <?php if (isset($licenses)): ?>
+        <h4 class="col-12">Лицензии на ПО</h4>
+        <div class="row px-3 col-12" id="licensesTable">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"><p class="text-center m-0">Название ПО</p></th>
+                        <th scope="col"><p class="text-center m-0">Версия ПО</p></th>
+                        <th scope="col"><p class="text-center m-0">Номер лицензии</p></th>
+                        <th scope="col"><p class="text-center m-0">Дата окончания</p></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($licenses as $license): ?>
+                    <tr>
+                        <td><? echo nl2br($license->getPoName()) ?></td>
+                        <td><? echo nl2br($license->getPoVersion()) ?></td>
+                        <td><? echo nl2br($license->getLicenseNumber()) ?></td>
+                        <td><? echo nl2br($license->getEndDate()) ?></td>
+                    </tr>
+                <? endforeach; ?>
+                </tbody>
+            </table>
         </div>
+        <?php endif; ?>
+        <?php if (isset($specifications)): ?>
+        <h4 class="col-12">Характеристики</h4>
+        <div class="row px-3 col-12" id="specificationsTable">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"><p class="text-center m-0">Название характеристики</p></th>
+                        <th scope="col"><p class="text-center m-0">Ожидаемое максимальное значение характеристики</p></th>
+                        <th scope="col"><p class="text-center m-0">Текущее значение</p></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($specifications as $equip_has_spec): 
+                        $specification = $equip_has_spec->Specification;
+                    ?>
+                    <tr>
+                        <td><? echo nl2br($specification->getName()) ?></td>
+                        <td><? echo nl2br($specification->getExpectedMaxValue()) ?></td>
+                        <td><? echo nl2br($equip_has_spec->getCurrentValue()) ?></td>
+                    </tr>
+                <? endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 

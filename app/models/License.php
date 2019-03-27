@@ -163,6 +163,14 @@ class License extends \Phalcon\Mvc\Model
         $this->setSchema("bachelor");
         $this->setSource("license");
         $this->hasMany('license_id', 'EquipmentHasLicense', 'license_license_id', ['alias' => 'EquipmentHasLicense']);
+        $this->hasManyToMany(
+            'license_id',
+            'EquipmentHasLicense',
+            'license_license_id', 'equipment_equipment_id',
+            'Equipment',
+            'equipment_id',
+            ['alias' => 'Equipment']
+        );
     }
 
     /**

@@ -430,32 +430,6 @@ class MaterialValue extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Validations and business logic
-     *
-     * @return boolean
-     */
-    // public function validation()
-    // {
-    //     $validator = new Validation();
-    //     $validator->add(
-    //         "photo",
-    //         new FileValidator(
-    //             [
-    //                 "maxSize"              => "2M",
-    //                 "messageSize"          => ":Загруженная картинка превышает максимально допустимый размер файла (:max)",
-    //                 "allowedTypes"         => [
-    //                     "image/jpeg",
-    //                     "image/png",
-    //                 ],
-    //                 "messageType"          => "Разрешены следующие форматы изображения :types",
-    //             ]
-    //         )
-    //     );
-
-    //     return $this->validate($validator);
-    // }
-
-    /**
      * Initialize method for model.
      */
     public function initialize()

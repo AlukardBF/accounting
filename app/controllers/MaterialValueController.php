@@ -63,10 +63,7 @@ class MaterialValueController extends ControllerBase
     /**
      * Displays the creation form
      */
-    public function newAction()
-    {
-
-    }
+    public function newAction() { }
 
     /**
      * Edits a material_value
@@ -89,7 +86,6 @@ class MaterialValueController extends ControllerBase
                 return;
             }
 
-            $this->view->material_value_id = $material_value->getMaterialValueId();
             $photo = $material_value->getPhoto();
             if ($photo != null)
                 $this->view->photo = $photo;
@@ -120,6 +116,8 @@ class MaterialValueController extends ControllerBase
                 $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
                 $this->tag->setDefault("equipment_specification", $equipment->getSpecification());
             }
+
+            $this->view->material_value_id = $material_value->getMaterialValueId();
         }
     }
 
@@ -379,6 +377,15 @@ class MaterialValueController extends ControllerBase
     public function showAction($material_value_id)
     {
         $this->editAction($material_value_id);
+        $equipment = MaterialValue::findFirstBymaterial_value_id($material_value_id)->Equipment;
+        if (isset($equipment)) {
+            $licenses = $equipment->License;
+            if (isset($licenses))
+                $this->view->licenses = $licenses;
+            $specifications = $equipment->EquipmentHasSpecification;
+            if (isset($specifications))
+                $this->view->specifications = $specifications;
+        }
     }
 
     /**

@@ -13,9 +13,10 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                $('#fieldEquipmentSpecificationsBlock').hide();
+                // $('#fieldEquipmentSpecificationsBlock').hide();
                 $('#btnLicenseSetup').hide();
                 $('#btnSpecificationSetup').hide();
+                $('#tables').hide();
             }break;
             case 'furniture':{
                 $('#furnitureLabel').show();
@@ -23,9 +24,10 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                $('#fieldEquipmentSpecificationsBlock').hide();
+                // $('#fieldEquipmentSpecificationsBlock').hide();
                 $('#btnLicenseSetup').hide();
                 $('#btnSpecificationSetup').hide();
+                $('#tables').hide();
             }break;
             case 'equipment':{
                 $('#furnitureLabel').hide();
@@ -33,9 +35,10 @@ $(function() {
                 $('#equipmentLabel').show();
                 $('#fieldEquipmentTypeBlock').show();
                 $('#fieldEquipmentManufacturerBlock').show();
-                $('#fieldEquipmentSpecificationsBlock').show();
+                // $('#fieldEquipmentSpecificationsBlock').show();
                 $('#btnLicenseSetup').show();
                 $('#btnSpecificationSetup').show();
+                $('#tables').show();
             }break;
             default: {
                 $('#furnitureLabel').hide();
@@ -43,9 +46,10 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                $('#fieldEquipmentSpecificationsBlock').hide();
+                // $('#fieldEquipmentSpecificationsBlock').hide();
                 $('#btnLicenseSetup').hide();
                 $('#btnSpecificationSetup').hide();
+                $('#tables').hide();
             }
         }
     }
