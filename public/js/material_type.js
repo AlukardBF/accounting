@@ -13,7 +13,6 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                // $('#fieldEquipmentSpecificationsBlock').hide();
                 $('#btnLicenseSetup').hide();
                 $('#btnSpecificationSetup').hide();
                 $('#tables').hide();
@@ -24,7 +23,6 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                // $('#fieldEquipmentSpecificationsBlock').hide();
                 $('#btnLicenseSetup').hide();
                 $('#btnSpecificationSetup').hide();
                 $('#tables').hide();
@@ -35,7 +33,6 @@ $(function() {
                 $('#equipmentLabel').show();
                 $('#fieldEquipmentTypeBlock').show();
                 $('#fieldEquipmentManufacturerBlock').show();
-                // $('#fieldEquipmentSpecificationsBlock').show();
                 $('#btnLicenseSetup').show();
                 $('#btnSpecificationSetup').show();
                 $('#tables').show();
@@ -46,7 +43,6 @@ $(function() {
                 $('#equipmentLabel').hide();
                 $('#fieldEquipmentTypeBlock').hide();
                 $('#fieldEquipmentManufacturerBlock').hide();
-                // $('#fieldEquipmentSpecificationsBlock').hide();
                 $('#btnLicenseSetup').hide();
                 $('#btnSpecificationSetup').hide();
                 $('#tables').hide();

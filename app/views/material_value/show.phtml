@@ -2,8 +2,12 @@
 <div class="row">
     <nav>
         <ul class="pager">
-            <?php echo $this->tag->linkTo(["material_value", '<i class="fas fa-arrow-left"></i><span class="font-weight-bold"> Вернуться</span>', 'class' => 'btn btn-success']) ?>
-            <?php echo $this->tag->linkTo(["material_value/qr/" . $material_value_id, 'Сгенерировать QR-код', 'class' => 'btn btn-info']) ?>
+            <?php   echo $this->tag->linkTo(["material_value", '<i class="fas fa-arrow-left"></i><span class="font-weight-bold"> Вернуться</span>', 'class' => 'btn btn-success']);
+                    $role=$this->session->auth['role'];
+                    if($role == 'admin') {
+                        echo $this->tag->linkTo(["material_value/qr/" . $material_value_id, 'Сгенерировать QR-код', 'class' => 'btn btn-info']);
+                    }
+            ?>
         </ul>
     </nav>
 </div>
@@ -140,13 +144,6 @@
                 <?php echo $this->tag->textField(["equipment_manufacturer", "size" => 30, "class" => "form-control", "id" => "fieldEquipmentManufacturer"]) ?>
             </div>
         </div>
-
-        <!-- <div class="form-group required" id="fieldEquipmentSpecificationBlock">
-            <label for="fieldEquipmentSpecification" class="col-12 control-label">Характеристики</label>
-            <div class="col-12">
-                <?php echo $this->tag->textArea(["equipment_specification", "cols" => 30, "rows" => 4, "class" => "form-control", "id" => "fieldEquipmentSpecification"]) ?>
-            </div>
-        </div> -->
     </div>
 
     <div class="col-12" id="tables">

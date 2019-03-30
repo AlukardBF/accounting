@@ -102,8 +102,6 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("exit_date", $material_value->getExitDate());
             $this->tag->setDefault("photo", $material_value->getPhoto());
             $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
-            // $this->tag->setDefault("furniture_furniture_id", $material_value->getFurnitureFurnitureId());
-            // $this->tag->setDefault("equipment_equipment_id", $material_value->getEquipmentEquipmentId());
 
             $furniture = $material_value->Furniture;
             if ($furniture) {
@@ -114,7 +112,6 @@ class MaterialValueController extends ControllerBase
             if ($equipment) {
                 $this->tag->setDefault("equipment_type", $equipment->getType());
                 $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
-                $this->tag->setDefault("equipment_specification", $equipment->getSpecification());
             }
 
             $this->view->material_value_id = $material_value->getMaterialValueId();
