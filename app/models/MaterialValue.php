@@ -1,6 +1,4 @@
 <?php
-use Phalcon\Validation;
-use Phalcon\Validation\Validator\File as FileValidator;
 
 class MaterialValue extends \Phalcon\Mvc\Model
 {

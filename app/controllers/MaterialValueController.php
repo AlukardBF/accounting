@@ -164,7 +164,6 @@ class MaterialValueController extends ControllerBase
             $equipment = new Equipment();
             $equipment->setType($this->request->getPost("equipment_type"));
             $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
-            $equipment->setSpecification($this->request->getPost("equipment_specification"));
             if (!$equipment->save()) {
                 foreach ($equipment->getMessages() as $message) {
                     $this->flash->error($message);
@@ -180,7 +179,7 @@ class MaterialValueController extends ControllerBase
 
         //Проверяем картинку
         $picture = $this->request->getUploadedFiles()[0];
-        $picname = photoValidate($picture);
+        $picname = $this->photoValidate($picture);
         if (!empty($picture->getName()))
             $material_value->setPhoto($picname);
 
