@@ -2,6 +2,7 @@
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+use Phalcon\Validation\Validator\PresenceOf;
 
 class MaterialValue extends \Phalcon\Mvc\Model
 {
@@ -439,6 +440,28 @@ class MaterialValue extends \Phalcon\Mvc\Model
     {
         $validator = new Validation();
 
+        // Русифицирование сообщений обязательных полей
+        $validator->add(
+            'inventory_num',
+            new PresenceOf(['message' => 'Инвентарный номер обязателен к заполнению'])
+        );
+        $validator->add(
+            'name',
+            new PresenceOf(['message' => 'Имя обязательно к заполнению'])
+        );
+        $validator->add(
+            'count',
+            new PresenceOf(['message' => 'Количество обязательно к заполнению'])
+        );
+        $validator->add(
+            'enter_date',
+            new PresenceOf(['message' => 'Дата ввода в эксплуатацию обязательна к заполнению'])
+        );
+        $validator->add(
+            'location_location_id',
+            new PresenceOf(['message' => 'Местоположение обязательно к заполнению'])
+        );
+
         $validator->add(
             'inventory_num',
             new UniquenessValidator(
@@ -457,6 +480,11 @@ class MaterialValue extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
+        // Для поддержки PresenceOf валидации
+        $this->setup(
+            [ 'notNullValidations' => false ]
+        );
+
         $this->setSchema("bachelor");
         $this->setSource("material_value");
         $this->belongsTo('equipment_equipment_id', '\Equipment', 'equipment_id', ['alias' => 'Equipment']);

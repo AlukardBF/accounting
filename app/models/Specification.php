@@ -1,5 +1,8 @@
 <?php
 
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
+
 class Specification extends \Phalcon\Mvc\Model
 {
 
@@ -96,10 +99,37 @@ class Specification extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Validations and business logic
+     *
+     * @return boolean
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+
+        $validator->add(
+            'name',
+            new PresenceOf(['message' => 'Имя обязательно к заполнению'])
+        );
+        $validator->add(
+            'expected_max_value',
+            new PresenceOf(['message' => 'Ожидаемое значение обязательно к заполнению'])
+        );
+
+        return $this->validate($validator);
+    }
+
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
+        // Для поддержки PresenceOf валидации
+        $this->setup(
+            [ 'notNullValidations' => false ]
+        );
+
         $this->setSchema("bachelor");
         $this->setSource("specification");
         $this->hasMany('specification_id', 'EquipmentHasSpecification', 'specification_specification_id', ['alias' => 'EquipmentHasSpecification']);

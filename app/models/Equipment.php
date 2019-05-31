@@ -1,5 +1,8 @@
 <?php
 
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
+
 class Equipment extends \Phalcon\Mvc\Model
 {
 
@@ -119,10 +122,37 @@ class Equipment extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Validations and business logic
+     *
+     * @return boolean
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+
+        // Русифицирование сообщений обязательных полей
+        $validator->add(
+            'type',
+            new PresenceOf(['message' => 'Тип оргтехники обязателен к заполнению'])
+        );
+        $validator->add(
+            'manufacturer',
+            new PresenceOf(['message' => 'Производитель обязательно к заполнению'])
+        );
+
+        return $this->validate($validator);
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
+        // Для поддержки PresenceOf валидации
+        $this->setup(
+            [ 'notNullValidations' => false ]
+        );
+
         $this->setSchema("bachelor");
         $this->setSource("equipment");
         $this->hasMany('equipment_id', 'EquipmentHasLicense', 'equipment_equipment_id', ['alias' => 'EquipmentHasLicense']);

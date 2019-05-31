@@ -2,6 +2,7 @@
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+use Phalcon\Validation\Validator\PresenceOf;
 
 class Location extends \Phalcon\Mvc\Model
 {
@@ -108,6 +109,15 @@ class Location extends \Phalcon\Mvc\Model
         $validator = new Validation();
 
         $validator->add(
+            'campus',
+            new PresenceOf(['message' => 'Корпус обязателен к заполнению'])
+        );
+        $validator->add(
+            'auditory',
+            new PresenceOf(['message' => 'Аудитория обязательна к заполнению'])
+        );
+
+        $validator->add(
             [
                 'campus',
                 'auditory'
@@ -128,6 +138,11 @@ class Location extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
+        // Для поддержки PresenceOf валидации
+        $this->setup(
+            [ 'notNullValidations' => false ]
+        );
+
         $this->setSchema("bachelor");
         $this->setSource("location");
         $this->hasMany('location_id', 'MaterialValue', 'location_location_id', ['alias' => 'MaterialValue']);

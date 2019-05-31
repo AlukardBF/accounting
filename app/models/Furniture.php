@@ -1,5 +1,8 @@
 <?php
 
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
+
 class Furniture extends \Phalcon\Mvc\Model
 {
 
@@ -89,10 +92,33 @@ class Furniture extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Validations and business logic
+     *
+     * @return boolean
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+
+        // Русифицирование сообщений обязательных полей
+        $validator->add(
+            'specifications',
+            new PresenceOf(['message' => 'Характеристики обязательны к заполнению'])
+        );
+
+        return $this->validate($validator);
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
+        // Для поддержки PresenceOf валидации
+        $this->setup(
+            [ 'notNullValidations' => false ]
+        );
+        
         $this->setSchema("bachelor");
         $this->setSource("furniture");
         $this->belongsTo('material_value_material_value_id', '\MaterialValue', 'material_value_id', ['alias' => 'MaterialValue']);

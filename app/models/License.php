@@ -1,5 +1,8 @@
 <?php
 
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
+
 class License extends \Phalcon\Mvc\Model
 {
 
@@ -156,10 +159,45 @@ class License extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Validations and business logic
+     *
+     * @return boolean
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+
+        // Русифицирование сообщений обязательных полей
+        $validator->add(
+            'po_name',
+            new PresenceOf(['message' => 'Название обязательно к заполнению'])
+        );
+        $validator->add(
+            'po_version',
+            new PresenceOf(['message' => 'Версия обязательна к заполнению'])
+        );
+        $validator->add(
+            'license_number',
+            new PresenceOf(['message' => 'Лицензионный номер обязателен к заполнению'])
+        );
+        $validator->add(
+            'end_date',
+            new PresenceOf(['message' => 'Дата обязательна к заполнению'])
+        );
+
+        return $this->validate($validator);
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
+        // Для поддержки PresenceOf валидации
+        $this->setup(
+            [ 'notNullValidations' => false ]
+        );
+
         $this->setSchema("bachelor");
         $this->setSource("license");
         $this->hasMany('license_id', 'EquipmentHasLicense', 'license_license_id', ['alias' => 'EquipmentHasLicense']);
