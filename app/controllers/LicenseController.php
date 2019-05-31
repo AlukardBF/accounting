@@ -21,12 +21,40 @@ class LicenseController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
+            // Получаем запрос на основании данных введенных пользователем
             $query = Criteria::fromInput($this->di, 'License', $_POST);
+
+            // Поиск по промежутку дат
+            $endDateStart = $this->request->getPost("end_date_begin");
+            // Получаем крайний нижний порог даты, если не была задана начальная
+            $endDateStart = date('Y-m-d', strtotime($endDateStart));
+            $endDateEnd = $this->request->getPost("end_date_end");
+            $endDateEnd = date('Y-m-d', strtotime($endDateEnd));
+            // Если верхний порог не был задан, прекращаем поиск
+            if ($endDateEnd == "1970-01-01" && $endDateStart != "1970-01-01") {
+                $this->flash->warning("При установке нижнего порога даты поиска, необходимо указать и верхний!");
+                $this->dispatcher->forward([
+                    "controller" => "license",
+                    "action" => "index"
+                ]);
+                return;
+            }
+            // Если пользователь хотел поискать по дате лицензии
+            if ($endDateStart != "1970-01-01" || $endDateEnd != "1970-01-01") {
+                $query->andWhere(
+                    "end_date BETWEEN :end_date_begin: AND :end_date_end:",
+                    [
+                        "end_date_begin" => $endDateStart,
+                        "end_date_end" => $endDateEnd,
+                    ],
+                );
+            }   
+            
             $this->persistent->parameters = $query->getParams();
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
-
+        
         $parameters = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
@@ -35,7 +63,7 @@ class LicenseController extends ControllerBase
 
         $license = License::find($parameters);
         if (count($license) == 0) {
-            $this->flash->notice("The search did not find any license");
+            $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
                 "controller" => "license",
