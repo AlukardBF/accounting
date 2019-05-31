@@ -3,7 +3,7 @@
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 use Endroid\QrCode\QrCode;
-use Phalcon\Mvc\Url;
+use Endroid\QrCode\ErrorCorrectionLevel;
 
 class MaterialValueController extends ControllerBase
 {
@@ -397,6 +397,7 @@ class MaterialValueController extends ControllerBase
             $url = $this->request->getScheme() . "://" . $this->request->getHttpHost() . $this->url->getStatic() . 'material_value/show/' . $material_value_id;
             // Генерируем QR code
             $qrCode = new QrCode($url);
+            $qrCode->setErrorCorrectionLevel(new ErrorCorrectionLevel(ErrorCorrectionLevel::HIGH));
             $this->view->disable();
             $this->response->setFileToSend($qrCode->writeDataUri(), 'qr-'.$material_value_id.'.png')->send();
         }
