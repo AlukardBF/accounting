@@ -78,7 +78,7 @@ class SpecificationController extends ControllerBase
 
             $specification = Specification::findFirstByspecification_id($specification_id);
             if (!$specification) {
-                $this->flash->error("specification was not found");
+                $this->flash->error("Характеристика не найдена");
 
                 $this->dispatcher->forward([
                     'controller' => "specification",
@@ -129,7 +129,7 @@ class SpecificationController extends ControllerBase
             return;
         }
 
-        $this->flash->success("specification was created successfully");
+        $this->flash->success("Характеристика успешно добавлена");
 
         $this->dispatcher->forward([
             'controller' => "specification",
@@ -157,7 +157,7 @@ class SpecificationController extends ControllerBase
         $specification = Specification::findFirstByspecification_id($specification_id);
 
         if (!$specification) {
-            $this->flash->error("specification does not exist " . $specification_id);
+            $this->flash->error("Характеристика с таким id не найдена: " . $specification_id);
 
             $this->dispatcher->forward([
                 'controller' => "specification",
@@ -186,7 +186,7 @@ class SpecificationController extends ControllerBase
             return;
         }
 
-        $this->flash->success("specification was updated successfully");
+        $this->flash->success("Характеристика успешно обновлена");
 
         $this->dispatcher->forward([
             'controller' => "specification",
@@ -203,7 +203,7 @@ class SpecificationController extends ControllerBase
     {
         $specification = Specification::findFirstByspecification_id($specification_id);
         if (!$specification) {
-            $this->flash->error("specification was not found");
+            $this->flash->error("Характеристика не найдена");
 
             $this->dispatcher->forward([
                 'controller' => "specification",
@@ -227,7 +227,7 @@ class SpecificationController extends ControllerBase
             return;
         }
 
-        $this->flash->success("specification was deleted successfully");
+        $this->flash->success("Характеристика успешно удалена");
 
         $this->dispatcher->forward([
             'controller' => "specification",

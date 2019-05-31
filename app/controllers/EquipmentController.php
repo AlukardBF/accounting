@@ -35,7 +35,7 @@ class EquipmentController extends ControllerBase
 
         $equipment = Equipment::find($parameters);
         if (count($equipment) == 0) {
-            $this->flash->notice("The search did not find any equipment");
+            $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
                 "controller" => "equipment",
@@ -78,7 +78,7 @@ class EquipmentController extends ControllerBase
 
             $equipment = Equipment::findFirstByequipment_id($equipment_id);
             if (!$equipment) {
-                $this->flash->error("equipment was not found");
+                $this->flash->error("Оргтехника не найдена");
 
                 $this->dispatcher->forward([
                     'controller' => "equipment",
@@ -127,7 +127,7 @@ class EquipmentController extends ControllerBase
             return;
         }
 
-        $this->flash->success("equipment was created successfully");
+        $this->flash->success("Оргтехника успешна добавлена");
 
         $this->dispatcher->forward([
             'controller' => "equipment",
@@ -155,7 +155,7 @@ class EquipmentController extends ControllerBase
         $equipment = Equipment::findFirstByequipment_id($equipment_id);
 
         if (!$equipment) {
-            $this->flash->error("equipment does not exist " . $equipment_id);
+            $this->flash->error("Оргтехника с таким id не найдена: " . $equipment_id);
 
             $this->dispatcher->forward([
                 'controller' => "equipment",
@@ -183,7 +183,7 @@ class EquipmentController extends ControllerBase
             return;
         }
 
-        $this->flash->success("equipment was updated successfully");
+        $this->flash->success("Оргтехника успешно обновлена");
 
         $this->dispatcher->forward([
             'controller' => "equipment",
@@ -200,7 +200,7 @@ class EquipmentController extends ControllerBase
     {
         $equipment = Equipment::findFirstByequipment_id($equipment_id);
         if (!$equipment) {
-            $this->flash->error("equipment was not found");
+            $this->flash->error("Оргтехника не найдена");
 
             $this->dispatcher->forward([
                 'controller' => "equipment",
@@ -224,7 +224,7 @@ class EquipmentController extends ControllerBase
             return;
         }
 
-        $this->flash->success("equipment was deleted successfully");
+        $this->flash->success("Оргтехника успешно удалена");
 
         $this->dispatcher->forward([
             'controller' => "equipment",

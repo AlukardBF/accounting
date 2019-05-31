@@ -474,7 +474,7 @@ class MaterialValueController extends ControllerBase
         $license = License::find($parameters);
         
         if (count($license) == 0) {
-            $this->flash->notice("The search did not find any license");
+            $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
                 "controller" => "material_value",

@@ -35,7 +35,7 @@ class LocationController extends ControllerBase
 
         $location = Location::find($parameters);
         if (count($location) == 0) {
-            $this->flash->notice("The search did not find any location");
+            $this->flash->notice("Поиск не дал результатов");
 
             $this->dispatcher->forward([
                 "controller" => "location",
@@ -78,7 +78,7 @@ class LocationController extends ControllerBase
 
             $location = Location::findFirstBylocation_id($location_id);
             if (!$location) {
-                $this->flash->error("location was not found");
+                $this->flash->error("Местоположение не найдено");
 
                 $this->dispatcher->forward([
                     'controller' => "location",
@@ -129,7 +129,7 @@ class LocationController extends ControllerBase
             return;
         }
 
-        $this->flash->success("location was created successfully");
+        $this->flash->success("Местоположение успешно добавлено");
 
         $this->dispatcher->forward([
             'controller' => "location",
@@ -157,7 +157,7 @@ class LocationController extends ControllerBase
         $location = Location::findFirstBylocation_id($location_id);
 
         if (!$location) {
-            $this->flash->error("location does not exist " . $location_id);
+            $this->flash->error("Местоположение с таким id не существует: " . $location_id);
 
             $this->dispatcher->forward([
                 'controller' => "location",
@@ -186,7 +186,7 @@ class LocationController extends ControllerBase
             return;
         }
 
-        $this->flash->success("location was updated successfully");
+        $this->flash->success("Местоположение успешно обновлено");
 
         $this->dispatcher->forward([
             'controller' => "location",
@@ -203,7 +203,7 @@ class LocationController extends ControllerBase
     {
         $location = Location::findFirstBylocation_id($location_id);
         if (!$location) {
-            $this->flash->error("location was not found");
+            $this->flash->error("Местоположение не найдено");
 
             $this->dispatcher->forward([
                 'controller' => "location",
@@ -227,7 +227,7 @@ class LocationController extends ControllerBase
             return;
         }
 
-        $this->flash->success("location was deleted successfully");
+        $this->flash->success("Местоположение успешно удалено");
 
         $this->dispatcher->forward([
             'controller' => "location",

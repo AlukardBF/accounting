@@ -106,7 +106,7 @@ class LicenseController extends ControllerBase
 
             $license = License::findFirstBylicense_id($license_id);
             if (!$license) {
-                $this->flash->error("license was not found");
+                $this->flash->error("Лицензия не найдена");
 
                 $this->dispatcher->forward([
                     'controller' => "license",
@@ -161,7 +161,7 @@ class LicenseController extends ControllerBase
             return;
         }
 
-        $this->flash->success("license was created successfully");
+        $this->flash->success("Лицензия успешно добавлена");
 
         $this->dispatcher->forward([
             'controller' => "license",
@@ -189,7 +189,7 @@ class LicenseController extends ControllerBase
         $license = License::findFirstBylicense_id($license_id);
 
         if (!$license) {
-            $this->flash->error("license does not exist " . $license_id);
+            $this->flash->error("Лицензия с таким id не существует: " . $license_id);
 
             $this->dispatcher->forward([
                 'controller' => "license",
@@ -220,7 +220,7 @@ class LicenseController extends ControllerBase
             return;
         }
 
-        $this->flash->success("license was updated successfully");
+        $this->flash->success("Лицензия успешно обновлена");
 
         $this->dispatcher->forward([
             'controller' => "license",
@@ -237,7 +237,7 @@ class LicenseController extends ControllerBase
     {
         $license = License::findFirstBylicense_id($license_id);
         if (!$license) {
-            $this->flash->error("license was not found");
+            $this->flash->error("Лицензия не найдена");
 
             $this->dispatcher->forward([
                 'controller' => "license",
@@ -261,7 +261,7 @@ class LicenseController extends ControllerBase
             return;
         }
 
-        $this->flash->success("license was deleted successfully");
+        $this->flash->success("Лицензия успешно удалена");
 
         $this->dispatcher->forward([
             'controller' => "license",
