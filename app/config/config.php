@@ -30,6 +30,9 @@ return new \Phalcon\Config([
         // of the webspace.  This will break if the public/index.php entry point is moved or
         // possibly if the web server rewrite rules are changed. This can also be set to a static path.
         'baseUri'        => preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"]),
-        'staticUri'        => '/accounting/',
+        'staticUri'      => '/accounting/',
+
+        // Change to the current timezone
+        'timezone'       => 'Europe/Volgograd',
     ]
 ]);

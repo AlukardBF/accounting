@@ -20,7 +20,7 @@ class ControllerBase extends Controller
             "action" => $action
         ]);
     }
-    public function afterExecuteRoute($dispatcher)
+    protected function afterExecuteRoute($dispatcher)
     {
         $this->session->set('lastControllerAction', $dispatcher->getControllerName().'/'.$dispatcher->getActionName());
     }
@@ -28,5 +28,13 @@ class ControllerBase extends Controller
     protected function getLastControllerAction()
     {
         return $this->session->get('lastControllerAction');
+    }
+
+    protected function getCurrentDate()
+    {
+        // Get timezone from config
+        $timezone = $this->config->application->timezone;
+        date_default_timezone_set($timezone);
+        return date('Y-m-d', time());
     }
 }
