@@ -1,5 +1,8 @@
 <?php
 
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+
 class Location extends \Phalcon\Mvc\Model
 {
 
@@ -93,6 +96,31 @@ class Location extends \Phalcon\Mvc\Model
     public function getAuditory()
     {
         return $this->auditory;
+    }
+
+    /**
+     * Validations and business logic
+     *
+     * @return boolean
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+
+        $validator->add(
+            [
+                'campus',
+                'auditory'
+            ],            
+            new UniquenessValidator(
+                [
+                    'model'   => $this,
+                    'message' => 'Местоположение должно быть уникальным',
+                ]
+            )
+        );
+
+        return $this->validate($validator);
     }
 
     /**

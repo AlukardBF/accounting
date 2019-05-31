@@ -1,5 +1,8 @@
 <?php
 
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
+
 class MaterialValue extends \Phalcon\Mvc\Model
 {
 
@@ -425,6 +428,28 @@ class MaterialValue extends \Phalcon\Mvc\Model
     public function getFurnitureFurnitureId()
     {
         return $this->furniture_furniture_id;
+    }
+
+    /**
+     * Validations and business logic
+     *
+     * @return boolean
+     */
+    public function validation()
+    {
+        $validator = new Validation();
+
+        $validator->add(
+            'inventory_num',
+            new UniquenessValidator(
+                [
+                    'model'   => $this,
+                    'message' => 'Инвентарный номер должен быть уникален',
+                ]
+            )
+        );
+
+        return $this->validate($validator);
     }
 
     /**
