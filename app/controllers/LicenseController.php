@@ -1,5 +1,5 @@
 <?php
- 
+
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
@@ -11,7 +11,7 @@ class LicenseController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        // $this->persistent->parameters = null;
     }
 
     /**
@@ -48,13 +48,13 @@ class LicenseController extends ControllerBase
                         "end_date_end" => $endDateEnd,
                     ],
                 );
-            }   
-            
+            }
+
             $this->persistent->parameters = $query->getParams();
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
-        
+
         $parameters = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
@@ -123,7 +123,7 @@ class LicenseController extends ControllerBase
             $this->tag->setDefault("po_version", $license->getPoVersion());
             $this->tag->setDefault("license_number", $license->getLicenseNumber());
             $this->tag->setDefault("end_date", $license->getEndDate());
-            
+
         }
     }
 
@@ -146,7 +146,7 @@ class LicenseController extends ControllerBase
         $license->setPoVersion($this->request->getPost("po_version"));
         $license->setLicenseNumber($this->request->getPost("license_number"));
         $license->setEndDate($this->request->getPost("end_date"));
-        
+
 
         if (!$license->save()) {
             foreach ($license->getMessages() as $message) {
@@ -203,7 +203,7 @@ class LicenseController extends ControllerBase
         $license->setPoVersion($this->request->getPost("po_version"));
         $license->setLicenseNumber($this->request->getPost("license_number"));
         $license->setEndDate($this->request->getPost("end_date"));
-        
+
 
         if (!$license->save()) {
 

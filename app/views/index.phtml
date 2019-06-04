@@ -24,6 +24,7 @@
 </head>
 
 <body style="background-image:url(<?php echo $this->url->get('img/background.png')?>); background-attachment: fixed;">
+    <!-- Модальное окно логина -->
     <div class="modal fade" id="signIn">
         <div class="modal-dialog " role="document">
             <div class="modal-content">
@@ -68,11 +69,41 @@
                             );
                         }?>
                 </div>
-            </div><!-- /.модальное окно-Содержание -->
-        </div><!-- /.модальное окно-диалог -->
+            </div>
+        </div>
     </div>
-    <!-- /.модальное окно -->
-
+    <!-- /Модальное окно логина -->
+    <!-- Модальное окно прогноза закупки -->
+    <div class="modal fade" id="purchaseReport">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Прогноз закупки</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?echo Phalcon\Tag::form(
+                        [
+                            "report/forecast",
+                            "method" => "post",
+                            "class"=>"form-horizontal",
+                        ]
+                    );?>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Задайте длительность процесса закупки в днях</label>
+                        <input type="text" name="purchase_days" class="form-control" id="purchase_days">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" style="width:100%" class="btn btn-outline-primary">Создать отчет</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Модальное окно прогноза закупки -->
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary global-nav">
             <?  echo Phalcon\Tag::linkTo([
@@ -122,6 +153,16 @@
                                 "/specification/index",
                                 '<i class="fab d-inline fa-xs fa-squarespace"></i><span class="nav-label"> Характеристики</span>',
                                 "class" => "px-3 btn btn-primary",
+                            ]);
+                        ?>
+                    </li>
+                    <li>
+                        <?  echo Phalcon\Tag::linkTo([
+                                "",
+                                '<i class="far d-inline fa-xs fa-chart-bar"></i><span class="nav-label"> Прогноз закупки</span>',
+                                "class" => "px-3 btn btn-primary",
+                                'data-toggle' => 'modal',
+                                'data-target' => '#purchaseReport'
                             ]);
                         ?>
                     </li>

@@ -1,5 +1,6 @@
 {
     "require": {
-        "endroid/qr-code": "^3.5"
+        "endroid/qr-code": "^3.5",
+        "phpoffice/phpword": "^0.16.0"
     }
 }

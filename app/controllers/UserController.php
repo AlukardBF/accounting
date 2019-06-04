@@ -1,5 +1,5 @@
 <?php
- 
+
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
@@ -11,7 +11,7 @@ class UserController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        // $this->persistent->parameters = null;
     }
 
     /**
@@ -93,7 +93,7 @@ class UserController extends ControllerBase
             $this->tag->setDefault("third_name", $user->getThirdName());
             $this->tag->setDefault("title", $user->getTitle());
             $this->tag->setDefault("role", $user->getRole());
-            
+
         }
     }
 
@@ -119,7 +119,7 @@ class UserController extends ControllerBase
         $user->setThirdName($this->request->getPost("third_name"));
         $user->setTitle($this->request->getPost("title"));
         $user->setRole($this->request->getPost("role"));
-        
+
 
         if (!$user->save()) {
             foreach ($user->getMessages() as $message) {
@@ -179,7 +179,7 @@ class UserController extends ControllerBase
         $user->setThirdName($this->request->getPost("third_name"));
         $user->setTitle($this->request->getPost("title"));
         $user->setRole($this->request->getPost("role"));
-        
+
 
         if (!$user->save()) {
 

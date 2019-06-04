@@ -1,5 +1,5 @@
 <?php
- 
+
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 use Endroid\QrCode\QrCode;
@@ -12,7 +12,7 @@ class MaterialValueController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        // $this->persistent->parameters = null;
     }
 
     /**
@@ -57,13 +57,13 @@ class MaterialValueController extends ControllerBase
                         "exit_date_end" => $exitDateEnd,
                     ],
                 );
-            }            
+            }
+            $temp = $query->getParams();
+
             $this->persistent->parameters = $query->getParams();
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
-
-        
 
         $parameters = $this->persistent->parameters;
         if (!is_array($parameters)) {
@@ -144,7 +144,7 @@ class MaterialValueController extends ControllerBase
             if ($furniture) {
                 $this->tag->setDefault("furniture_specification", $furniture->getSpecification());
             }
-            
+
             $equipment = $material_value->Equipment;
             if ($equipment) {
                 $this->tag->setDefault("equipment_type", $equipment->getType());
@@ -443,7 +443,7 @@ class MaterialValueController extends ControllerBase
 
     /**
      * Licenses setup
-     * 
+     *
      * @param string $material_value_id
      */
     public function licensesAction($material_value_id)
@@ -472,7 +472,7 @@ class MaterialValueController extends ControllerBase
         $parameters["order"] = "license_id";
 
         $license = License::find($parameters);
-        
+
         if (count($license) == 0) {
             $this->flash->notice("Поиск не дал результатов");
 
@@ -491,7 +491,7 @@ class MaterialValueController extends ControllerBase
             'page' => $numberPage
         ]);
 
-        
+
         $this->dispatcher->forward([
             "controller" => "material_value",
             "action" => "licenses",
@@ -522,7 +522,7 @@ class MaterialValueController extends ControllerBase
             $this->view->disable();
             echo $message;
             return false;
-        }        
+        }
     }
     /**
      * Remove EquipmentHasLicense from ajax
@@ -556,12 +556,12 @@ class MaterialValueController extends ControllerBase
             $this->view->disable();
             echo $message;
             return false;
-        }        
+        }
     }
 
     /**
      * Specification setup
-     * 
+     *
      * @param string $material_value_id
      */
     public function specificationsAction($material_value_id)
@@ -641,7 +641,7 @@ class MaterialValueController extends ControllerBase
             $this->view->disable();
             echo $message;
             return false;
-        }        
+        }
     }
     /**
      * Remove EquipmentHasSpecification from ajax
@@ -675,7 +675,7 @@ class MaterialValueController extends ControllerBase
             $this->view->disable();
             echo $message;
             return false;
-        }        
+        }
     }
 
     private function photoValidate($picture)

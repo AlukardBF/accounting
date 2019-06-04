@@ -1,5 +1,5 @@
 <?php
- 
+
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
@@ -11,7 +11,7 @@ class LocationController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        // $this->persistent->parameters = null;
     }
 
     /**
@@ -93,7 +93,7 @@ class LocationController extends ControllerBase
             $this->tag->setDefault("location_id", $location->getLocationId());
             $this->tag->setDefault("campus", $location->getCampus());
             $this->tag->setDefault("auditory", $location->getAuditory());
-            
+
         }
     }
 
@@ -114,7 +114,7 @@ class LocationController extends ControllerBase
         $location = new Location();
         $location->setCampus($this->request->getPost("campus"));
         $location->setAuditory($this->request->getPost("auditory"));
-        
+
 
         if (!$location->save()) {
             foreach ($location->getMessages() as $message) {
@@ -169,7 +169,7 @@ class LocationController extends ControllerBase
 
         $location->setCampus($this->request->getPost("campus"));
         $location->setAuditory($this->request->getPost("auditory"));
-        
+
 
         if (!$location->save()) {
 

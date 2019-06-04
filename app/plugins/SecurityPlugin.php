@@ -109,8 +109,9 @@ class SecurityPlugin extends Plugin
 		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
 		    'location'		=> ['index','search','new','edit','create','delete','save'],
-			'session'		=> ['logout','index'],
-			'specification'=> ['index','search','new','edit','create','delete','save'],
+			'session'		=> ['index','logout'],
+			'specification'	=> ['index','search','new','edit','create','delete','save'],
+			'report'		=> ['index','forecast'],
 			'index'			=> ['index'],
 		];
 		$adminResources = [
@@ -121,8 +122,9 @@ class SecurityPlugin extends Plugin
 		    'equipment'		=> ['index','search','new','edit','create','delete','save'],
 		    'license'		=> ['index','search','new','edit','create','delete','save'],
 			'location'		=> ['index','search','new','edit','create','delete','save'],
-			'specification'=> ['index','search','new','edit','create','delete','save'],
+			'specification'	=> ['index','search','new','edit','create','delete','save'],
 			'session'		=> ['logout'],
+			'report'		=> ['index','forecast'],
 			'index'			=> ['index'],
 		];
 		$readonlyResources = [

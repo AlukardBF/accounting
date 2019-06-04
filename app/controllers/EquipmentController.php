@@ -1,5 +1,5 @@
 <?php
- 
+
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
@@ -11,7 +11,7 @@ class EquipmentController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        // $this->persistent->parameters = null;
     }
 
     /**
@@ -112,7 +112,7 @@ class EquipmentController extends ControllerBase
 
         $equipment = new Equipment();
         $equipment->setType($this->request->getPost("type"));
-        $equipment->setManufacturer($this->request->getPost("manufacturer"));      
+        $equipment->setManufacturer($this->request->getPost("manufacturer"));
 
         if (!$equipment->save()) {
             foreach ($equipment->getMessages() as $message) {
@@ -166,7 +166,7 @@ class EquipmentController extends ControllerBase
         }
 
         $equipment->setType($this->request->getPost("type"));
-        $equipment->setManufacturer($this->request->getPost("manufacturer"));      
+        $equipment->setManufacturer($this->request->getPost("manufacturer"));
 
         if (!$equipment->save()) {
 

@@ -1,5 +1,5 @@
 <?php
- 
+
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
 
@@ -11,7 +11,7 @@ class SpecificationController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->persistent->parameters = null;
+        // $this->persistent->parameters = null;
     }
 
     /**
@@ -93,7 +93,7 @@ class SpecificationController extends ControllerBase
             $this->tag->setDefault("specification_id", $specification->getSpecificationId());
             $this->tag->setDefault("name", $specification->getName());
             $this->tag->setDefault("expected_max_value", $specification->getExpectedMaxValue());
-            
+
         }
     }
 
@@ -114,7 +114,7 @@ class SpecificationController extends ControllerBase
         $specification = new Specification();
         $specification->setName($this->request->getPost("name"));
         $specification->setExpectedMaxValue($this->request->getPost("expected_max_value"));
-        
+
 
         if (!$specification->save()) {
             foreach ($specification->getMessages() as $message) {
@@ -169,7 +169,7 @@ class SpecificationController extends ControllerBase
 
         $specification->setName($this->request->getPost("name"));
         $specification->setExpectedMaxValue($this->request->getPost("expected_max_value"));
-        
+
 
         if (!$specification->save()) {
 
