@@ -46,7 +46,7 @@ class MaterialValueController extends ControllerBase
                 [
                     "enter_date_start" => $enterDateStart,
                     "enter_date_end" => $enterDateEnd,
-                ],
+                ]
             );
             // Если пользователь хотел поискать по дате списания
             if ($exitDateStart != "1970-01-01" || $exitDateEnd != $this->getCurrentDate()) {
@@ -55,7 +55,7 @@ class MaterialValueController extends ControllerBase
                     [
                         "exit_date_start" => $exitDateStart,
                         "exit_date_end" => $exitDateEnd,
-                    ],
+                    ]
                 );
             }
             $temp = $query->getParams();

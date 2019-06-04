@@ -46,7 +46,7 @@ class LicenseController extends ControllerBase
                     [
                         "end_date_begin" => $endDateStart,
                         "end_date_end" => $endDateEnd,
-                    ],
+                    ]
                 );
             }
 
