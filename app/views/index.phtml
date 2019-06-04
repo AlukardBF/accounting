@@ -116,6 +116,8 @@
                 aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                    <? $role=$this->session->auth['role'];
+                        if($role != 'guest' && $role != null) { ?>
                     <li>
                         <?  echo Phalcon\Tag::linkTo([
                                 "/material_value/index",
@@ -166,6 +168,7 @@
                             ]);
                         ?>
                     </li>
+                    <? } ?>
                 </ul>
                 <ul class="navbar-nav">
                     <? $role=$this->session->auth['role'];
