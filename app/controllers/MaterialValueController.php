@@ -304,7 +304,6 @@ class MaterialValueController extends ControllerBase
             $equipment = $material_value->Equipment;
             $equipment->setType($this->request->getPost("equipment_type"));
             $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
-            $equipment->setSpecification($this->request->getPost("equipment_specification"));
             if (!$equipment->save()) {
                 foreach ($equipment->getMessages() as $message) {
                     $this->flash->error($message);
