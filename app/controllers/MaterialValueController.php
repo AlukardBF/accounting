@@ -22,50 +22,53 @@ class MaterialValueController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            // Получаем запрос на основании данных введенных пользователем
-            $query = Criteria::fromInput($this->di, 'MaterialValue', $_POST);
+            // // Поиск по промежутку дат
+            // $enterDateStart = $this->request->getPost("enter_date_begin");
+            // // Получаем крайний нижний порог даты, если не была задана начальная
+            // $enterDateStart = date('Y-m-d', strtotime($enterDateStart));
+            // $enterDateEnd = $this->request->getPost("enter_date_end");
+            // // В качестве верхнего порога, если не был задан, ставим текущую дату
+            // if ($enterDateEnd == '') {
+            //     $enterDateEnd = $this->getCurrentDate();
+            // }
+            // $exitDateStart = $this->request->getPost("exit_date_begin");
+            // $exitDateStart = date('Y-m-d', strtotime($exitDateStart));
+            // $exitDateEnd = $this->request->getPost("exit_date_end");
+            // if ($exitDateEnd == '') {
+            //     $exitDateEnd = $this->getCurrentDate();
+            // }
+            // // Добавляем поиск по дате ввода в эксплуатацию
+            // $query->andWhere(
+            //     "enter_date BETWEEN :enter_date_start: AND :enter_date_end:",
+            //     [
+            //         "enter_date_start" => $enterDateStart,
+            //         "enter_date_end" => $enterDateEnd,
+            //     ]
+            // );
+            // // Если пользователь хотел поискать по дате списания
+            // if ($exitDateStart != "1970-01-01" || $exitDateEnd != $this->getCurrentDate()) {
+            //     $query->andWhere(
+            //         "exit_date BETWEEN :exit_date_start: AND :exit_date_end:",
+            //         [
+            //             "exit_date_start" => $exitDateStart,
+            //             "exit_date_end" => $exitDateEnd,
+            //         ]
+            //     );
+            // }
+            // $temp = $query->getParams();
 
-            // Поиск по промежутку дат
-            $enterDateStart = $this->request->getPost("enter_date_begin");
-            // Получаем крайний нижний порог даты, если не была задана начальная
-            $enterDateStart = date('Y-m-d', strtotime($enterDateStart));
-            $enterDateEnd = $this->request->getPost("enter_date_end");
-            // В качестве верхнего порога, если не был задан, ставим текущую дату
-            if ($enterDateEnd == '') {
-                $enterDateEnd = $this->getCurrentDate();
+            $parameters = [];
+            foreach ($_POST as $key => $value) {
+                if ($value !== '') {
+                    $parameters[$key] = $value;
+                }
             }
-            $exitDateStart = $this->request->getPost("exit_date_begin");
-            $exitDateStart = date('Y-m-d', strtotime($exitDateStart));
-            $exitDateEnd = $this->request->getPost("exit_date_end");
-            if ($exitDateEnd == '') {
-                $exitDateEnd = $this->getCurrentDate();
-            }
-            // Добавляем поиск по дате ввода в эксплуатацию
-            $query->andWhere(
-                "enter_date BETWEEN :enter_date_start: AND :enter_date_end:",
-                [
-                    "enter_date_start" => $enterDateStart,
-                    "enter_date_end" => $enterDateEnd,
-                ]
-            );
-            // Если пользователь хотел поискать по дате списания
-            if ($exitDateStart != "1970-01-01" || $exitDateEnd != $this->getCurrentDate()) {
-                $query->andWhere(
-                    "exit_date BETWEEN :exit_date_start: AND :exit_date_end:",
-                    [
-                        "exit_date_start" => $exitDateStart,
-                        "exit_date_end" => $exitDateEnd,
-                    ]
-                );
-            }
-            $temp = $query->getParams();
-
-            $this->persistent->parameters = $query->getParams();
+            $this->persistent->parameters = empty($parameters) ? null : $parameters;
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
 
-        $parameters = $this->persistent->parameters;
+        $parameters["conditions"] = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
         }
@@ -83,18 +86,12 @@ class MaterialValueController extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $material_value,
-            'limit'=> 10,
-            'page' => $numberPage
-        ]);
-
         $this->dispatcher->forward([
             "controller" => "material_value",
             "action" => "index"
         ]);
 
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $material_value;
     }
 
     /**
@@ -111,7 +108,7 @@ class MaterialValueController extends ControllerBase
     {
         if (!$this->request->isPost()) {
 
-            $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
+            $material_value = MaterialValue::findById($material_value_id);
             if (!$material_value) {
                 $this->flash->error("Материальная ценность не найдена");
 
@@ -127,7 +124,7 @@ class MaterialValueController extends ControllerBase
             if ($photo != null)
                 $this->view->photo = $photo;
 
-            $this->tag->setDefault("material_value_id", $material_value->getMaterialValueId());
+            $this->tag->setDefault("material_value_id", strval($material_value->getMaterialValueId()));
             $this->tag->setDefault("type", $material_value->getType());
             $this->tag->setDefault("inventory_num", $material_value->getInventoryNum());
             $this->tag->setDefault("serial_num", $material_value->getSerialNum());
@@ -140,12 +137,12 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("photo", $material_value->getPhoto());
             $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
 
-            $furniture = $material_value->Furniture;
+            $furniture = $material_value->getFurniture();
             if ($furniture) {
                 $this->tag->setDefault("furniture_specification", $furniture->getSpecification());
             }
 
-            $equipment = $material_value->Equipment;
+            $equipment = $material_value->getEquipment();
             if ($equipment) {
                 $this->tag->setDefault("equipment_type", $equipment->getType());
                 $this->tag->setDefault("equipment_manufacturer", $equipment->getManufacturer());
@@ -196,7 +193,7 @@ class MaterialValueController extends ControllerBase
                 ]);
                 return;
             }
-            $material_value->Furniture = $furniture;
+            $material_value->setFurniture($furniture);
         } else if ($material_value->getType() == "equipment") {
             $equipment = new Equipment();
             $equipment->setType($this->request->getPost("equipment_type"));
@@ -211,7 +208,7 @@ class MaterialValueController extends ControllerBase
                 ]);
                 return;
             }
-            $material_value->Equipment = $equipment;
+            $material_value->SetEquipment($equipment);
         }
 
         //Проверяем картинку
@@ -261,7 +258,7 @@ class MaterialValueController extends ControllerBase
         }
 
         $material_value_id = $this->request->getPost("material_value_id");
-        $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
+        $material_value = MaterialValue::findById($material_value_id);
 
         if (!$material_value) {
             $this->flash->error("Материальная ценность с таким id не найдена: " . $material_value_id);
@@ -288,7 +285,7 @@ class MaterialValueController extends ControllerBase
 
         //Сохраняем мебель или оргтехнику
         if ($material_value->getType() == "furniture") {
-            $furniture = $material_value->Furniture;
+            $furniture = $material_value->getFurniture();
             $furniture->setSpecification($this->request->getPost("furniture_specification"));
             if (!$furniture->save()) {
                 foreach ($furniture->getMessages() as $message) {
@@ -301,7 +298,7 @@ class MaterialValueController extends ControllerBase
                 return;
             }
         } else if ($material_value->getType() == "equipment") {
-            $equipment = $material_value->Equipment;
+            $equipment = $material_value->getEquipment();
             $equipment->setType($this->request->getPost("equipment_type"));
             $equipment->setManufacturer($this->request->getPost("equipment_manufacturer"));
             if (!$equipment->save()) {
@@ -362,7 +359,7 @@ class MaterialValueController extends ControllerBase
      */
     public function deleteAction($material_value_id)
     {
-        $material_value = MaterialValue::findFirstBymaterial_value_id($material_value_id);
+        $material_value = MaterialValue::findById($material_value_id);
         if (!$material_value) {
             $this->flash->error("Материальная ценность не найдена");
 
@@ -409,15 +406,15 @@ class MaterialValueController extends ControllerBase
     public function showAction($material_value_id)
     {
         $this->editAction($material_value_id);
-        $equipment = MaterialValue::findFirstBymaterial_value_id($material_value_id)->Equipment;
-        if (isset($equipment)) {
-            $licenses = $equipment->License;
-            if (isset($licenses))
-                $this->view->licenses = $licenses;
-            $specifications = $equipment->EquipmentHasSpecification;
-            if (isset($specifications))
-                $this->view->specifications = $specifications;
-        }
+        // $equipment = MaterialValue::findById($material_value_id)->getEquipment();
+        // if (isset($equipment)) {
+        //     $licenses = $equipment->getLicense();
+        //     if (isset($licenses))
+        //         $this->view->licenses = $licenses;
+        //     $specifications = $equipment->EquipmentHasSpecification;
+        //     if (isset($specifications))
+        //         $this->view->specifications = $specifications;
+        // }
     }
 
     /**
@@ -458,13 +455,22 @@ class MaterialValueController extends ControllerBase
 
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'License', $_POST);
-            $this->persistent->parameters = $query->getParams();
+            $parameters = [];
+            foreach ($_POST as $key => $value) {
+                if ($value !== '') {
+                    if ($key != "material_value_id") {
+                        $parameters[$key] = $value;
+                    }
+                }
+            }
+            $this->persistent->parameters = null;
+            $this->persistent->parameters = empty($parameters) ? null : $parameters;
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
 
-        $parameters = $this->persistent->parameters;
+        $parameters = [];
+        $parameters["conditions"] = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
         }
@@ -484,20 +490,13 @@ class MaterialValueController extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $license,
-            'limit'=> 10,
-            'page' => $numberPage
-        ]);
-
-
         $this->dispatcher->forward([
             "controller" => "material_value",
             "action" => "licenses",
             "params" => [ $id ],
         ]);
 
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $license;
     }
     /**
      * Add EquipmentHasLicense from ajax
@@ -505,11 +504,11 @@ class MaterialValueController extends ControllerBase
     public function add_licenseAction($material_value_id, $license_id)
     {
         if ($this->request->isAjax()) {
-            $equipment = MaterialValue::findFirstBymaterial_value_id($material_value_id)->Equipment;
+            $equipment = MaterialValue::findById($material_value_id)->getEquipment();
             if (isset($equipment)) {
                 $equipmentHasLicense = new EquipmentHasLicense();
-                $equipmentHasLicense->Equipment = $equipment;
-                $equipmentHasLicense->License = License::findFirstBylicense_id($license_id);
+                $equipmentHasLicense->setEquipment($equipment);
+                $equipmentHasLicense->setLicense(License::findById($license_id));
                 if ($equipmentHasLicense->save()) {
                     $message = "Связь добавлена успешно";
                 } else {
@@ -529,7 +528,7 @@ class MaterialValueController extends ControllerBase
     public function rem_licenseAction($material_value_id, $license_id)
     {
         if ($this->request->isAjax()) {
-            $equipment_id = MaterialValue::findFirstBymaterial_value_id($material_value_id)->getEquipmentEquipmentId();
+            $equipment_id = MaterialValue::findById($material_value_id)->getEquipmentEquipmentId();
             if (isset($equipment_id)) {
                 $equipmentHasLicense = EquipmentHasLicense::findFirst(
                     [
@@ -576,13 +575,18 @@ class MaterialValueController extends ControllerBase
 
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'Specification', $_POST);
-            $this->persistent->parameters = $query->getParams();
+            $parameters = [];
+            foreach ($_POST as $key => $value) {
+                if ($value !== '') {
+                    $parameters[$key] = $value;
+                }
+            }
+            $this->persistent->parameters = empty($parameters) ? null : $parameters;
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
 
-        $parameters = $this->persistent->parameters;
+        $parameters["conditions"] = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
         }
@@ -601,19 +605,13 @@ class MaterialValueController extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $specification,
-            'limit'=> 10,
-            'page' => $numberPage
-        ]);
-
         $this->dispatcher->forward([
             "controller" => "material_value",
             "action" => "specifications",
             "params" => [ $id ],
         ]);
 
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $specification;
     }
     /**
      * Add EquipmentHasSpecification from ajax
@@ -623,11 +621,11 @@ class MaterialValueController extends ControllerBase
         if ($this->request->isAjax()) {
             if (empty($spec_value))
                 return false;
-            $equipment = MaterialValue::findFirstBymaterial_value_id($material_value_id)->Equipment;
+            $equipment = MaterialValue::findById($material_value_id)->getEquipment();
             if (isset($equipment)) {
                 $equipmentHasSpecification = new EquipmentHasSpecification();
-                $equipmentHasSpecification->Equipment = $equipment;
-                $equipmentHasSpecification->Specification = Specification::findFirstByspecification_id($specification_id);
+                $equipmentHasSpecification->setEquipment($equipment);
+                $equipmentHasSpecification->setSpecification(Specification::findById($specification_id));
                 $equipmentHasSpecification->setCurrentValue($spec_value);
                 if ($equipmentHasSpecification->save()) {
                     $message = "Связь добавлена успешно";
@@ -648,7 +646,7 @@ class MaterialValueController extends ControllerBase
     public function rem_specificationAction($material_value_id, $specification_id)
     {
         if ($this->request->isAjax()) {
-            $equipment_id = MaterialValue::findFirstBymaterial_value_id($material_value_id)->getEquipmentEquipmentId();
+            $equipment_id = MaterialValue::findById($material_value_id)->getEquipmentEquipmentId();
             if (isset($equipment_id)) {
                 $equipmentHasSpecification = EquipmentHasSpecification::findFirst(
                     [

@@ -121,6 +121,17 @@ class Equipment extends \Phalcon\Mvc\MongoCollection
         return $this->material_value_material_value_id;
     }
 
+    // public function getLicense()
+    // {
+    //     $id = $this->license;
+    //     return Location::findById($id);
+    // }
+
+    // public function setLicense($license)
+    // {
+    //     $this->furniture_furniture_id = $location->getLocationId();
+    // }
+
     /**
      * Validations and business logic
      *

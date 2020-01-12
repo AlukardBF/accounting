@@ -431,6 +431,39 @@ class MaterialValue extends \Phalcon\Mvc\MongoCollection
         return $this->furniture_furniture_id;
     }
 
+    public function getEquipment()
+    {
+        $id = $this->equipment_equipment_id;
+        return Equipment::findById($id);
+    }
+
+    public function setEquipment($equipment)
+    {
+        $this->equipment_equipment_id = strval($equipment->getEquipmentId());
+    }
+
+    public function getFurniture()
+    {
+        $id = $this->furniture_furniture_id;
+        return Furniture::findById($id);
+    }
+
+    public function setFurniture($furniture)
+    {
+        $this->furniture_furniture_id = strval($furniture->getFurnitureId());
+    }
+
+    public function getLocation()
+    {
+        $id = $this->location_location_id;
+        return Location::findById($id);
+    }
+
+    public function setLocation($location)
+    {
+        $this->furniture_furniture_id = strval($location->getLocationId());
+    }
+
     /**
      * Validations and business logic
      *

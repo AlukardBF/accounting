@@ -102,7 +102,7 @@ class Furniture extends \Phalcon\Mvc\MongoCollection
 
         // Русифицирование сообщений обязательных полей
         $validator->add(
-            'specifications',
+            'specification',
             new PresenceOf(['message' => 'Характеристики обязательны к заполнению'])
         );
 

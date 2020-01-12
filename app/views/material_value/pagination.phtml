@@ -26,8 +26,8 @@
             </tr>
         </thead>
         <tbody>
-        <?php if (isset($page)): 
-            foreach ($page->items as $material_value): ?>
+        <?php if (isset($page)):
+            foreach ($page as $material_value): ?>
             <tr class="clickable" data-href="show/<? echo $material_value->getMaterialValueId() ?>">
                 <td class='hidden'><?php echo $material_value->getMaterialValueId() ?></td>
                 <td><?php echo nl2br($material_value->getLocationName()) ?></td>
@@ -61,17 +61,5 @@
         </tbody>
     </table>
 </div>
-<?php if (isset($page)): ?>
-<div class="d-flex justify-content-center px-3">
-    <? echo CustomTags::pagination([
-        'link' => 'material_value/search?page=%d',
-        'current' => $page->current,
-        'next' => $page->next,
-        'before' => $page->before,
-        'count'   => $page->total_pages,
-    ]);
-    ?>
-</div>
-<?php endif; ?>
 
 <? echo Phalcon\Tag::javascriptInclude("js/pagination.js") ?>

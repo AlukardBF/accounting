@@ -11,7 +11,6 @@
                 <th class='hidden'></th>
                 <th scope="col"><p class="text-center m-0">Тип оргтехники</p></th>
                 <th scope="col"><p class="text-center m-0">Производитель</p></th>
-                <th scope="col"><p class="text-center m-0">Характеристики</p></th>
                 <th scope="col"><p class="text-center m-0">Действия</p></th>
             </tr>
         </thead>
@@ -22,7 +21,6 @@
                 <td class="hidden">{{ equipment.getEquipmentId() }}</td>
                 <td>{{ equipment.getType() }}</td>
                 <td>{{ equipment.getManufacturer() }}</td>
-                <td>{{ equipment.getSpecification() }}</td>
                 <td>
                     {{ link_to("equipment/edit/" ~ equipment.getEquipmentId(), '<i class="fas fa-edit d-inline"></i> Изменить', 'class' : 'btn btn-success w-100') }}
                     {# link_to("specification/delete/" ~ equipment.getEquipmentId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' : 'btn btn-danger w-100') #}

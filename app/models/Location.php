@@ -3,6 +3,7 @@
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 use Phalcon\Validation\Validator\PresenceOf;
+use MongoDB\BSON\ObjectId;
 
 // class Location extends \Phalcon\Mvc\Model
 class Location extends \Phalcon\Mvc\MongoCollection
@@ -179,10 +180,22 @@ class Location extends \Phalcon\Mvc\MongoCollection
      */
     public static function getAllByFullname($parameters = null)
     {
-        return Location::find([
-            'conditions' => '',
-            'columns' => ['location_id', "CONCAT(campus, '-', auditory) as fullname"]
-        ]);
+        $locations = Location::aggregate([[
+            "\$project" => [
+                "fullname" => [
+                    "\$concat" => [
+                        "\$campus", "-", "\$auditory"
+                    ]
+                ]
+            ]
+        ]]);
+        $result = [];
+        foreach($locations as $one) {
+            $temp = [];
+            $temp[strval($one["_id"])] = $one["fullname"];
+            $result[] = $temp;
+        }
+        return $result;
     }
 
     /**
@@ -193,10 +206,8 @@ class Location extends \Phalcon\Mvc\MongoCollection
      */
     public static function getLocationFullName($location_id = null)
     {
-        return Location::findFirst([
-            $location_id,
-            'columns' => ["CONCAT(campus, '-', auditory) as fullname"]
-        ])->fullname;
+        $location = Location::findById($location_id);
+        return $location->getCampus() . '-' . $location->getAuditory();
     }
 
     /**
@@ -207,6 +218,22 @@ class Location extends \Phalcon\Mvc\MongoCollection
     public function getSource()
     {
         return 'location';
+    }
+
+    // protected function toArray()
+    // {
+    //     return $this->getArray($this->object);
+    // }
+
+    protected static function getArray($obj)
+    {
+        $array  = array(); // noisy $array does not exist
+        $arrObj = is_object($obj) ? get_object_vars($obj) : $obj;
+        foreach ($arrObj as $key => $val) {
+                $val = (is_array($val) || is_object($val)) ? Location::getArray($val) : $val;
+                $array[$key] = $val;
+        }
+        return $array;
     }
 
 }
