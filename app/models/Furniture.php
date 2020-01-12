@@ -3,7 +3,7 @@
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 
-class Furniture extends \Phalcon\Mvc\Model
+class Furniture extends \Phalcon\Mvc\MongoCollection
 {
 
     /**
@@ -30,7 +30,7 @@ class Furniture extends \Phalcon\Mvc\Model
      */
     public function setFurnitureId($furniture_id)
     {
-        $this->furniture_id = $furniture_id;
+        $this->_id = $furniture_id;
 
         return $this;
     }
@@ -55,7 +55,7 @@ class Furniture extends \Phalcon\Mvc\Model
      */
     public function getFurnitureId()
     {
-        return $this->furniture_id;
+        return $this->_id;
     }
 
     /**
@@ -112,17 +112,17 @@ class Furniture extends \Phalcon\Mvc\Model
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
-        // Для поддержки PresenceOf валидации
-        $this->setup(
-            [ 'notNullValidations' => false ]
-        );
+    // public function initialize()
+    // {
+    //     // Для поддержки PresenceOf валидации
+    //     $this->setup(
+    //         [ 'notNullValidations' => false ]
+    //     );
 
-        $this->setSchema("bachelor");
-        $this->setSource("furniture");
-        $this->belongsTo('material_value_material_value_id', '\MaterialValue', 'material_value_id', ['alias' => 'MaterialValue']);
-    }
+    //     $this->setSchema("bachelor");
+    //     $this->setSource("furniture");
+    //     $this->belongsTo('material_value_material_value_id', '\MaterialValue', 'material_value_id', ['alias' => 'MaterialValue']);
+    // }
 
     /**
      * Allows to query a set of records that match the specified conditions

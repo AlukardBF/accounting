@@ -15,8 +15,8 @@
             </tr>
         </thead>
         <tbody>
-        {% if page.items is defined %}
-        {% for specification in page.items %}
+        {% if page is defined %}
+        {% for specification in page %}
             <tr>
                 <td class="hidden">{{ specification.getSpecificationId() }}</td>
                 <td>{{ specification.getName() }}</td>
@@ -31,8 +31,3 @@
         </tbody>
     </table>
 </div>
-{% if page is defined %}
-<div class="d-flex justify-content-center px-3">
-    {{ pagination('link' : 'location/search?page=%d','current' : page.current,'next' : page.next,'before' : page.before,'count' : page.total_pages) }}
-</div>
-{% endif %}

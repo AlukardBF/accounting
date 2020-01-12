@@ -21,41 +21,44 @@ class LicenseController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            // Получаем запрос на основании данных введенных пользователем
-            $query = Criteria::fromInput($this->di, 'License', $_POST);
+            // // Поиск по промежутку дат
+            // $endDateStart = $this->request->getPost("end_date_begin");
+            // // Получаем крайний нижний порог даты, если не была задана начальная
+            // $endDateStart = date('Y-m-d', strtotime($endDateStart));
+            // $endDateEnd = $this->request->getPost("end_date_end");
+            // $endDateEnd = date('Y-m-d', strtotime($endDateEnd));
+            // // Если верхний порог не был задан, прекращаем поиск
+            // if ($endDateEnd == "1970-01-01" && $endDateStart != "1970-01-01") {
+            //     $this->flash->warning("При установке нижнего порога даты поиска, необходимо указать и верхний!");
+            //     $this->dispatcher->forward([
+            //         "controller" => "license",
+            //         "action" => "index"
+            //     ]);
+            //     return;
+            // }
+            // // Если пользователь хотел поискать по дате лицензии
+            // if ($endDateStart != "1970-01-01" || $endDateEnd != "1970-01-01") {
+            //     $query->andWhere(
+            //         "end_date BETWEEN :end_date_begin: AND :end_date_end:",
+            //         [
+            //             "end_date_begin" => $endDateStart,
+            //             "end_date_end" => $endDateEnd,
+            //         ]
+            //     );
+            // }
 
-            // Поиск по промежутку дат
-            $endDateStart = $this->request->getPost("end_date_begin");
-            // Получаем крайний нижний порог даты, если не была задана начальная
-            $endDateStart = date('Y-m-d', strtotime($endDateStart));
-            $endDateEnd = $this->request->getPost("end_date_end");
-            $endDateEnd = date('Y-m-d', strtotime($endDateEnd));
-            // Если верхний порог не был задан, прекращаем поиск
-            if ($endDateEnd == "1970-01-01" && $endDateStart != "1970-01-01") {
-                $this->flash->warning("При установке нижнего порога даты поиска, необходимо указать и верхний!");
-                $this->dispatcher->forward([
-                    "controller" => "license",
-                    "action" => "index"
-                ]);
-                return;
+            $parameters = [];
+            foreach ($_POST as $key => $value) {
+                if ($value !== '') {
+                    $parameters[$key] = $value;
+                }
             }
-            // Если пользователь хотел поискать по дате лицензии
-            if ($endDateStart != "1970-01-01" || $endDateEnd != "1970-01-01") {
-                $query->andWhere(
-                    "end_date BETWEEN :end_date_begin: AND :end_date_end:",
-                    [
-                        "end_date_begin" => $endDateStart,
-                        "end_date_end" => $endDateEnd,
-                    ]
-                );
-            }
-
-            $this->persistent->parameters = $query->getParams();
+            $this->persistent->parameters = empty($parameters) ? null : $parameters;
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
 
-        $parameters = $this->persistent->parameters;
+        $parameters["conditions"] = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
         }
@@ -73,18 +76,12 @@ class LicenseController extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $license,
-            'limit'=> 10,
-            'page' => $numberPage
-        ]);
-
         $this->dispatcher->forward([
             "controller" => "license",
             "action" => "index"
         ]);
 
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $license;
     }
 
     /**
@@ -104,7 +101,7 @@ class LicenseController extends ControllerBase
     {
         if (!$this->request->isPost()) {
 
-            $license = License::findFirstBylicense_id($license_id);
+            $license = License::findById($license_id);
             if (!$license) {
                 $this->flash->error("Лицензия не найдена");
 
@@ -118,7 +115,7 @@ class LicenseController extends ControllerBase
 
             $this->view->license_id = $license->getLicenseId();
 
-            $this->tag->setDefault("license_id", $license->getLicenseId());
+            $this->tag->setDefault("license_id", strval($license->getLicenseId()));
             $this->tag->setDefault("po_name", $license->getPoName());
             $this->tag->setDefault("po_version", $license->getPoVersion());
             $this->tag->setDefault("license_number", $license->getLicenseNumber());
@@ -186,7 +183,7 @@ class LicenseController extends ControllerBase
         }
 
         $license_id = $this->request->getPost("license_id");
-        $license = License::findFirstBylicense_id($license_id);
+        $license = License::findById($license_id);
 
         if (!$license) {
             $this->flash->error("Лицензия с таким id не существует: " . $license_id);
@@ -235,7 +232,7 @@ class LicenseController extends ControllerBase
      */
     public function deleteAction($license_id)
     {
-        $license = License::findFirstBylicense_id($license_id);
+        $license = License::findById($license_id);
         if (!$license) {
             $this->flash->error("Лицензия не найдена");
 

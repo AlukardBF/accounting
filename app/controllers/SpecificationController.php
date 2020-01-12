@@ -21,13 +21,18 @@ class SpecificationController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'Specification', $_POST);
-            $this->persistent->parameters = $query->getParams();
+            $parameters = [];
+            foreach ($_POST as $key => $value) {
+                if ($value !== '') {
+                    $parameters[$key] = $value;
+                }
+            }
+            $this->persistent->parameters = empty($parameters) ? null : $parameters;
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
 
-        $parameters = $this->persistent->parameters;
+        $parameters["conditions"] = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
         }
@@ -45,18 +50,12 @@ class SpecificationController extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $specification,
-            'limit'=> 10,
-            'page' => $numberPage
-        ]);
-
         $this->dispatcher->forward([
             "controller" => "specification",
             "action" => "index"
         ]);
 
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $specification;
     }
 
     /**
@@ -76,7 +75,7 @@ class SpecificationController extends ControllerBase
     {
         if (!$this->request->isPost()) {
 
-            $specification = Specification::findFirstByspecification_id($specification_id);
+            $specification = Specification::findById($specification_id);
             if (!$specification) {
                 $this->flash->error("Характеристика не найдена");
 
@@ -90,7 +89,7 @@ class SpecificationController extends ControllerBase
 
             $this->view->specification_id = $specification->getSpecificationId();
 
-            $this->tag->setDefault("specification_id", $specification->getSpecificationId());
+            $this->tag->setDefault("specification_id", strval($specification->getSpecificationId()));
             $this->tag->setDefault("name", $specification->getName());
             $this->tag->setDefault("expected_max_value", $specification->getExpectedMaxValue());
 
@@ -154,7 +153,7 @@ class SpecificationController extends ControllerBase
         }
 
         $specification_id = $this->request->getPost("specification_id");
-        $specification = Specification::findFirstByspecification_id($specification_id);
+        $specification = Specification::findById($specification_id);
 
         if (!$specification) {
             $this->flash->error("Характеристика с таким id не найдена: " . $specification_id);
@@ -201,7 +200,7 @@ class SpecificationController extends ControllerBase
      */
     public function deleteAction($specification_id)
     {
-        $specification = Specification::findFirstByspecification_id($specification_id);
+        $specification = Specification::findById($specification_id);
         if (!$specification) {
             $this->flash->error("Характеристика не найдена");
 

@@ -17,8 +17,8 @@
             </tr>
         </thead>
         <tbody>
-        <?php if (isset($page)): 
-            foreach ($page->items as $license): ?>
+        <?php if (isset($page)):
+            foreach ($page as $license): ?>
             <tr>
                 <td class='hidden'><?php echo $license->getLicenseId() ?></td>
                 <td><?php echo nl2br($license->getPoName()) ?></td>
@@ -35,15 +35,3 @@
         </tbody>
     </table>
 </div>
-<?php if (isset($page)): ?>
-<div class="d-flex justify-content-center px-3">
-    <? echo CustomTags::pagination([
-        'link' => 'license/search?page=%d',
-        'current' => $page->current,
-        'next' => $page->next,
-        'before' => $page->before,
-        'count'   => $page->total_pages,
-    ]);
-    ?>
-</div>
-<?php endif; ?>

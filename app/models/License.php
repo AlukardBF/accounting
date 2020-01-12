@@ -3,7 +3,7 @@
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 
-class License extends \Phalcon\Mvc\Model
+class License extends \Phalcon\Mvc\MongoCollection
 {
 
     /**
@@ -13,7 +13,7 @@ class License extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="license_id", type="integer", length=11, nullable=false)
      */
-    protected $license_id;
+    public $_id;
 
     /**
      *
@@ -51,7 +51,7 @@ class License extends \Phalcon\Mvc\Model
      */
     public function setLicenseId($license_id)
     {
-        $this->license_id = $license_id;
+        $this->_id = $license_id;
 
         return $this;
     }
@@ -115,7 +115,7 @@ class License extends \Phalcon\Mvc\Model
      */
     public function getLicenseId()
     {
-        return $this->license_id;
+        return $this->_id;
     }
 
     /**
@@ -191,25 +191,25 @@ class License extends \Phalcon\Mvc\Model
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
-        // Для поддержки PresenceOf валидации
-        $this->setup(
-            [ 'notNullValidations' => false ]
-        );
+    // public function initialize()
+    // {
+    //     // Для поддержки PresenceOf валидации
+    //     $this->setup(
+    //         [ 'notNullValidations' => false ]
+    //     );
 
-        $this->setSchema("bachelor");
-        $this->setSource("license");
-        $this->hasMany('license_id', 'EquipmentHasLicense', 'license_license_id', ['alias' => 'EquipmentHasLicense']);
-        $this->hasManyToMany(
-            'license_id',
-            'EquipmentHasLicense',
-            'license_license_id', 'equipment_equipment_id',
-            'Equipment',
-            'equipment_id',
-            ['alias' => 'Equipment']
-        );
-    }
+    //     $this->setSchema("bachelor");
+    //     $this->setSource("license");
+    //     $this->hasMany('license_id', 'EquipmentHasLicense', 'license_license_id', ['alias' => 'EquipmentHasLicense']);
+    //     $this->hasManyToMany(
+    //         'license_id',
+    //         'EquipmentHasLicense',
+    //         'license_license_id', 'equipment_equipment_id',
+    //         'Equipment',
+    //         'equipment_id',
+    //         ['alias' => 'Equipment']
+    //     );
+    // }
 
     /**
      * Allows to query a set of records that match the specified conditions

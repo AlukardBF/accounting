@@ -3,7 +3,7 @@
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 
-class Specification extends \Phalcon\Mvc\Model
+class Specification extends \Phalcon\Mvc\MongoCollection
 {
 
     /**
@@ -13,7 +13,7 @@ class Specification extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="specification_id", type="integer", length=11, nullable=false)
      */
-    protected $specification_id;
+    public $_id;
 
     /**
      *
@@ -37,7 +37,7 @@ class Specification extends \Phalcon\Mvc\Model
      */
     public function setSpecificationId($specification_id)
     {
-        $this->specification_id = $specification_id;
+        $this->_id = $specification_id;
 
         return $this;
     }
@@ -75,7 +75,7 @@ class Specification extends \Phalcon\Mvc\Model
      */
     public function getSpecificationId()
     {
-        return $this->specification_id;
+        return $this->_id;
     }
 
     /**
@@ -123,25 +123,25 @@ class Specification extends \Phalcon\Mvc\Model
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
-        // Для поддержки PresenceOf валидации
-        $this->setup(
-            [ 'notNullValidations' => false ]
-        );
+    // public function initialize()
+    // {
+    //     // Для поддержки PresenceOf валидации
+    //     $this->setup(
+    //         [ 'notNullValidations' => false ]
+    //     );
 
-        $this->setSchema("bachelor");
-        $this->setSource("specification");
-        $this->hasMany('specification_id', 'EquipmentHasSpecification', 'specification_specification_id', ['alias' => 'EquipmentHasSpecification']);
-        $this->hasManyToMany(
-            'specification_id',
-            'EquipmentHasSpecification',
-            'specification_specification_id', 'equipment_equipment_id',
-            'Equipment',
-            'equipment_id',
-            ['alias' => 'Equipment']
-        );
-    }
+    //     $this->setSchema("bachelor");
+    //     $this->setSource("specification");
+    //     $this->hasMany('specification_id', 'EquipmentHasSpecification', 'specification_specification_id', ['alias' => 'EquipmentHasSpecification']);
+    //     $this->hasManyToMany(
+    //         'specification_id',
+    //         'EquipmentHasSpecification',
+    //         'specification_specification_id', 'equipment_equipment_id',
+    //         'Equipment',
+    //         'equipment_id',
+    //         ['alias' => 'Equipment']
+    //     );
+    // }
 
     /**
      * Returns table name mapped in the model.
