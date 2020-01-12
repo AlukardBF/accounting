@@ -43,6 +43,8 @@ class License extends \Phalcon\Mvc\MongoCollection
      */
     protected $end_date;
 
+    protected $equipment_ids;
+
     /**
      * Method to set the value of field license_id
      *
@@ -108,6 +110,13 @@ class License extends \Phalcon\Mvc\MongoCollection
         return $this;
     }
 
+    public function setEquipmentIds($equipment_ids)
+    {
+        $this->equipment_ids = $equipment_ids;
+
+        return $this;
+    }
+
     /**
      * Returns the value of field license_id
      *
@@ -156,6 +165,11 @@ class License extends \Phalcon\Mvc\MongoCollection
     public function getEndDate()
     {
         return $this->end_date;
+    }
+
+    public function getEquipmentIds()
+    {
+        return $this->equipment_ids;
     }
 
     /**

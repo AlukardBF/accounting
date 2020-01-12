@@ -28,15 +28,11 @@
                 <td><? echo nl2br($license->getEndDate()) ?></td>
                 <td class='actions'>
                     <?  $license_id = $license->getLicenseId();
-                        $equipmentHasLicense = EquipmentHasLicense::findFirst([
-                                'equipment_equipment_id = ?1 AND license_license_id = ?2',
-                                'bind' => [
-                                    1 => $equipment_id,
-                                    2 => $license_id,
-                                ],
-                            ]
-                        );
-                        if ($equipmentHasLicense) { ?>
+                        $equipment_id = Equipment::findById($equipment_id)->getEquipmentId();
+                        $found_license = License::findFirst([[
+                            'equipment_ids' => $equipment_id
+                        ]]);
+                        if ($found_license) { ?>
                             <button class='btn btn-danger w-100 lic-rem' name='<? echo $license_id; ?>'><i class="fas fa-edit d-inline"></i> Убрать лицензию</button>
                         <? } else { ?>
                             <button class='btn btn-success w-100 lic-add' name='<? echo $license_id; ?>'><i class="fas fa-edit d-inline"></i> Добавить лицензию</button>

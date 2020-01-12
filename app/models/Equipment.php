@@ -29,6 +29,8 @@ class Equipment extends \Phalcon\Mvc\MongoCollection
      */
     protected $manufacturer;
 
+    protected $license_ids;
+
     /**
      * Method to set the value of field equipment_id
      *
@@ -68,6 +70,13 @@ class Equipment extends \Phalcon\Mvc\MongoCollection
         return $this;
     }
 
+    public function setLicenseIds($license_ids)
+    {
+        $this->license_ids = $license_ids;
+
+        return $this;
+    }
+
     /**
      * Returns the value of field equipment_id
      *
@@ -96,6 +105,11 @@ class Equipment extends \Phalcon\Mvc\MongoCollection
     public function getManufacturer()
     {
         return $this->manufacturer;
+    }
+
+    public function getLicenseIds()
+    {
+        return $this->license_ids;
     }
 
     /**

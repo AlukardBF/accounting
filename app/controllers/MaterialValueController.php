@@ -406,15 +406,17 @@ class MaterialValueController extends ControllerBase
     public function showAction($material_value_id)
     {
         $this->editAction($material_value_id);
-        // $equipment = MaterialValue::findById($material_value_id)->getEquipment();
-        // if (isset($equipment)) {
-        //     $licenses = $equipment->getLicense();
-        //     if (isset($licenses))
-        //         $this->view->licenses = $licenses;
-        //     $specifications = $equipment->EquipmentHasSpecification;
-        //     if (isset($specifications))
-        //         $this->view->specifications = $specifications;
-        // }
+        $equipment = MaterialValue::findById($material_value_id)->getEquipment();
+        if (isset($equipment)) {
+            $licenses = License::find([
+                'equipment_ids' => $equipment->getEquipmentId(),
+            ]);
+            if (isset($licenses))
+                $this->view->licenses = $licenses;
+            // $specifications = $equipment->EquipmentHasSpecification;
+            // if (isset($specifications))
+            //     $this->view->specifications = $specifications;
+        }
     }
 
     /**
@@ -506,10 +508,17 @@ class MaterialValueController extends ControllerBase
         if ($this->request->isAjax()) {
             $equipment = MaterialValue::findById($material_value_id)->getEquipment();
             if (isset($equipment)) {
-                $equipmentHasLicense = new EquipmentHasLicense();
-                $equipmentHasLicense->setEquipment($equipment);
-                $equipmentHasLicense->setLicense(License::findById($license_id));
-                if ($equipmentHasLicense->save()) {
+                $license = License::findById($license_id);
+                $license_ids = $equipment->getLicenseIds();
+                $license_ids[] = $license->getLicenseId();
+                $equipment->setLicenseIds($license_ids);
+                if (!$equipment->save()) {
+                    return;
+                }
+                $equipment_ids = $license->getEquipmentIds();
+                $equipment_ids[] = $equipment->getEquipmentId();
+                $license->setEquipmentIds($equipment_ids);
+                if ($license->save()) {
                     $message = "Связь добавлена успешно";
                 } else {
                     $message = "Ошибка при сохранении связи лицензии и оргтехники";
@@ -530,23 +539,28 @@ class MaterialValueController extends ControllerBase
         if ($this->request->isAjax()) {
             $equipment_id = MaterialValue::findById($material_value_id)->getEquipmentEquipmentId();
             if (isset($equipment_id)) {
-                $equipmentHasLicense = EquipmentHasLicense::findFirst(
-                    [
-                        'equipment_equipment_id = ?1 AND license_license_id = ?2',
-                        'bind' => [
-                            1 => $equipment_id,
-                            2 => $license_id,
-                        ],
-                    ]
-                );
-                if (isset($equipmentHasLicense)) {
-                    if ($equipmentHasLicense->delete()) {
-                        $message = "Связь успешно удалена";
-                    } else {
-                        $message = "Ошибка при удалении связи лицензии и оргтехники";
-                    }
+                // Clear license
+                $license = License::findById($license_id);
+                $license_id = $license->getLicenseId();
+                $equipment_ids = $license->getEquipmentIds();
+                if (($key = array_search($equipment_id, $equipment_ids)) !== false) {
+                    unset($equipment_ids[$key]);
+                }
+                $license->setEquipmentIds($equipment_ids);
+                if (!$license->save()) {
+                    return;
+                }
+                // Clear equipment
+                $equipment = Equipment::findById($equipment_id);
+                $license_ids = $equipment->getLicenseIds();
+                if (($key = array_search($license_id, $license_ids)) !== false) {
+                    unset($license_ids[$key]);
+                }
+                $equipment->setLicenseIds($license_ids);
+                if ($equipment->save()) {
+                    $message = "Связь успешно удалена";
                 } else {
-                    $message = "Не найдена связь лицензии и оргтехники";
+                    $message = "Ошибка при удалении связи лицензии и оргтехники";
                 }
             } else {
                 $message = "Не найдена оргтехника";
@@ -578,7 +592,9 @@ class MaterialValueController extends ControllerBase
             $parameters = [];
             foreach ($_POST as $key => $value) {
                 if ($value !== '') {
-                    $parameters[$key] = $value;
+                    if ($key != "material_value_id") {
+                        $parameters[$key] = $value;
+                    }
                 }
             }
             $this->persistent->parameters = empty($parameters) ? null : $parameters;
