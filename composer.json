@@ -1,6 +1,7 @@
 {
     "require": {
         "endroid/qr-code": "^3.5",
-        "phpoffice/phpword": "^0.16.0"
+        "phpoffice/phpword": "^0.16.0",
+        "phalcon/incubator": "^3.4"
     }
 }

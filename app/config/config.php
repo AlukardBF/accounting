@@ -15,6 +15,15 @@ return new \Phalcon\Config([
         'dbname'      => 'bachelor',
         'charset'     => 'utf8',
     ],
+    'mongo' => [
+        'host' => 'localhost:27017',
+        'dbname' => 'bachelor',
+        'options' => [
+            'authSource' => 'bachelor',
+        ],
+        'username' => 'admin',
+        'password' => 'admin',
+    ],
     'application' => [
         'appDir'         => APP_PATH . '/',
         'controllersDir' => APP_PATH . '/controllers/',

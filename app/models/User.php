@@ -3,7 +3,8 @@
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
-class User extends \Phalcon\Mvc\Model
+// class User extends \Phalcon\Mvc\Model
+class User extends \Phalcon\Mvc\MongoCollection
 {
 
     /**
@@ -13,7 +14,7 @@ class User extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="user_id", type="integer", length=11, nullable=false)
      */
-    protected $user_id;
+    public $_id;
 
     /**
      *
@@ -273,11 +274,11 @@ class User extends \Phalcon\Mvc\Model
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
-        $this->setSchema("bachelor");
-        $this->setSource("user");
-    }
+    // public function initialize()
+    // {
+    //     $this->setSchema("bachelor");
+    //     $this->setSource("user");
+    // }
 
     /**
      * Returns table name mapped in the model.

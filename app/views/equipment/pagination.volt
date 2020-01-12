@@ -16,8 +16,8 @@
             </tr>
         </thead>
         <tbody>
-        {% if page.items is defined %}
-        {% for equipment in page.items %}
+        {% if page is defined %}
+        {% for equipment in page %}
             <tr>
                 <td class="hidden">{{ equipment.getEquipmentId() }}</td>
                 <td>{{ equipment.getType() }}</td>
@@ -33,8 +33,3 @@
         </tbody>
     </table>
 </div>
-{% if page is defined %}
-<div class="d-flex justify-content-center px-3">
-    {{ pagination('link' : 'equipment/search?page=%d','current' : page.current,'next' : page.next,'before' : page.before,'count' : page.total_pages) }}
-</div>
-{% endif %}

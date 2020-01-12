@@ -13,7 +13,7 @@ class Furniture extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="furniture_id", type="integer", length=11, nullable=false)
      */
-    protected $furniture_id;
+    public $_id;
 
     /**
      *
@@ -118,7 +118,7 @@ class Furniture extends \Phalcon\Mvc\Model
         $this->setup(
             [ 'notNullValidations' => false ]
         );
-        
+
         $this->setSchema("bachelor");
         $this->setSource("furniture");
         $this->belongsTo('material_value_material_value_id', '\MaterialValue', 'material_value_id', ['alias' => 'MaterialValue']);

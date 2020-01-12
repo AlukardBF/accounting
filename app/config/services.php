@@ -10,6 +10,8 @@ use Phalcon\Flash\Direct as Flash;
 use Phalcon\Security;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Mvc\Collection\Manager as CollectionManager;
+use Phalcon\Db\Adapter\MongoDB\Client as MongoClient;
 
 /**
  * Shared configuration service
@@ -91,6 +93,34 @@ $di->setShared('db', function () {
     $connection = new $class($params);
 
     return $connection;
+});
+
+$di->setShared('mongo', function () {
+    $config = $this->getShared('config');
+
+    $uriOptions = [];
+
+    if (!$config->mongo->username || !$config->mongo->password) {
+        $dsn = 'mongodb://' . $config->mongo->host;
+    } else {
+        $dsn = sprintf(
+            'mongodb://%s:%s@%s',
+            $config->mongo->username,
+            $config->mongo->password,
+            $config->mongo->host
+        );
+        $uriOptions = [
+            'authSource' => $config->mongo->dbname,
+        ];
+    }
+
+    $mongo = new MongoClient($dsn, $uriOptions);
+
+    return $mongo->selectDatabase($config->mongo->dbname);
+});
+
+$di->setShared('collectionManager', function () {
+    return new CollectionManager();
 });
 
 

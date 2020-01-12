@@ -7,13 +7,13 @@ class SessionController extends \Phalcon\Mvc\Controller
         $this->session->set(
             'auth',
             [
-                'id'   => $user->user_id,
-                'email' => $user->email,
-                'role' => $user->role,
+                'id'   => $user->getUserId(),
+                'email' => $user->getEmail(),
+                'role' => $user->getRole(),
             ]
         );
     }
-    
+
     public function indexAction()
     {
     	if (!$this->request->isPost()) {
@@ -22,17 +22,24 @@ class SessionController extends \Phalcon\Mvc\Controller
     	$email    = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
-        $user = User::findFirstByEmail($email);
+        // $user = User::findFirstByEmail($email);
+        $user = User::findFirst([
+                [
+                    "email" => $email,
+                ],
+            ],
+        );
+        // $user = User::findFirst();
 
-        if ($user !== false && $this->security->checkHash($password, $user->password)) {
+        if ($user !== false && $this->security->checkHash($password, $user->getPassword())) {
             $this->_registerSession($user);
-            
-            if ($user->role == 'admin') {
+
+            if ($user->getRole() == 'admin') {
                 return $this->response->redirect('material_value/index');
             } else {
                 return $this->response->redirect('index');
             }
-      	    
+
         }
 
         return $this->dispatcher->forward(

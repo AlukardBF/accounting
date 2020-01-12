@@ -4,7 +4,8 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 use Phalcon\Validation\Validator\PresenceOf;
 
-class Location extends \Phalcon\Mvc\Model
+// class Location extends \Phalcon\Mvc\Model
+class Location extends \Phalcon\Mvc\MongoCollection
 {
 
     /**
@@ -14,7 +15,7 @@ class Location extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="location_id", type="integer", length=11, nullable=false)
      */
-    protected $location_id;
+    public $_id;
 
     /**
      *
@@ -38,7 +39,7 @@ class Location extends \Phalcon\Mvc\Model
      */
     public function setLocationId($location_id)
     {
-        $this->location_id = $location_id;
+        $this->_id = $location_id;
 
         return $this;
     }
@@ -76,7 +77,7 @@ class Location extends \Phalcon\Mvc\Model
      */
     public function getLocationId()
     {
-        return $this->location_id;
+        return $this->_id;
     }
 
     /**
@@ -121,7 +122,7 @@ class Location extends \Phalcon\Mvc\Model
             [
                 'campus',
                 'auditory'
-            ],            
+            ],
             new UniquenessValidator(
                 [
                     'model'   => $this,
@@ -136,17 +137,17 @@ class Location extends \Phalcon\Mvc\Model
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
-        // Для поддержки PresenceOf валидации
-        $this->setup(
-            [ 'notNullValidations' => false ]
-        );
+    // public function initialize()
+    // {
+    //     // Для поддержки PresenceOf валидации
+    //     $this->setup(
+    //         [ 'notNullValidations' => false ]
+    //     );
 
-        $this->setSchema("bachelor");
-        $this->setSource("location");
-        $this->hasMany('location_id', 'MaterialValue', 'location_location_id', ['alias' => 'MaterialValue']);
-    }
+    //     $this->setSchema("bachelor");
+    //     $this->setSource("location");
+    //     $this->hasMany('location_id', 'MaterialValue', 'location_location_id', ['alias' => 'MaterialValue']);
+    // }
 
     /**
      * Allows to query a set of records that match the specified conditions
@@ -192,11 +193,10 @@ class Location extends \Phalcon\Mvc\Model
      */
     public static function getLocationFullName($location_id = null)
     {
-        $test = Location::findFirst([
+        return Location::findFirst([
             $location_id,
             'columns' => ["CONCAT(campus, '-', auditory) as fullname"]
-        ]);
-        return $test->fullname;
+        ])->fullname;
     }
 
     /**

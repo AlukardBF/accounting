@@ -3,7 +3,7 @@
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 
-class Equipment extends \Phalcon\Mvc\Model
+class Equipment extends \Phalcon\Mvc\MongoCollection
 {
 
     /**
@@ -13,7 +13,7 @@ class Equipment extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="equipment_id", type="integer", length=11, nullable=false)
      */
-    protected $equipment_id;
+    public $_id;
 
     /**
      *
@@ -37,7 +37,7 @@ class Equipment extends \Phalcon\Mvc\Model
      */
     public function setEquipmentId($equipment_id)
     {
-        $this->equipment_id = $equipment_id;
+        $this->_id = $equipment_id;
 
         return $this;
     }
@@ -75,7 +75,7 @@ class Equipment extends \Phalcon\Mvc\Model
      */
     public function getEquipmentId()
     {
-        return $this->equipment_id;
+        return $this->_id;
     }
 
     /**
@@ -146,35 +146,35 @@ class Equipment extends \Phalcon\Mvc\Model
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
-        // Для поддержки PresenceOf валидации
-        $this->setup(
-            [ 'notNullValidations' => false ]
-        );
+    // public function initialize()
+    // {
+    //     // Для поддержки PresenceOf валидации
+    //     $this->setup(
+    //         [ 'notNullValidations' => false ]
+    //     );
 
-        $this->setSchema("bachelor");
-        $this->setSource("equipment");
-        $this->hasMany('equipment_id', 'EquipmentHasLicense', 'equipment_equipment_id', ['alias' => 'EquipmentHasLicense']);
-        $this->hasMany('equipment_id', 'EquipmentHasSpecification', 'equipment_equipment_id', ['alias' => 'EquipmentHasSpecification']);
-        $this->belongsTo('material_value_material_value_id', '\MaterialValue', 'material_value_id', ['alias' => 'MaterialValue']);
-        $this->hasManyToMany(
-            'equipment_id',
-            'EquipmentHasLicense',
-            'equipment_equipment_id', 'license_license_id',
-            'License',
-            'license_id',
-            ['alias' => 'License']
-        );
-        $this->hasManyToMany(
-            'equipment_id',
-            'EquipmentHasSpecification',
-            'equipment_equipment_id', 'specification_specification_id',
-            'Specification',
-            'specification_id',
-            ['alias' => 'Specification']
-        );
-    }
+    //     $this->setSchema("bachelor");
+    //     $this->setSource("equipment");
+    //     $this->hasMany('equipment_id', 'EquipmentHasLicense', 'equipment_equipment_id', ['alias' => 'EquipmentHasLicense']);
+    //     $this->hasMany('equipment_id', 'EquipmentHasSpecification', 'equipment_equipment_id', ['alias' => 'EquipmentHasSpecification']);
+    //     $this->belongsTo('material_value_material_value_id', '\MaterialValue', 'material_value_id', ['alias' => 'MaterialValue']);
+    //     $this->hasManyToMany(
+    //         'equipment_id',
+    //         'EquipmentHasLicense',
+    //         'equipment_equipment_id', 'license_license_id',
+    //         'License',
+    //         'license_id',
+    //         ['alias' => 'License']
+    //     );
+    //     $this->hasManyToMany(
+    //         'equipment_id',
+    //         'EquipmentHasSpecification',
+    //         'equipment_equipment_id', 'specification_specification_id',
+    //         'Specification',
+    //         'specification_id',
+    //         ['alias' => 'Specification']
+    //     );
+    // }
 
     /**
      * Allows to query a set of records that match the specified conditions

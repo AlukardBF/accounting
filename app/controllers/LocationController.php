@@ -21,17 +21,22 @@ class LocationController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'Location', $_POST);
-            $this->persistent->parameters = $query->getParams();
+            $parameters = [];
+            foreach ($_POST as $key => $value) {
+                if ($value !== '') {
+                    $parameters[$key] = $value;
+                }
+            }
+            $this->persistent->parameters = empty($parameters) ? null : $parameters;
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
 
-        $parameters = $this->persistent->parameters;
+        $parameters["conditions"] = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
         }
-        $parameters["order"] = "location_id";
+        $parameters["order"] = "_id";
 
         $location = Location::find($parameters);
         if (count($location) == 0) {
@@ -45,18 +50,13 @@ class LocationController extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $location,
-            'limit'=> 10,
-            'page' => $numberPage
-        ]);
-
         $this->dispatcher->forward([
             "controller" => "location",
             "action" => "index"
         ]);
 
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $location;
+
     }
 
     /**
@@ -76,7 +76,8 @@ class LocationController extends ControllerBase
     {
         if (!$this->request->isPost()) {
 
-            $location = Location::findFirstBylocation_id($location_id);
+            // $location = Location::findFirstBylocation_id($location_id);
+            $location = Location::findById($location_id);
             if (!$location) {
                 $this->flash->error("Местоположение не найдено");
 
@@ -90,7 +91,7 @@ class LocationController extends ControllerBase
 
             $this->view->location_id = $location->getLocationId();
 
-            $this->tag->setDefault("location_id", $location->getLocationId());
+            $this->tag->setDefault("location_id", strval($location->getLocationId()));
             $this->tag->setDefault("campus", $location->getCampus());
             $this->tag->setDefault("auditory", $location->getAuditory());
 
@@ -154,7 +155,7 @@ class LocationController extends ControllerBase
         }
 
         $location_id = $this->request->getPost("location_id");
-        $location = Location::findFirstBylocation_id($location_id);
+        $location = Location::findById($location_id);
 
         if (!$location) {
             $this->flash->error("Местоположение с таким id не существует: " . $location_id);
@@ -201,7 +202,7 @@ class LocationController extends ControllerBase
      */
     public function deleteAction($location_id)
     {
-        $location = Location::findFirstBylocation_id($location_id);
+        $location = Location::findById($location_id);
         if (!$location) {
             $this->flash->error("Местоположение не найдено");
 

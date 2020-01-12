@@ -21,13 +21,18 @@ class EquipmentController extends ControllerBase
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, 'Equipment', $_POST);
-            $this->persistent->parameters = $query->getParams();
+            $parameters = [];
+            foreach ($_POST as $key => $value) {
+                if ($value !== '') {
+                    $parameters[$key] = $value;
+                }
+            }
+            $this->persistent->parameters = empty($parameters) ? null : $parameters;
         } else {
             $numberPage = $this->request->getQuery("page", "int");
         }
 
-        $parameters = $this->persistent->parameters;
+        $parameters["conditions"] = $this->persistent->parameters;
         if (!is_array($parameters)) {
             $parameters = [];
         }
@@ -45,18 +50,12 @@ class EquipmentController extends ControllerBase
             return;
         }
 
-        $paginator = new Paginator([
-            'data' => $equipment,
-            'limit'=> 10,
-            'page' => $numberPage
-        ]);
-
         $this->dispatcher->forward([
             "controller" => "equipment",
             "action" => "index"
         ]);
 
-        $this->view->page = $paginator->getPaginate();
+        $this->view->page = $equipment;
     }
 
     /**
@@ -76,7 +75,7 @@ class EquipmentController extends ControllerBase
     {
         if (!$this->request->isPost()) {
 
-            $equipment = Equipment::findFirstByequipment_id($equipment_id);
+            $equipment = Equipment::findById($equipment_id);
             if (!$equipment) {
                 $this->flash->error("Оргтехника не найдена");
 
@@ -90,7 +89,7 @@ class EquipmentController extends ControllerBase
 
             $this->view->equipment_id = $equipment->getEquipmentId();
 
-            $this->tag->setDefault("equipment_id", $equipment->getEquipmentId());
+            $this->tag->setDefault("equipment_id", strval($equipment->getEquipmentId()));
             $this->tag->setDefault("type", $equipment->getType());
             $this->tag->setDefault("manufacturer", $equipment->getManufacturer());
         }
@@ -152,7 +151,7 @@ class EquipmentController extends ControllerBase
         }
 
         $equipment_id = $this->request->getPost("equipment_id");
-        $equipment = Equipment::findFirstByequipment_id($equipment_id);
+        $equipment = Equipment::findById($equipment_id);
 
         if (!$equipment) {
             $this->flash->error("Оргтехника с таким id не найдена: " . $equipment_id);
@@ -198,7 +197,7 @@ class EquipmentController extends ControllerBase
      */
     public function deleteAction($equipment_id)
     {
-        $equipment = Equipment::findFirstByequipment_id($equipment_id);
+        $equipment = Equipment::findById($equipment_id);
         if (!$equipment) {
             $this->flash->error("Оргтехника не найдена");
 

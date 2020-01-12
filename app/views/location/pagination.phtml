@@ -17,8 +17,8 @@
             </tr>
         </thead>
         <tbody>
-        <?php if (isset($page)): 
-            foreach ($page->items as $location): ?>
+        <?php if (isset($page)):
+            foreach ($page as $location): ?>
             <tr>
                 <td class='hidden'><?php echo $location->getLocationId() ?></td>
                 <td><?php echo nl2br($location->getCampus()) ?></td>
@@ -33,15 +33,3 @@
         </tbody>
     </table>
 </div>
-<?php if (isset($page)): ?>
-<div class="d-flex justify-content-center px-3">
-    <? echo CustomTags::pagination([
-        'link' => 'location/search?page=%d',
-        'current' => $page->current,
-        'next' => $page->next,
-        'before' => $page->before,
-        'count'   => $page->total_pages,
-    ]);
-    ?>
-</div>
-<?php endif; ?>

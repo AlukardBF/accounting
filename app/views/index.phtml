@@ -173,6 +173,7 @@
                 <ul class="navbar-nav">
                     <? $role=$this->session->auth['role'];
                         if($role != 'guest' && $role != null) {
+                        // if(false) {
                             echo Phalcon\Tag::linkTo([
                                 '/session/logout',
                                 '<i class="fas fa-sign-out-alt"></i><b>Выход</b>',

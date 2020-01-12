@@ -4,7 +4,7 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
 use Phalcon\Validation\Validator\PresenceOf;
 
-class MaterialValue extends \Phalcon\Mvc\Model
+class MaterialValue extends \Phalcon\Mvc\MongoCollection
 {
 
     /**
@@ -14,7 +14,7 @@ class MaterialValue extends \Phalcon\Mvc\Model
      * @Identity
      * @Column(column="material_value_id", type="integer", length=11, nullable=false)
      */
-    protected $material_value_id;
+    public $_id;
 
     /**
      *
@@ -117,7 +117,7 @@ class MaterialValue extends \Phalcon\Mvc\Model
      */
     public function setMaterialValueId($material_value_id)
     {
-        $this->material_value_id = $material_value_id;
+        $this->_id = $material_value_id;
 
         return $this;
     }
@@ -298,7 +298,7 @@ class MaterialValue extends \Phalcon\Mvc\Model
      */
     public function getMaterialValueId()
     {
-        return $this->material_value_id;
+        return $this->_id;
     }
 
     /**
@@ -478,19 +478,19 @@ class MaterialValue extends \Phalcon\Mvc\Model
     /**
      * Initialize method for model.
      */
-    public function initialize()
-    {
-        // Для поддержки PresenceOf валидации
-        $this->setup(
-            [ 'notNullValidations' => false ]
-        );
+    // public function initialize()
+    // {
+    //     // Для поддержки PresenceOf валидации
+    //     $this->setup(
+    //         [ 'notNullValidations' => false ]
+    //     );
 
-        $this->setSchema("bachelor");
-        $this->setSource("material_value");
-        $this->belongsTo('equipment_equipment_id', '\Equipment', 'equipment_id', ['alias' => 'Equipment']);
-        $this->belongsTo('furniture_furniture_id', '\Furniture', 'furniture_id', ['alias' => 'Furniture']);
-        $this->belongsTo('location_location_id', '\Location', 'location_id', ['alias' => 'Location']);
-    }
+    //     $this->setSchema("bachelor");
+    //     $this->setSource("material_value");
+    //     $this->belongsTo('equipment_equipment_id', '\Equipment', 'equipment_id', ['alias' => 'Equipment']);
+    //     $this->belongsTo('furniture_furniture_id', '\Furniture', 'furniture_id', ['alias' => 'Furniture']);
+    //     $this->belongsTo('location_location_id', '\Location', 'location_id', ['alias' => 'Location']);
+    // }
 
     /**
      * Allows to query a set of records that match the specified conditions
