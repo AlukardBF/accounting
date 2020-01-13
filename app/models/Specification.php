@@ -119,30 +119,6 @@ class Specification extends \Phalcon\Mvc\MongoCollection
         return $this->validate($validator);
     }
 
-
-    /**
-     * Initialize method for model.
-     */
-    // public function initialize()
-    // {
-    //     // Для поддержки PresenceOf валидации
-    //     $this->setup(
-    //         [ 'notNullValidations' => false ]
-    //     );
-
-    //     $this->setSchema("bachelor");
-    //     $this->setSource("specification");
-    //     $this->hasMany('specification_id', 'EquipmentHasSpecification', 'specification_specification_id', ['alias' => 'EquipmentHasSpecification']);
-    //     $this->hasManyToMany(
-    //         'specification_id',
-    //         'EquipmentHasSpecification',
-    //         'specification_specification_id', 'equipment_equipment_id',
-    //         'Equipment',
-    //         'equipment_id',
-    //         ['alias' => 'Equipment']
-    //     );
-    // }
-
     /**
      * Returns table name mapped in the model.
      *

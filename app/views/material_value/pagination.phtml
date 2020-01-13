@@ -40,7 +40,6 @@
                 <td><?php echo nl2br($material_value->getCount()) ?></td>
                 <td><?php echo nl2br($material_value->getEnterDate()) ?></td>
                 <td><?php echo nl2br($material_value->getExitDate()) ?></td>
-                <!-- <td><?php echo $material_value->getPhoto() ?></td> -->
                 <td>
                     <? if ($material_value->getPhoto() != null) { echo Phalcon\Tag::image(['files/photo/'.$material_value->getPhoto(), 'style' => 'max-width: 5vw; max-height: 5vw;']); }?>
                 </td>
@@ -51,7 +50,6 @@
                     echo $this->tag->linkTo(["material_value/qr/" . $material_value->getMaterialValueId(), '<i class="fas fa-qrcode d-inline"></i> QR-код', 'class' => 'btn btn-sm btn-success w-100 my-1']);
                     if ($material_value->getType() == 'equipment') {
                         echo $this->tag->linkTo(["material_value/licenses/" . $material_value->getMaterialValueId(), '<i class="fas fa-certificate d-inline"></i> Лицензии', 'class' => 'btn btn-sm btn-success w-100 my-1']);
-                        echo $this->tag->linkTo(["material_value/specifications/" . $material_value->getMaterialValueId(), '<i class="fab fa-squarespace d-inline"></i> Характеристики', 'class' => 'btn btn-sm btn-success w-100 my-1']);
                     }
                     echo $this->tag->linkTo(["material_value/delete/" . $material_value->getMaterialValueId(), '<i class="fas fa-trash d-inline"></i> Удалить', 'class' => 'btn btn-sm btn-danger w-100 my-1']);
                 ?>

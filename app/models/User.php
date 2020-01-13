@@ -272,15 +272,6 @@ class User extends \Phalcon\Mvc\MongoCollection
     }
 
     /**
-     * Initialize method for model.
-     */
-    // public function initialize()
-    // {
-    //     $this->setSchema("bachelor");
-    //     $this->setSource("user");
-    // }
-
-    /**
      * Returns table name mapped in the model.
      *
      * @return string

@@ -135,7 +135,7 @@ class MaterialValueController extends ControllerBase
             $this->tag->setDefault("enter_date", $material_value->getEnterDate());
             $this->tag->setDefault("exit_date", $material_value->getExitDate());
             $this->tag->setDefault("photo", $material_value->getPhoto());
-            $this->tag->setDefault("location_location_id", $material_value->getLocationLocationId());
+            $this->tag->setDefault("location_location_id", strval($material_value->getLocationLocationId()));
 
             $furniture = $material_value->getFurniture();
             if ($furniture) {
@@ -176,8 +176,8 @@ class MaterialValueController extends ControllerBase
         $material_value->setCount($this->request->getPost("count"));
         $material_value->setEnterDate($this->request->getPost("enter_date"));
         $material_value->setExitDate($this->request->getPost("exit_date"));
-        // $material_value->setPhoto($this->request->getPost("photo"));
-        $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
+        $location = Location::findById($this->request->getPost("location_location_id"));
+        $material_value->setLocation($location);
 
         //Сохраняем мебель или оргтехнику
         if ($material_value->getType() == "furniture") {
@@ -280,8 +280,8 @@ class MaterialValueController extends ControllerBase
         $material_value->setCount($this->request->getPost("count"));
         $material_value->setEnterDate($this->request->getPost("enter_date"));
         $material_value->setExitDate($this->request->getPost("exit_date"));
-        // $material_value->setPhoto($this->request->getPost("photo"));
-        $material_value->setLocationLocationId($this->request->getPost("location_location_id"));
+        $location = Location::findById($this->request->getPost("location_location_id"));
+        $material_value->setLocation($location);
 
         //Сохраняем мебель или оргтехнику
         if ($material_value->getType() == "furniture") {
@@ -413,9 +413,6 @@ class MaterialValueController extends ControllerBase
             ]);
             if (isset($licenses))
                 $this->view->licenses = $licenses;
-            // $specifications = $equipment->EquipmentHasSpecification;
-            // if (isset($specifications))
-            //     $this->view->specifications = $specifications;
         }
     }
 
@@ -561,126 +558,6 @@ class MaterialValueController extends ControllerBase
                     $message = "Связь успешно удалена";
                 } else {
                     $message = "Ошибка при удалении связи лицензии и оргтехники";
-                }
-            } else {
-                $message = "Не найдена оргтехника";
-            }
-            $this->view->disable();
-            echo $message;
-            return false;
-        }
-    }
-
-    /**
-     * Specification setup
-     *
-     * @param string $material_value_id
-     */
-    public function specificationsAction($material_value_id)
-    {
-        $this->view->material_value_id = $material_value_id;
-    }
-    /**
-     * Search specification
-     */
-    public function search_specificationsAction()
-    {
-        $id = $this->request->getPost("material_value_id");
-
-        $numberPage = 1;
-        if ($this->request->isPost()) {
-            $parameters = [];
-            foreach ($_POST as $key => $value) {
-                if ($value !== '') {
-                    if ($key != "material_value_id") {
-                        $parameters[$key] = $value;
-                    }
-                }
-            }
-            $this->persistent->parameters = empty($parameters) ? null : $parameters;
-        } else {
-            $numberPage = $this->request->getQuery("page", "int");
-        }
-
-        $parameters["conditions"] = $this->persistent->parameters;
-        if (!is_array($parameters)) {
-            $parameters = [];
-        }
-        $parameters["order"] = "specification_id";
-
-        $specification = Specification::find($parameters);
-        if (count($specification) == 0) {
-            $this->flash->notice("Поиск не дал результатов");
-
-            $this->dispatcher->forward([
-                "controller" => "material_value",
-                "action" => "specifications",
-                "params" => [ $id ],
-            ]);
-
-            return;
-        }
-
-        $this->dispatcher->forward([
-            "controller" => "material_value",
-            "action" => "specifications",
-            "params" => [ $id ],
-        ]);
-
-        $this->view->page = $specification;
-    }
-    /**
-     * Add EquipmentHasSpecification from ajax
-     */
-    public function add_specificationAction($material_value_id, $specification_id, $spec_value)
-    {
-        if ($this->request->isAjax()) {
-            if (empty($spec_value))
-                return false;
-            $equipment = MaterialValue::findById($material_value_id)->getEquipment();
-            if (isset($equipment)) {
-                $equipmentHasSpecification = new EquipmentHasSpecification();
-                $equipmentHasSpecification->setEquipment($equipment);
-                $equipmentHasSpecification->setSpecification(Specification::findById($specification_id));
-                $equipmentHasSpecification->setCurrentValue($spec_value);
-                if ($equipmentHasSpecification->save()) {
-                    $message = "Связь добавлена успешно";
-                } else {
-                    $message = "Ошибка при сохранении связи характеристики и оргтехники";
-                }
-            } else {
-                $message = "Не найдена оргтехника";
-            }
-            $this->view->disable();
-            echo $message;
-            return false;
-        }
-    }
-    /**
-     * Remove EquipmentHasSpecification from ajax
-     */
-    public function rem_specificationAction($material_value_id, $specification_id)
-    {
-        if ($this->request->isAjax()) {
-            $equipment_id = MaterialValue::findById($material_value_id)->getEquipmentEquipmentId();
-            if (isset($equipment_id)) {
-                $equipmentHasSpecification = EquipmentHasSpecification::findFirst(
-                    [
-                        'equipment_equipment_id = ?1 AND specification_specification_id = ?2',
-                        'bind' => [
-                            1 => $equipment_id,
-                            2 => $specification_id,
-                        ],
-                    ]
-                );
-                if (isset($equipmentHasSpecification)) {
-                    if ($equipmentHasSpecification->delete()) {
-                        $message = "Связь успешно удалена";
-                    } else {
-                        $message = "Ошибка при удалении связи характеристики и оргтехники";
-                    }
-                } else {
-                    $message = "Не найдена связь лицензии и оргтехники";
                 }
             } else {
                 $message = "Не найдена оргтехника";

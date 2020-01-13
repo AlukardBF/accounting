@@ -203,29 +203,6 @@ class License extends \Phalcon\Mvc\MongoCollection
     }
 
     /**
-     * Initialize method for model.
-     */
-    // public function initialize()
-    // {
-    //     // Для поддержки PresenceOf валидации
-    //     $this->setup(
-    //         [ 'notNullValidations' => false ]
-    //     );
-
-    //     $this->setSchema("bachelor");
-    //     $this->setSource("license");
-    //     $this->hasMany('license_id', 'EquipmentHasLicense', 'license_license_id', ['alias' => 'EquipmentHasLicense']);
-    //     $this->hasManyToMany(
-    //         'license_id',
-    //         'EquipmentHasLicense',
-    //         'license_license_id', 'equipment_equipment_id',
-    //         'Equipment',
-    //         'equipment_id',
-    //         ['alias' => 'Equipment']
-    //     );
-    // }
-
-    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters

@@ -439,7 +439,7 @@ class MaterialValue extends \Phalcon\Mvc\MongoCollection
 
     public function setEquipment($equipment)
     {
-        $this->equipment_equipment_id = strval($equipment->getEquipmentId());
+        $this->equipment_equipment_id = $equipment->getEquipmentId();
     }
 
     public function getFurniture()
@@ -450,7 +450,7 @@ class MaterialValue extends \Phalcon\Mvc\MongoCollection
 
     public function setFurniture($furniture)
     {
-        $this->furniture_furniture_id = strval($furniture->getFurnitureId());
+        $this->furniture_furniture_id = $furniture->getFurnitureId();
     }
 
     public function getLocation()
@@ -461,7 +461,7 @@ class MaterialValue extends \Phalcon\Mvc\MongoCollection
 
     public function setLocation($location)
     {
-        $this->furniture_furniture_id = strval($location->getLocationId());
+        $this->location_location_id = $location->getLocationId();
     }
 
     /**
@@ -507,23 +507,6 @@ class MaterialValue extends \Phalcon\Mvc\MongoCollection
 
         return $this->validate($validator);
     }
-
-    /**
-     * Initialize method for model.
-     */
-    // public function initialize()
-    // {
-    //     // Для поддержки PresenceOf валидации
-    //     $this->setup(
-    //         [ 'notNullValidations' => false ]
-    //     );
-
-    //     $this->setSchema("bachelor");
-    //     $this->setSource("material_value");
-    //     $this->belongsTo('equipment_equipment_id', '\Equipment', 'equipment_id', ['alias' => 'Equipment']);
-    //     $this->belongsTo('furniture_furniture_id', '\Furniture', 'furniture_id', ['alias' => 'Furniture']);
-    //     $this->belongsTo('location_location_id', '\Location', 'location_id', ['alias' => 'Location']);
-    // }
 
     /**
      * Allows to query a set of records that match the specified conditions

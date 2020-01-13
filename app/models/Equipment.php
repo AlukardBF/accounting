@@ -169,39 +169,6 @@ class Equipment extends \Phalcon\Mvc\MongoCollection
     }
 
     /**
-     * Initialize method for model.
-     */
-    // public function initialize()
-    // {
-    //     // Для поддержки PresenceOf валидации
-    //     $this->setup(
-    //         [ 'notNullValidations' => false ]
-    //     );
-
-    //     $this->setSchema("bachelor");
-    //     $this->setSource("equipment");
-    //     $this->hasMany('equipment_id', 'EquipmentHasLicense', 'equipment_equipment_id', ['alias' => 'EquipmentHasLicense']);
-    //     $this->hasMany('equipment_id', 'EquipmentHasSpecification', 'equipment_equipment_id', ['alias' => 'EquipmentHasSpecification']);
-    //     $this->belongsTo('material_value_material_value_id', '\MaterialValue', 'material_value_id', ['alias' => 'MaterialValue']);
-    //     $this->hasManyToMany(
-    //         'equipment_id',
-    //         'EquipmentHasLicense',
-    //         'equipment_equipment_id', 'license_license_id',
-    //         'License',
-    //         'license_id',
-    //         ['alias' => 'License']
-    //     );
-    //     $this->hasManyToMany(
-    //         'equipment_id',
-    //         'EquipmentHasSpecification',
-    //         'equipment_equipment_id', 'specification_specification_id',
-    //         'Specification',
-    //         'specification_id',
-    //         ['alias' => 'Specification']
-    //     );
-    // }
-
-    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters

@@ -86,14 +86,14 @@ class EquipmentController extends ControllerBase
 
                 return;
             }
-            $material_value = MaterialValue::findFirst([
+            $material_value = MaterialValue::findFirst([[
                 "equipment_equipment_id" => $equipment->getEquipmentId()
-            ]);
+            ]]);
 
             $this->dispatcher->forward([
                 'controller' => "material_value",
                 'action' => 'edit',
-                'params' => [ $material_value->getMaterialValueId() ],
+                'params' => [ strval($material_value->getMaterialValueId()) ],
             ]);
         }
     }

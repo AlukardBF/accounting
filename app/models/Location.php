@@ -136,21 +136,6 @@ class Location extends \Phalcon\Mvc\MongoCollection
     }
 
     /**
-     * Initialize method for model.
-     */
-    // public function initialize()
-    // {
-    //     // Для поддержки PresenceOf валидации
-    //     $this->setup(
-    //         [ 'notNullValidations' => false ]
-    //     );
-
-    //     $this->setSchema("bachelor");
-    //     $this->setSource("location");
-    //     $this->hasMany('location_id', 'MaterialValue', 'location_location_id', ['alias' => 'MaterialValue']);
-    // }
-
-    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
